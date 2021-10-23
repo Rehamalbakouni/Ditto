@@ -1,4 +1,4 @@
-package com.example.ditto_app;
+package ditto_app.example.ditto_app;
 
 import org.junit.Test;
 

@@ -1,8 +1,10 @@
-package com.example.ditto_app;
+package ditto_app.example.ditto_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.ditto_app.R;
 
 public class MainActivity extends AppCompatActivity {
 
