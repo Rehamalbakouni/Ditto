@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ditto_app">
+    package="ditto_app.example.ditto_app">
 
     <application
         android:allowBackup="true"
