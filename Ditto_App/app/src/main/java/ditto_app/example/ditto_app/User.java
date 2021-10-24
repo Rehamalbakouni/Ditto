@@ -1,11 +1,17 @@
 package ditto_app.example.ditto_app;
 
+import android.media.Image;
+
 public class User {
 
     //User attributes
     private String id;
     private String username;
     private Habit[] habits;
+    private User[] iFollow;
+    private User[] followMe;
+    private Image profilePhoto;
+
 
     //Constructor
     public User(){
