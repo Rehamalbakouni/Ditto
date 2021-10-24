@@ -1,4 +1,4 @@
-package com.team11.ditto_app;
+package com.team11.ditto;
 
 public class ProfileActivity {
 }
