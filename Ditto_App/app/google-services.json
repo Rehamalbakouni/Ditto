@@ -8,38 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:659936059541:android:aa0925c4258a99aa4efb9c",
+        "mobilesdk_app_id": "1:659936059541:android:80f1e034bb6b977f4efb9c",
         "android_client_info": {
           "package_name": "ditto_app.example.ditto_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "659936059541-crr0d68ngg209qm7veo71ged9fhdat0d.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCKO5lIOwt-bBXngBY9Wl34FrijzDwLwCU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "659936059541-crr0d68ngg209qm7veo71ged9fhdat0d.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:659936059541:android:ab61026db2ef15994efb9c",
-        "android_client_info": {
-          "package_name": "ualberta.cmput301.team11.ditto_app"
         }
       },
       "oauth_client": [
