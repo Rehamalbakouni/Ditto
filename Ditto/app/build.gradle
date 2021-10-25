@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:22.1.2'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.+'
     implementation 'com.google.firebase:firebase-analytics'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

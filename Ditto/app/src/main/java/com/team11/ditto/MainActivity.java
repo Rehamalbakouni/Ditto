@@ -1,8 +1,16 @@
 package com.team11.ditto;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavHost;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,6 +47,18 @@ public class MainActivity extends AppCompatActivity{
         //we use a hashmap to store a key-value pair in firestore. Because its NoSQL database
         HashMap<String, String> data = new HashMap<>();
 
+        //Navigation between all the different bottom options
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_fragment_container);
+        NavController navController = navHostFragment.getNavController();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNav, navController);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        NavController navController = Navigation.findNavController(this, R.id.navigation_fragment_container);
+        return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
     }
 
 }

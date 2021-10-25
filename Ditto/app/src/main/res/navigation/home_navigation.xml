@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/home">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/home"
         android:name="com.team11.ditto.HomeFragment"
         android:label="HomeFragment" />
 
+    <fragment
+        android:id="@+id/due_today"
+        android:name="com.team11.ditto.DueTodayFragment"
+        android:label="DueTodayFragment" />
 
 </navigation>
