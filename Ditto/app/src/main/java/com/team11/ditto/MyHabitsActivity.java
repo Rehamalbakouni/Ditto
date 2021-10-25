@@ -19,7 +19,7 @@ public class MyHabitsActivity extends AppCompatActivity{
     ListView habitListView;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
-    FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,6 @@ public class MyHabitsActivity extends AppCompatActivity{
         habitAdapter = new CustomList_Habit(this, habitDataList);
         habitListView.setAdapter(habitAdapter);
 
-        db = FirebaseFirestore.getInstance();
-        //Get a top level reference to the collection
-        final CollectionReference collectionReference = db.collection("Habit");
 
         //add habit button action
         final FloatingActionButton addCityButton = findViewById(R.id.add_habit);

@@ -23,14 +23,19 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class AddHabitFragment extends DialogFragment {
     private EditText hTitle;
     private EditText hReason;
     private EditText hDate;
     private OnFragmentInteractionListener listener;
+    FirebaseFirestore db;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Habit newHabit);
@@ -57,6 +62,7 @@ public class AddHabitFragment extends DialogFragment {
         hTitle = view.findViewById(R.id.title_editText);
         hReason = view.findViewById(R.id.reason_editText);
         hDate = view.findViewById(R.id.date_editText);
+        db = FirebaseFirestore.getInstance();
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -67,6 +73,12 @@ public class AddHabitFragment extends DialogFragment {
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //Get a top level reference to the collection
+                        final CollectionReference collectionReference = db.collection("Habit");
+                        HashMap<String, String> data = new HashMap<>();
+
+
                         String title = hTitle.getText().toString();
                         String reason = hReason.getText().toString();
                         String date = hDate.getText().toString();
