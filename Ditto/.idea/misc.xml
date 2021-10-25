@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_duetoday.xml" value="0.22916666666666666" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.22916666666666666" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22916666666666666" />
-        <entry key="app/src/main/res/layout/activity_myhabits.xml" value="0.22916666666666666" />
-        <entry key="app/src/main/res/layout/content_habit.xml" value="0.5" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_myhabits.xml" value="0.33" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_sign_up.xml" value="0.9696509863429439" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_userprofile.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/content_habit.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/menu/navigation_bar.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
