@@ -20,7 +20,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity{
     FirebaseFirestore db; //when they addcity button we need to dump into db
-    BottomNavigationView bottomNavigationView;
+
+    BottomNavigationView bottomNavigationView; //Navigation bar currently does nothing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +37,6 @@ public class MainActivity extends AppCompatActivity{
         //we use a hashmap to store a key-value pair in firestore. Because its NoSQL database
         HashMap<String, String> data = new HashMap<>();
 
-
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item){
-                switch(item.getItemId()){
-                    case R.id.my_habits:
-                        
-                        return true;
-                }
-                return true;
-            }
-        });
 
     }
 }
