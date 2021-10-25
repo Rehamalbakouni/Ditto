@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class MyHabitsActivity extends AppCompatActivity{
+public class MyHabitsActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener {
 
     //Declare variables for the list of habits
     ListView habitListView;
@@ -46,4 +46,9 @@ public class MyHabitsActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    public void onOkPressed(Habit newHabit) {
+        habitAdapter.add(newHabit);
+
+    }
 }
