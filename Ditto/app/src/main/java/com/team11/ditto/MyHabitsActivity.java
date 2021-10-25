@@ -15,13 +15,10 @@ public class MyHabitsActivity extends AppCompatActivity{
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myhabits);
     }
-
 
 }
