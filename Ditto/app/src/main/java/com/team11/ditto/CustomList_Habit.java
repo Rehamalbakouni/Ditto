@@ -17,7 +17,7 @@ public class CustomList_Habit extends ArrayAdapter<Habit> {
     private ArrayList<Habit> habits;
     private Context context;
 
-    public CustomList_Habit(Context context, ArrayList<Habit> habits) {
+    public CustomList_Habit(MyHabitActivity context, ArrayList<Habit> habits) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
