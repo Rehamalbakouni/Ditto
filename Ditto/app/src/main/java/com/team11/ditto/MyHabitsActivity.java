@@ -26,7 +26,7 @@ public class MyHabitsActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myhabits);
 
-        habitListView = findViewById(R.id.);
+        habitListView = findViewById(R.id.my_habit_list);
         habitDataList = new ArrayList<>();
 
         habitAdapter = new CustomList_Habit(this, habitDataList);
@@ -37,11 +37,11 @@ public class MyHabitsActivity extends AppCompatActivity{
         final CollectionReference collectionReference = db.collection("Habit");
 
         //add habit button action
-        final FloatingActionButton addCityButton = findViewById(R.id.add_med_button);
+        final FloatingActionButton addCityButton = findViewById(R.id.add_habit);
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AddMedFragment(dosage).show(getSupportFragmentManager(), "ADD_MED");
+                new AddHabitFragment().show(getSupportFragmentManager(), "ADD_HABIT");
 
 
             }
