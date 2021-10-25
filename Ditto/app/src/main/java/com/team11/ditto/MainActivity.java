@@ -2,6 +2,8 @@ package com.team11.ditto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,6 +39,6 @@ public class MainActivity extends AppCompatActivity{
         //we use a hashmap to store a key-value pair in firestore. Because its NoSQL database
         HashMap<String, String> data = new HashMap<>();
 
-
     }
+
 }
