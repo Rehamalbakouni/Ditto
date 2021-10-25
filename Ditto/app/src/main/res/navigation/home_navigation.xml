@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_navigation">
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/myHabitFragment">
 
+    <activity
+        android:id="@+id/myHabitFragment"
+        android:name="com.team11.ditto.MyHabitFragment"
+        android:label="MyHabitFragment" />
 </navigation>

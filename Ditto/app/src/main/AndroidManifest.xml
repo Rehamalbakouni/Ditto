@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MyHabitsActivity"
-            android:exported="true"
             />
 
         <meta-data
