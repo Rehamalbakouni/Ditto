@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum = "100">
+
+    <TextView
+        android:id="@+id/content_habit_title"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:layout_weight="66.6"
+        android:text="Title" />
+
+    <TextView
+        android:id="@+id/content_habit_reason"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:layout_weight="66.6"
+        android:text="Reason" />
+
+</LinearLayout>
