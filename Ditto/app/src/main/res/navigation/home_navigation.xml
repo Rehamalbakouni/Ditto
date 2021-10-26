@@ -8,11 +8,18 @@
     <fragment
         android:id="@+id/home"
         android:name="com.team11.ditto.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment"/>
 
     <fragment
         android:id="@+id/due_today"
         android:name="com.team11.ditto.DueTodayFragment"
-        android:label="DueTodayFragment" />
+        android:label="DueTodayFragment"/>
 
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.team11.ditto.ProfileFragment"
+        android:label="ProfileFragment"/>
+
+    <!-- once fragments are done we can hook them up here
+         make sure the id here matches the one in menu > navigation_bar -->
 </navigation>
