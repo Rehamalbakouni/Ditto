@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MyHabitActivity">
 
-    <ListView
-        android:id="@+id/my_habit_list"
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list"
+        android:name="com.team11.ditto.MyHabitFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".MyHabitFragment"
+        tools:listitem="@layout/fragment_my_habit" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_habit"
