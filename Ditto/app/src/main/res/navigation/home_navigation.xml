@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/myHabitActivity">
+    app:startDestination="@id/my_habits">
 
     <fragment
         android:id="@+id/home"
@@ -15,10 +15,9 @@
         android:name="com.team11.ditto.DueTodayFragment"
         android:label="DueTodayFragment"/>
     <fragment
-        android:id="@+id/myHabitActivity"
+        android:id="@+id/my_habits"
         android:name="com.team11.ditto.MyHabitActivity"
-        android:label="fragment_my_habit_activity"
-        tools:layout="@layout/fragment_my_habit_activity" />
+        android:label="fragment_my_habit_activity"/>
 
     <fragment
         android:id="@+id/profile"

@@ -17,7 +17,7 @@ public class CustomList_Habit extends ArrayAdapter<Habit> {
     private ArrayList<Habit> habits;
     private Context context;
 
-    public CustomList_Habit(MyHabitActivity context, ArrayList<Habit> habits) {
+    public CustomList_Habit(Context context, ArrayList<Habit> habits) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
@@ -31,13 +31,13 @@ public class CustomList_Habit extends ArrayAdapter<Habit> {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.content_habit, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.fragment_my_habit, parent,false);
         }
 
         Habit habit = habits.get(position);
 
-        TextView habitTitle = view.findViewById(R.id.content_habit_title);
-        TextView habitReason = view.findViewById(R.id.content_habit_reason);
+        TextView habitTitle = view.findViewById(R.id.firstLine);
+        TextView habitReason = view.findViewById(R.id.secondLine);
 
         habitTitle.setText(habit.getTitle());
         habitReason.setText(habit.getReason());

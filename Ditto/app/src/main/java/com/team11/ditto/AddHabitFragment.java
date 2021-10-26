@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -44,21 +45,14 @@ public class AddHabitFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
-
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-
-        }
+        listener = (OnFragmentInteractionListener) context;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_habit_fragment,null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.add_habit_fragment,null);
         hTitle = view.findViewById(R.id.title_editText);
         hReason = view.findViewById(R.id.reason_editText);
         hDate = view.findViewById(R.id.date_editText);
@@ -69,25 +63,25 @@ public class AddHabitFragment extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle("Add Habit")
-                .setNegativeButton("Cancel", null)
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         //Get a top level reference to the collection
-                        final CollectionReference collectionReference = db.collection("Habit");
-                        HashMap<String, String> data = new HashMap<>();
+                        //final CollectionReference collectionReference = db.collection("Habit");
+                        //HashMap<String, String> data = new HashMap<>();
 
 
                         String title = hTitle.getText().toString();
                         String reason = hReason.getText().toString();
                         String date = hDate.getText().toString();
 
-
                         listener.onOkPressed(new Habit(title, reason, date));
 
                     }
-                }).create();
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
 
     }
 }
