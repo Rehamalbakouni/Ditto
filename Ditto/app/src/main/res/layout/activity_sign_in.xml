@@ -74,6 +74,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/userName2"
         app:layout_constraintTop_toBottomOf="@+id/userName2" />
+
     <Button
         android:id="@+id/signIn"
         android:layout_width="0dp"
@@ -96,6 +97,7 @@
         app:backgroundTint="@null"
         app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/Password2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/Password2"
         app:layout_constraintTop_toBottomOf="@+id/Password2"
         app:rippleColor="@android:color/darker_gray"
