@@ -1,4 +1,7 @@
 package com.team11.ditto;
+/*
+The Fragment Class for MyHabit Activity Screen
+ */
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +17,31 @@ import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 public class MyHabitActivity extends Fragment implements AddHabitFragment.OnFragmentInteractionListener {
 
+    public static Bundle habitBundle = new Bundle();
     //Declare variables for the list of habits
     ListView habitListView;
-    ArrayAdapter<Habit> habitAdapter;
+    private static ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
 
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(String string);
+    }
+
+
+    public static void getInfo() {
+        //retrieve values from the add fragment
+        String title = (String) habitBundle.get("help");
+        String reason = (String) habitBundle.get("help1");
+        String date = (String) habitBundle.get("help2");
+
+        Habit nHabit = new Habit(title, reason, date);
+        habitAdapter.add(nHabit);
+    }
 
 
     @Override
@@ -45,19 +64,9 @@ public class MyHabitActivity extends Fragment implements AddHabitFragment.OnFrag
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AddHabitFragment().show(MyHabitActivity.this.getChildFragmentManager(), "ADD_HABIT");
+                new AddHabitFragment().show(getChildFragmentManager(), "ADD_HABIT");
             }
         });
-
-        /*
-    @Override
-    public void onOkPressed(Habit newHabit) {
-        habitAdapter.add(newHabit);
-
-    }
-
-         */
-
 
         return view;
     }
@@ -66,39 +75,4 @@ public class MyHabitActivity extends Fragment implements AddHabitFragment.OnFrag
     public void onOkPressed(Habit newHabit) {
         habitAdapter.add(newHabit);
     }
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myhabits);
-
-        habitListView = findViewById(R.id.my_habit_list);
-        habitDataList = new ArrayList<>();
-
-        habitAdapter = new CustomList_Habit(this, habitDataList);
-        habitListView.setAdapter(habitAdapter);
-
-
-        //add habit button action
-        final FloatingActionButton addCityButton = findViewById(R.id.add_habit);
-        addCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AddHabitFragment().show(getSupportFragmentManager(), "ADD_HABIT");
-
-
-            }
-        });
-
-    }
-
-    @Override
-    public void onOkPressed(Habit newHabit) {
-        habitAdapter.add(newHabit);
-
-    }
-
-
-     */
 }

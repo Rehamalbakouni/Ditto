@@ -76,7 +76,14 @@ public class AddHabitFragment extends DialogFragment {
                         String reason = hReason.getText().toString();
                         String date = hDate.getText().toString();
 
+                        //This needs to be fixed
+                        MyHabitActivity.habitBundle.putString("help", title);
+                        MyHabitActivity.habitBundle.putString("help1", reason);
+                        MyHabitActivity.habitBundle.putString("help2", date);
+
                         listener.onOkPressed(new Habit(title, reason, date));
+
+
 
                     }
                 })
