@@ -3,8 +3,7 @@ package com.team11.ditto;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavHost;
@@ -22,14 +21,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements MyHabitActivity.OnFragmentInteractionListener, AddHabitFragment.OnFragmentInteractionListener {
     FirebaseFirestore db; //when they addcity button we need to dump into db
+    public static Bundle habitBundle = new Bundle();
 
     BottomNavigationView bottomNavigationView; //Navigation bar currently does nothing
 
@@ -62,4 +65,15 @@ public class MainActivity extends AppCompatActivity{
         return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onFragmentInteraction(String string) {
+
+    }
+
+    @Override
+    public void onOkPressed(Habit newHabit) {
+        MyHabitActivity.getInfo();
+
+    }
 }

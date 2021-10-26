@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -84,7 +85,13 @@ public class AddHabitFragment extends DialogFragment {
                         String date = hDate.getText().toString();
 
 
+                        MainActivity.habitBundle.putString("help", title);
+                        MainActivity.habitBundle.putString("help1", reason);
+                        MainActivity.habitBundle.putString("help2", date);
+
                         listener.onOkPressed(new Habit(title, reason, date));
+
+
 
                     }
                 }).create();
