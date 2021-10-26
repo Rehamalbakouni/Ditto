@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         db = FirebaseFirestore.getInstance();
         // Get a top level reference to the collection
         final CollectionReference userReference = db.collection("User");
