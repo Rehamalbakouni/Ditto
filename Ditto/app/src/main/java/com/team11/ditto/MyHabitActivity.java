@@ -59,7 +59,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new AddHabitFragment().show(getSupportFragmentManager(), "ADD_HABIT");
             }
         });
     }

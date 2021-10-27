@@ -8,7 +8,6 @@
 
     <ListView
         android:id="@+id/list"
-        android:name="com.team11.ditto.MyHabitFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
