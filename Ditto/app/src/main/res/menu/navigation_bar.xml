@@ -2,18 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:icon="@drawable/ic_round_home_24"
+        android:icon="@drawable/ic_action_home"
         android:title="Home" />
     <item
         android:id="@+id/my_habits"
-        android:icon="@drawable/ic_round_format_list_bulleted_24"
+        android:icon="@drawable/ic_action_myhabits"
         android:title="My Habits" />
     <item
         android:id="@+id/due_today"
-        android:icon="@drawable/ic_round_today_24"
+        android:icon="@drawable/ic_action_duetoday"
         android:title="Due Today" />
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/ic_round_account_circle_24"
-        android:title="Profile" />
+        android:icon="@drawable/ic_action_profile"
+        android:title="Profile"/>
+
 </menu>

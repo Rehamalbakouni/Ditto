@@ -65,8 +65,8 @@ public class MyHabitActivity extends FragmentActivity implements AddHabitFragmen
         habitAdapter.add(habit2);
         onBackPressed();
         //add habit button action
-        final FloatingActionButton addCityButton = view.findViewById(R.id.add_habit);
-        addCityButton.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton addHabitButton = view.findViewById(R.id.add_habit);
+        addHabitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

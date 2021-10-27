@@ -33,4 +33,36 @@ public class User {
         this.username = username;
     }
 
+
+    public Habit[] getHabits() {
+        return habits;
+    }
+
+    public void setHabits(Habit[] habits) {
+        this.habits = habits;
+    }
+
+    public User[] getIFollow() {
+        return iFollow;
+    }
+
+    public void setIFollow(User[] iFollow) {
+        this.iFollow = iFollow;
+    }
+
+    public User[] getFollowMe() {
+        return followMe;
+    }
+
+    public void setFollowMe(User[] followMe) {
+        this.followMe = followMe;
+    }
+
+    public Image getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(Image profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 }

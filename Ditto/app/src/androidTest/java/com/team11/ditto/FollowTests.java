@@ -1,2 +1,4 @@
-package com.team11.ditto;public class FollowTests {
+package com.team11.ditto;
+
+public class FollowTests {
 }

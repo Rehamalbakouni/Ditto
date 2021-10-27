@@ -1,23 +1,27 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.team11.ditto.R;
+import com.team11.ditto.User;
+
 import java.util.ArrayList;
 
-public class CustomList_Follow extends ArrayAdapter<User> {
+public class CustomList_Follow extends ArrayAdapter<User> implements UserCodes{
 
     private ArrayList<User> users;
     private Context context;
 
-    public CustomList_Follow(Context context, ArrayList<User> users, int typeCode) {
+    public CustomList_Follow(Context context, ArrayList<User> users) {
         super(context, 0, users);
         this.users = users;
         this.context = context;
@@ -30,17 +34,17 @@ public class CustomList_Follow extends ArrayAdapter<User> {
 
         View view = convertView;
 
-        if(view == null && typeCode == FOLLOWING_USERS){
-            view = LayoutInflater.from(context).inflate(R.layout.fragment_following, parent,false);
+        if(view == null){
+            view = LayoutInflater.from(context).inflate(R.layout.fragment_follow, parent,false);
         }
 
-        Habit habit = habits.get(position);
+        User user = users.get(position);
 
-        TextView habitTitle = view.findViewById(R.id.firstLine);
-        TextView habitReason = view.findViewById(R.id.secondLine);
+        TextView userName = view.findViewById(R.id.user_name);
+        ImageView userPhoto = view.findViewById(R.id.user_photo);
 
-        habitTitle.setText(habit.getTitle());
-        habitReason.setText(habit.getReason());
+        userName.setText(user.getUsername());
+        //userPhoto.setImageDrawable(user.getPhoto());
 
         return view;
     }

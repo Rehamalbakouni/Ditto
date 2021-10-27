@@ -26,6 +26,7 @@
 
     <TextView
         android:id="@+id/followers"
+        android:clickable="true"
         android:layout_width="88dp"
         android:layout_height="21dp"
         android:layout_marginTop="68dp"
@@ -38,6 +39,7 @@
 
     <TextView
         android:id="@+id/following"
+        android:clickable="true"
         android:layout_width="88dp"
         android:layout_height="21dp"
         android:layout_marginTop="68dp"
@@ -150,54 +152,58 @@
         app:layout_constraintVertical_bias="0.013" />
 
     <com.google.android.material.tabs.TabLayout
+<<<<<<< Updated upstream
         android:id="@+id/tabs"
         android:layout_width="match_parent"
+=======
+    android:id="@+id/contentTabs"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:padding="5dp"
+    android:textAlignment="textEnd"
+    android:textColor="@color/white"
+    android:textDirection="locale"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/logout_button"
+    app:layout_constraintVertical_bias="1.0">
+
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+>>>>>>> Stashed changes
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:textAlignment="textEnd"
-        android:textColor="@color/white"
-        android:textDirection="locale"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logout_button"
-        app:layout_constraintVertical_bias="1.0">
+        android:icon="@drawable/ic_action_home"
+        android:text="Home"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/MyCustomTabText"
+        app:tabTextColor="#314CDF" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_action_home"
-            android:text="Home"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextAppearance="@style/MyCustomTabText"
-            app:tabTextColor="#314CDF" />
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_action_myhabits"
+        android:text="Habits"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/MyCustomTabText"
+        app:tabTextColor="#314CDF" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_action_myhabits"
-            android:text="Habits"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextAppearance="@style/MyCustomTabText"
-            app:tabTextColor="#314CDF" />
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_action_duetoday"
+        android:text="DUE"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="#314CDF" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_action_duetoday"
-            android:text="DUE"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextColor="#314CDF" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_action_profile"
-            android:text="Profile"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextColor="#314CDF" />
-    </com.google.android.material.tabs.TabLayout>
-
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_action_profile"
+        android:text="Profile"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="#314CDF" />
+</com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
