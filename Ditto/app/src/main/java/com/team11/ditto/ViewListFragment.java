@@ -1,2 +1,4 @@
-package com.team11.ditto;public class ViewListFragment {
+package com.team11.ditto;
+
+public class ViewListFragment {
 }

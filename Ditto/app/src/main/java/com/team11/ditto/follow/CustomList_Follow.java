@@ -16,13 +16,11 @@ public class CustomList_Follow extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
-    private int typeCode;
 
     public CustomList_Follow(Context context, ArrayList<User> users, int typeCode) {
         super(context, 0, users);
         this.users = users;
         this.context = context;
-        this.typeCode = typeCode;
     }
 
     @NonNull
