@@ -6,11 +6,6 @@
     app:startDestination="@id/my_habits">
 
     <fragment
-        android:id="@+id/home"
-        android:name="com.team11.ditto.HomeFragment"
-        android:label="HomeFragment"/>
-
-    <fragment
         android:id="@+id/due_today"
         android:name="com.team11.ditto.DueTodayFragment"
         android:label="DueTodayFragment"/>
