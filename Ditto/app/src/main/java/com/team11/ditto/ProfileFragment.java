@@ -1,16 +1,12 @@
 package com.team11.ditto;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 public class ProfileFragment extends Fragment {
     public ProfileFragment(){
@@ -33,42 +29,25 @@ public class ProfileFragment extends Fragment {
         followers = view.findViewById(R.id.followers);
         following = view.findViewById(R.id.following);
 
-        followers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                //intent.putExtra("");
-            }
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+
+        followers.setOnClickListener(view1 -> manager.beginTransaction()
+                .replace(R.id.navigation_header_container, new ViewListFragment())
+                .commit());
+
+        following.setOnClickListener(view12 -> {
         });
 
-        following.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
+        followers.setOnClickListener(view13 -> {
         });
 
-        followers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
+        logout.setOnClickListener(view14 -> {
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
+        userSearch.setOnClickListener(view15 -> {
         });
 
-        userSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
-        pendingFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
+        pendingFollow.setOnClickListener(view16 -> {
         });
 
 

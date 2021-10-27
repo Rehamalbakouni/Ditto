@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
     public void switchTabs(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -78,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    
     public void currentTab(){
         TabLayout.Tab tab = (tabLayout).getTabAt(0);
         if (tab != null) {
