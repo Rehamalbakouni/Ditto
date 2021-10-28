@@ -14,14 +14,16 @@ public class User {
 
 
     //Constructor
-    public User(){
+    public User(String username){
         //get latest user id # from the database
         //this.id = ...
 
         //set initial username to the id. The user can change it later
-        this.username = this.id;
+        this.username = username;
 
     }
+
+
 
     //Username getter
     public String getUsername() {

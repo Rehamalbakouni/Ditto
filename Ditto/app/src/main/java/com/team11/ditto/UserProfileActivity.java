@@ -2,6 +2,7 @@ package com.team11.ditto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         imageView =findViewById(R.id.imageView2);
         followers = findViewById(R.id.followers);
         following = findViewById(R.id.following);
-        no_following = findViewById(R.id.no_following);
+        no_following = findViewById(R.id.no_following_1);
         no_followers = findViewById(R.id.no_followers);
         username_text = findViewById(R.id.textView_user);
         search = findViewById(R.id.search_users);
@@ -48,7 +49,9 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         logout = findViewById(R.id.logout_button);
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
-
+        onFollowingtap();
+        onFollowNumberTap();
+        no_following.setText("1");
     }
 
 
@@ -58,6 +61,27 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    public void onFollowingtap(){
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this,FollowingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void onFollowNumberTap(){
+        no_following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this,FollowingActivity.class);
+                startActivity(intent);
+            }
+        });;
     }
 
 }

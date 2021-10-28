@@ -27,6 +27,12 @@
             android:label="Profile"
             />
         <activity
+            android:name="FollowingActivity"
+            android:exported="true"
+            android:label="Following"
+            android:parentActivityName="UserProfileActivity"
+            />
+        <activity
             android:name=".DueTodayActivity"
             android:exported="true"
 
