@@ -6,15 +6,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class UserProfileActivity extends AppCompatActivity {
-
-
+public class UserProfileActivity extends AppCompatActivity implements SwitchTabs {
 
     private ImageView imageView;
     private TextView followers;
@@ -49,8 +46,8 @@ public class UserProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username_editText);
         fr_pending = findViewById(R.id.pending_fr);
         logout = findViewById(R.id.logout_button);
-        currentTab();
-        switchTabs();
+        currentTab(tabLayout, PROFILE_TAB);
+        switchTabs(this, tabLayout, PROFILE_TAB);
 
     }
 
@@ -63,58 +60,4 @@ public class UserProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    public void switchTabs(){
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                // position 0 is for home
-                if(tab.getPosition() ==0){
-                    Intent intent = new Intent(UserProfileActivity.this,MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-
-                // position 1 is for MyHabits
-                else if (tab.getPosition() == 1){
-                    Intent intent = new Intent(UserProfileActivity.this,MyHabitActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-
-                // position 2 is for Due Today
-                else if (tab.getPosition() == 2){
-                    Intent intent = new Intent(UserProfileActivity.this,DueToday.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-
-                // position 3 is for Profile
-                else if (tab.getPosition() == 3){
-                    // DO NOTHING
-                    ;
-                }
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
-    public void currentTab(){
-        TabLayout.Tab tab = (tabLayout).getTabAt(3);
-
-        if (tab != null) {
-            tab.select();
-        }
-
-    }
 }

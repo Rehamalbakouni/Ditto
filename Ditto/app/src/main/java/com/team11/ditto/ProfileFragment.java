@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
         FragmentManager manager = getActivity().getSupportFragmentManager();
 
         followers.setOnClickListener(view1 -> manager.beginTransaction()
-                .replace(R.id.navigation_header_container, new ViewListFragment())
+                .replace(R.id.navigation_header_container, new ViewListActivity())
                 .commit());
 
         following.setOnClickListener(view12 -> {

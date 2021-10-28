@@ -85,17 +85,4 @@
             app:tabTextColor="#314CDF" />
     </com.google.android.material.tabs.TabLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation_bar"
-        app:labelVisibilityMode="labeled"
-        app:tabSelectedTextColor="@color/black"
-        app:tabTextAppearance="@style/MyCustomTabText"
-        app:tabTextColor="#314CDF"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
