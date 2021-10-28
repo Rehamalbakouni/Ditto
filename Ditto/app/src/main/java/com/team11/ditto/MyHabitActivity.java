@@ -1,6 +1,6 @@
 package com.team11.ditto;
 /*
-The Fragment Class for MyHabit Activity Screen
+The Class for MyHabit Activity Screen
  */
 
 import android.content.Intent;
@@ -62,7 +62,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             }
         });
     }
-
 
     @Override
     public void onOkPressed(Habit newHabit) {

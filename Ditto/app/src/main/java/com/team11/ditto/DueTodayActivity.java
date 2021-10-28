@@ -24,7 +24,7 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
 
-        setContentView(R.layout.due_today);
+        setContentView(R.layout.activity_due_today);
         // Go back to main activity ob back button press
         Date today = Calendar.getInstance().getTime();
         setTitle(today.toString());
