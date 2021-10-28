@@ -39,8 +39,8 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         imageView =findViewById(R.id.imageView2);
         followers = findViewById(R.id.followers);
         following = findViewById(R.id.following);
-        no_following = findViewById(R.id.no_following);
-        no_followers = findViewById(R.id.no_followers);
+        no_following = findViewById(R.id.no_following_1);
+        no_followers = findViewById(R.id.no_follower);
         username_text = findViewById(R.id.textView_user);
         search = findViewById(R.id.search_users);
         username = findViewById(R.id.username_editText);
