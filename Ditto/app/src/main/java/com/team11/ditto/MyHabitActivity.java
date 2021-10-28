@@ -53,7 +53,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         //add habit button action
 
-        final FloatingActionButton addHabitButton = habitListView.findViewById(R.id.add_habit);
+        final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
         addHabitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
