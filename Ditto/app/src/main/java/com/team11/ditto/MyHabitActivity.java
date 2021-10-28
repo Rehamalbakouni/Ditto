@@ -5,21 +5,18 @@ The Fragment Class for MyHabit Activity Screen
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener {
+public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs {
 
     private TabLayout tabLayout;
     //Declare variables for the list of habits
@@ -50,13 +47,15 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         habitAdapter.add(habit1);
         habitAdapter.add(habit2);
 
-        currentTab();
-        switchTabs();
+        currentTab(tabLayout, MY_HABITS_TAB);
+        switchTabs(this, tabLayout, MY_HABITS_TAB);
 
 
         //add habit button action
-        final FloatingActionButton addCityButton = findViewById(R.id.add_habit);
-        addCityButton.setOnClickListener(new View.OnClickListener() {
+
+        final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
+        addHabitButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 new AddHabitFragment().show(getSupportFragmentManager(), "ADD_HABIT");
@@ -78,57 +77,5 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         startActivity(intent);
     }
 
-    public void switchTabs(){
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                // position 0 is for home
-                if(tab.getPosition() ==0){
-                    Intent intent = new Intent(MyHabitActivity.this,MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-
-                // position 1 is for MyHabits
-                else if (tab.getPosition() == 1){
-                    // DO NOTHING
-                }
-
-                // position 2 is for Due Today
-                else if (tab.getPosition() == 2){
-                    Intent intent = new Intent(MyHabitActivity.this,DueToday.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-
-                // position 3 is for Profile
-                else if (tab.getPosition() == 3){
-                    Intent intent = new Intent(MyHabitActivity.this,UserProfileActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
-    public void currentTab(){
-        TabLayout.Tab tab = (tabLayout).getTabAt(1);
-
-        if (tab != null) {
-            tab.select();
-        }
-
-    }
 
 }

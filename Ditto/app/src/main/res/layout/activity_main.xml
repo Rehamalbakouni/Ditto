@@ -85,5 +85,4 @@
             app:tabTextColor="#314CDF" />
     </com.google.android.material.tabs.TabLayout>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

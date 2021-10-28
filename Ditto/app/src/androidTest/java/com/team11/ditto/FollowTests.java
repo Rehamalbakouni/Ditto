@@ -1,4 +1,4 @@
 package com.team11.ditto;
 
-public class LoginActivity {
+public class FollowTests {
 }

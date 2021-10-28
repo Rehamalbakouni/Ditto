@@ -27,7 +27,7 @@
             android:label="Profile"
             />
         <activity
-            android:name="DueToday"
+            android:name=".DueTodayActivity"
             android:exported="true"
 
 
