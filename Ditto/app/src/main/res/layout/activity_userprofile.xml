@@ -58,23 +58,23 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/followers"
         app:layout_constraintTop_toBottomOf="@+id/followers"
         app:layout_constraintVertical_bias="0.001" />
 
     <TextView
         android:id="@+id/no_following_1"
-        android:layout_width="64dp"
-        android:layout_height="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="#following"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/following"
         app:layout_constraintTop_toBottomOf="@+id/following"
-        app:layout_constraintVertical_bias="0.001" />
+        app:layout_constraintVertical_bias="0.003" />
 
     <Button
         android:id="@+id/search_users"
