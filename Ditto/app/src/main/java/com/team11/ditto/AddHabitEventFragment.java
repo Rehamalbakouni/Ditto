@@ -18,13 +18,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddHabitEventFragment extends DialogFragment {
     private EditText hComment;
     private OnFragmentInteractionListener listener;
+    private FirebaseFirestore db;
+    private DatabaseReference root;
+
 
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Habit newHabitEvent);
+        void onOkPressed(HabitEvent newHabitEvent);
     }
 
     @Override
@@ -40,15 +54,41 @@ public class AddHabitEventFragment extends DialogFragment {
         //Inflate the layout for this fragment
         View view = LayoutInflater.from(getContext()).inflate(R.layout.add_habit_fragment, null);
         hComment = view.findViewById(R.id.comment_editText);
-
+        db = FirebaseFirestore.getInstance();
+        root = FirebaseDatabase.getInstance().getReference();
         Spinner spinner = (Spinner) view.findViewById(R.id.event_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
-                R.array.habits_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+
+
+
+        //Get the Habits from Firestore to populate the dropdown habit selection
+        root.child("Habit").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final List<String> habits = new ArrayList<String>();
+                final List<String> habitIDs = new ArrayList<String>();
+
+                for (DataSnapshot areaSnapshot: snapshot.getChildren()) {
+                    String habitTitle = areaSnapshot.child("title").getValue(String.class);
+                    String habitID = areaSnapshot.getKey();
+                    habits.add(habitTitle);
+                    habitIDs.add(habitID);
+                }
+
+
+                ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, habits);
+                habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(habitAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -64,11 +104,11 @@ public class AddHabitEventFragment extends DialogFragment {
                             hHabit = "";
                         }
 
-                        //just an example date, take out later...
-                        String date = "100";
+                        //set photo and location
+                        String photo = "";
+                        String location = "";
 
-                        //right now how are we adding a new Habit???
-                        listener.onOkPressed(new Habit(hHabit, comment, date));
+                        listener.onOkPressed(new HabitEvent(hHabit, comment, photo, location));
 
                     }
                 })

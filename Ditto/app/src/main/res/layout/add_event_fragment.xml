@@ -3,28 +3,35 @@
 
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_weight="5">
 
     <Spinner
         android:id="@+id/event_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
+
 
     <EditText
         android:id="@+id/comment_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Reason"
+        android:hint="Comment"
         android:inputType="textPersonName"/>
 
-    <EditText
-        android:id="@+id/days_of_week"
+    <Button
+        android:id="@+id/add_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Date"
-        android:digits="1234569780"
-        android:inputType="textPersonName"/>
+        android:text="ADD PHOTO" />
+
+    <Button
+        android:id="@+id/add_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD LOCATION" />
+
 
 </LinearLayout>

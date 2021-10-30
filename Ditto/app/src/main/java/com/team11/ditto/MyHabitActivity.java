@@ -114,7 +114,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
 
-        if (title.length()>0 && reason.length()>0) {
+        if (title.length()>0) {
             //if there is some data in edittext field, then create new key-value pair
             data.put("title", title);
             data.put("reason", reason);
