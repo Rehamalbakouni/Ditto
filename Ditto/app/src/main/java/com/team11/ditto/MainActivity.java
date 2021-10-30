@@ -10,9 +10,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends AppCompatActivity implements SwitchTabs {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
-    FirebaseFirestore db; //when they addcity button we need to dump into db
-    //public static Bundle habitBundle = new Bundle();
-
 
 
     @Override
