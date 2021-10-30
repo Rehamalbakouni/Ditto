@@ -18,10 +18,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements SwitchTabs {
+public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHabitEventFragment.OnFragmentInteractionListener {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +31,19 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs {
         currentTab(tabLayout, HOME_TAB);
         switchTabs(this, tabLayout, HOME_TAB);
 
+        final FloatingActionButton addHabitEventButton = findViewById(R.id.add_habit_event);
+        addHabitEventButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view){
+                new AddHabitEventFragment().show(getSupportFragmentManager(), "ADD_HABIT_EVENT");
+            }
+        });
+
     }
 
+    @Override
+    public void onOkPressed(Habit newHabit) {
+
+    }
 }

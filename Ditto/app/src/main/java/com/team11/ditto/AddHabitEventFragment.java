@@ -24,29 +24,31 @@ public class AddHabitEventFragment extends DialogFragment {
 
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Habit newHabitEvent);
+        void onOkPressed(Habit newHabit);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         listener = (AddHabitEventFragment.OnFragmentInteractionListener) context;
-
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.add_habit_fragment, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.add_event_fragment, null);
         hComment = view.findViewById(R.id.comment_editText);
 
         Spinner spinner = (Spinner) view.findViewById(R.id.event_spinner);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
                 R.array.habits_array, android.R.layout.simple_spinner_item);
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
@@ -68,7 +70,7 @@ public class AddHabitEventFragment extends DialogFragment {
                         String date = "100";
 
                         //right now how are we adding a new Habit???
-                        listener.onOkPressed(new Habit(hHabit, comment, date));
+                        listener.onOkPressed(new Habit("test", "test", "test"));
 
                     }
                 })
