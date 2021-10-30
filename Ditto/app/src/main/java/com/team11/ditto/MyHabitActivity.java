@@ -40,7 +40,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     private static ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
     private FirebaseFirestore db;
-    final String TAG = "addd";
+    final String TAG = "add";
     HashMap<String, Object> data = new HashMap<>();
 
 

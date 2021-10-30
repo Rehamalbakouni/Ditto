@@ -1,11 +1,22 @@
 package com.team11.ditto;
-
+/*
+Class for Habit Event Activity
+Goals: To create an interface for these action because there is repetition between MyHabitActivity and the Homepage
+ */
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements SwitchTabs {
     private static final String TAG = "tab switch";
