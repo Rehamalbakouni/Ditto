@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
     }
 
     @Override
-    public void onOkPressed(Habit newHabit) {
+    public void onOkPressed(HabitEvent newHabitEvent) {
 
     }
 }
