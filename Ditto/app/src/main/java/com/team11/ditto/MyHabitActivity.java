@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -40,13 +41,9 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     ArrayList<Habit> habitDataList;
     private FirebaseFirestore db;
     final String TAG = "addd";
-    HashMap<String, String> data = new HashMap<>();
+    HashMap<String, Object> data = new HashMap<>();
 
 
-
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String string);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +56,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
         habitListView.setAdapter(habitAdapter);
-
-        Habit habit1 = new Habit("test", "reason", "hi");
-        Habit habit2 = new Habit("second habit in the list", "this is the reason given for the habit", "02-02-02");
-
-        habitAdapter.add(habit1);
-        habitAdapter.add(habit2);
 
         currentTab(tabLayout, MY_HABITS_TAB);
         switchTabs(this, tabLayout, MY_HABITS_TAB);
@@ -97,7 +88,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
                     Log.d(TAG, String.valueOf(doc.getData().get("title")));
-                    String docId = doc.getId();
                     String htitle = (String) doc.getData().get("title");
                     String hreason = (String) doc.getData().get("reason");
                     String hdate = (String) doc.getData().get("date_to_start");
@@ -117,20 +107,23 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         final String title = newHabit.getTitle();
         final String reason = newHabit.getReason();
         final String date = newHabit.getDate();
-        final CollectionReference collectionReference = db.collection("Habit");
 
+        //generate an auto-generated ID for firebase
+        final DocumentReference documentReference = db.collection("Habit").document();
+
+        //get unique timestamp for ordering our list
+        Date currentTime = Calendar.getInstance().getTime();
 
         if (title.length()>0 && reason.length()>0) {
             //if there is some data in edittext field, then create new key-value pair
             data.put("title", title);
             data.put("reason", reason);
             data.put("date_to_start", date);
+            //this field is used to add the current timestamp of the item, to be used to order the items
+            data.put("order", currentTime);
 
-            //get unique document id. our format: habit title + current date, time added
-            Date currentTime = Calendar.getInstance().getTime();
 
-            collectionReference
-                    .document(title)
+            documentReference
                     .set(data)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
