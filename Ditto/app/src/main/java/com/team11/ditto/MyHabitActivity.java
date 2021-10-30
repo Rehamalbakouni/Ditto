@@ -18,12 +18,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+
+import javax.annotation.Nullable;
 
 public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs {
 
@@ -46,11 +52,10 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_habit);
 
+        habitDataList = new ArrayList<>();
         habitListView = findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
-
-        habitDataList = new ArrayList<>();
 
         habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
         habitListView.setAdapter(habitAdapter);
@@ -67,6 +72,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         db = FirebaseFirestore.getInstance();
         //Get a top level reference to the collection
+        final CollectionReference collectionReference = db.collection("Habit");
+
 
         //add habit button action
         final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
@@ -78,6 +85,29 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
             }
         });
+
+        //Maintain listview after each activity switch, login, logout
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                    FirebaseFirestoreException error) {
+
+                // Clear the old list
+                habitDataList.clear();
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                {
+                    Log.d(TAG, String.valueOf(doc.getData().get("title")));
+                    String docId = doc.getId();
+                    String htitle = (String) doc.getData().get("title");
+                    String hreason = (String) doc.getData().get("reason");
+                    String hdate = (String) doc.getData().get("date_to_start");
+                    habitDataList.add(new Habit(htitle, hreason, hdate)); // Adding the Habits from FireStore
+                }
+                habitAdapter.notifyDataSetChanged();
+                // Notifying the adapter to render any new data fetched from the cloud
+            }
+        });
+
     }
 
     @Override
@@ -106,7 +136,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                         @Override
                         public void onSuccess(Void aVoid) {
                             //method which gets executed when the task is successful
-                            habitAdapter.add(newHabit);
+                            Log.d(TAG, "Data has been added successfully!");
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
