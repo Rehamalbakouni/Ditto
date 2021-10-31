@@ -38,6 +38,12 @@
 
 
             />
+        <activity
+            android:name="SearchUserActivity"
+            android:exported="true"
+            android:parentActivityName="UserProfileActivity"
+            android:label="Search Users"
+            />
 
 
 

@@ -41,7 +41,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         followers = findViewById(R.id.followers);
         following = findViewById(R.id.following);
         no_following = findViewById(R.id.no_following_1);
-        no_followers = findViewById(R.id.no_followers);
+        no_followers = findViewById(R.id.no_follower);
         username_text = findViewById(R.id.textView_user);
         search = findViewById(R.id.search_users);
         username = findViewById(R.id.username_editText);
@@ -52,6 +52,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         onFollowingtap();
         onFollowNumberTap();
         no_following.setText("1");
+        onSearchTap();
     }
 
 
@@ -82,6 +83,16 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
                 startActivity(intent);
             }
         });;
+    }
+
+    public void onSearchTap(){
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this,SearchUserActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
