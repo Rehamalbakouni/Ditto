@@ -24,14 +24,14 @@ import java.net.PasswordAuthentication;
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText user_name;
-    EditText age;
-    EditText password;
-    EditText confirm_password;
-    TextView register;
-    TextView already_user_btn;
+    private EditText user_name;
+    private EditText age;
+    private EditText password;
+    private EditText confirm_password;
+    private TextView register;
+    private TextView already_user_btn;
     FirebaseFirestore db;
-    User user;
+    private User user;
     final String TAG = "Sample";
 
     @Override
