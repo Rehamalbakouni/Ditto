@@ -2,10 +2,4 @@
     <string name="app_name">Ditto</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string-array name="habits_array">
-        <item>Habit</item>
-        <item>habit1</item>
-        <item>habit2</item>
-        <item>habit3</item>
-    </string-array>
 </resources>

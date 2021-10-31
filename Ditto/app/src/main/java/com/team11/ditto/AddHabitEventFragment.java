@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,8 @@ public class AddHabitEventFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private FirebaseFirestore db;
     private DatabaseReference root;
+    final String TAG = "dbs";
+
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(HabitEvent newHabitEvent);
@@ -56,42 +62,35 @@ public class AddHabitEventFragment extends DialogFragment {
         root = FirebaseDatabase.getInstance().getReference();
         Spinner spinner = (Spinner) view.findViewById(R.id.event_spinner);
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
-                R.array.habits_array, android.R.layout.simple_spinner_item);
 
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //get the documents from Habit
+        db.collection("Habit")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        final List<String> habits = new ArrayList<String>();
+                        final List<String> habitIDs = new ArrayList<String>();
 
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                Log.d(TAG, snapshot.getId() + "=>" + snapshot.getData());
+                                String habitTitle = snapshot.get("title").toString();
+                                String habitID = snapshot.getId().toString();
+                                habits.add(habitTitle);
+                                habitIDs.add(habitID);
+                            }
+                            ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, habits);
+                            habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(habitAdapter);
+                        }
+                        else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
 
-        //Get the Habits from Firestore to populate the dropdown habit selection
-        root.child("Habit").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final List<String> habits = new ArrayList<String>();
-                final List<String> habitIDs = new ArrayList<String>();
-
-                for (DataSnapshot areaSnapshot: snapshot.getChildren()) {
-                    String habitTitle = areaSnapshot.child("title").getValue(String.class);
-                    String habitID = areaSnapshot.getKey();
-                    habits.add(habitTitle);
-                    habitIDs.add(habitID);
-                }
-
-
-                ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, habits);
-                habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(habitAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
