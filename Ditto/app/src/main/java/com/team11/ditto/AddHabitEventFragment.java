@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -38,6 +39,7 @@ import java.util.List;
 
 public class AddHabitEventFragment extends DialogFragment {
     private EditText hComment;
+    private Button acc_photo;
     private OnFragmentInteractionListener listener;
     private FirebaseFirestore db;
     private DatabaseReference root;
@@ -61,6 +63,7 @@ public class AddHabitEventFragment extends DialogFragment {
         //Inflate the layout for this fragment
         View view = LayoutInflater.from(getContext()).inflate(R.layout.add_event_fragment, null);
         hComment = view.findViewById(R.id.comment_editText);
+        acc_photo = view.findViewById(R.id.add_photo);
         db = FirebaseFirestore.getInstance();
         root = FirebaseDatabase.getInstance().getReference();
         Spinner spinner = (Spinner) view.findViewById(R.id.event_spinner);
@@ -107,6 +110,15 @@ public class AddHabitEventFragment extends DialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+
+            }
+        });
+
+        //Get camera permission for photo
+        acc_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });

@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -129,6 +130,11 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
                         Log.d(TAG, "Data has been added successfully!");
                         //we want to add the habit event id to the associate Habit field of HabitEventIds
 
+                        DocumentReference arrayID = db.collection("Habit").document(habitID);
+                        //set the "habitEvents" field of the Habit
+                        arrayID
+                                .update("habitEvents", FieldValue.arrayUnion(documentReference.getId().toString()));
+
 
                     }
                 })
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
 
                     }
                 });
+
 
 
 
