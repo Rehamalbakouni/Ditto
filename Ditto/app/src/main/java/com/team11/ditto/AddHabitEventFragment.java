@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -61,6 +62,8 @@ public class AddHabitEventFragment extends DialogFragment {
         db = FirebaseFirestore.getInstance();
         root = FirebaseDatabase.getInstance().getReference();
         Spinner spinner = (Spinner) view.findViewById(R.id.event_spinner);
+        final List<String> habits = new ArrayList<String>();
+        final List<String> habitIDs = new ArrayList<String>();
 
 
         //get the documents from Habit
@@ -69,8 +72,6 @@ public class AddHabitEventFragment extends DialogFragment {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        final List<String> habits = new ArrayList<String>();
-                        final List<String> habitIDs = new ArrayList<String>();
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
@@ -90,7 +91,23 @@ public class AddHabitEventFragment extends DialogFragment {
                     }
                 });
 
+        final String[] hHabit = new String[1];
+        final String[] IDhabit = new String[1];
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+                hHabit[0] = habits.get(position).toString();
+                IDhabit[0] = habitIDs.get(position).toString();
+                Log.d(TAG, "habit Id => "+IDhabit[0]);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -100,18 +117,23 @@ public class AddHabitEventFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String comment = hComment.getText().toString();
-                        //get value from spinner, if "Habit" is chosen, they've chosen no unit
-                        String hHabit = spinner.getSelectedItem().toString();
+
+
+
+                        //If user doesn't choose a Habit...
+                        /*
                         if (hHabit.equals("Habit")) {
                             hHabit = "";
                         }
+
+                         */
 
                         //set photo and location
                         String photo = "";
                         String location = "";
 
                         //right now how are we adding a new Habit???
-                        listener.onOkPressed(new HabitEvent(hHabit, comment, photo, location));
+                        listener.onOkPressed(new HabitEvent(IDhabit[0], comment, photo, location));
 
                     }
                 })
