@@ -7,6 +7,8 @@ public class User {
     //User attributes
     private String id;
     private String username;
+    private String password;
+    private Integer age;
     private Habit[] habits;
     private User[] iFollow;
     private User[] followMe;
@@ -14,12 +16,14 @@ public class User {
 
 
     //Constructor
-    public User(String username){
+    public User(String username, String password, Integer age){
         //get latest user id # from the database
         //this.id = ...
 
         //set initial username to the id. The user can change it later
         this.username = username;
+        this.password = password;
+        this.age = age;
 
     }
 
@@ -35,6 +39,22 @@ public class User {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public Habit[] getHabits() {
         return habits;
