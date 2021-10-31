@@ -21,12 +21,24 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHabitEventFragment.OnFragmentInteractionListener {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
+    ListView habitEventListView;
+    private ArrayList<HabitEvent> habitEventsData;
+    private ArrayAdapter<HabitEvent> habitEventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tabLayout = findViewById(R.id.tabs);
+
+        habitEventListView = findViewById(R.id.list_habitevent);
+
+        habitEventsData = new ArrayList<>();
+        habitEventAdapter = new CustomListHabitEvent(MainActivity.this, habitEventsData);
+
+        habitEventListView.setAdapter(habitEventAdapter);
+
+        habitEventAdapter.add(new HabitEvent("hahahaha", "this is acomment", "", ""));
 
         currentTab(tabLayout, HOME_TAB);
         switchTabs(this, tabLayout, HOME_TAB);
@@ -39,11 +51,10 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
                 new AddHabitEventFragment().show(getSupportFragmentManager(), "ADD_HABIT_EVENT");
             }
         });
-
     }
 
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
-
+        habitEventAdapter.add(newHabitEvent);
     }
 }
