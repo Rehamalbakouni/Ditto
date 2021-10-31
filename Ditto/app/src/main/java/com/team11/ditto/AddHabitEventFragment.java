@@ -1,7 +1,9 @@
 package com.team11.ditto;
 /*
 Add Habit Event Fragment Class
-Goals: To create restraints on user i.e. warn user to pick a Habit before pressing Add
+Goals:
+    To create restraints on user i.e. warn user to pick a Habit before pressing Add
+    To not make the first choice "Go eat ramen" for the choices of habits
  */
 import android.app.AlertDialog;
 import android.app.Dialog;
