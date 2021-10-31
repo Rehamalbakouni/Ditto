@@ -32,17 +32,17 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs{
 
         usernames = new ArrayList<>();
         // Just to check if view works as intended
-        User Aidan = new User("Aidan");
+        User Aidan = new User("Aidan","1346789",25);
         usernames.add("Aidan");
-        User Courtenay = new User("Courtenay");
+        User Courtenay = new User("Courtenay","123456",25);
         usernames.add("Courtenay");
-        User Kelly = new User("Kelly");
+        User Kelly = new User("Kelly","123456",25);
         usernames.add("Kelly");
-        User Matt = new User("Matt");
+        User Matt = new User("Matt","1213456",25);
         usernames.add("Matt");
-        User Reham = new User("Reham");
+        User Reham = new User("Reham","123456",25);
         usernames.add("Reham");
-        User Vivek = new User("Vivek");
+        User Vivek = new User("Vivek","123456",25);
         usernames.add("Vivek");
 
         userDataList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs{
                 userDataList.clear();
                 for (int i =0; i < usernames.size();i++){
                     if(usernames.get(i).toLowerCase(Locale.getDefault()).contains(s_lower)){
-                        userDataList.add(new User(usernames.get(i)));
+                        userDataList.add(new User(usernames.get(i),"123456",25));
                     }
                 }
                 searchAdapter.notifyDataSetChanged();
