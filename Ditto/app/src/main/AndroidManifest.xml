@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.team11.ditto">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera2" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -48,10 +52,6 @@
 
 
 
-        <activity
-            android:name=".MyHabitsActivity"
-            android:exported="true"
-            />
 
         <meta-data
             android:name="preloaded_fonts"
