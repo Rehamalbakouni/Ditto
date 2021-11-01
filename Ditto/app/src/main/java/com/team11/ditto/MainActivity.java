@@ -23,6 +23,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
 
         db = FirebaseFirestore.getInstance();
         //Get a top level reference to the collection
-        final CollectionReference collectionReference = db.collection("HabitEvent");
+        final Query collectionReference = db.collection("HabitEvent")
+                .orderBy("order");
 
         final FloatingActionButton addHabitEventButton = findViewById(R.id.add_habit_event);
         addHabitEventButton.setOnClickListener(new View.OnClickListener(){

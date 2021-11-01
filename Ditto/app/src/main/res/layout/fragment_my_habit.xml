@@ -13,19 +13,6 @@
         android:layout_marginRight="6dip"
         android:contentDescription="TODO"
         android:src="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/secondLine"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/icon"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Description"
-        android:textSize="12sp" />
-
     <TextView
         android:id="@+id/firstLine"
         android:layout_width="fill_parent"
@@ -38,5 +25,18 @@
         android:gravity="center_vertical"
         android:text="Example application"
         android:textSize="16sp" />
+    <TextView
+        android:id="@+id/secondLine"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/icon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Description"
+        android:textSize="12sp" />
+
+
 
 </RelativeLayout>

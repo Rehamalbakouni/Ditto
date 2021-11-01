@@ -4,6 +4,7 @@ Role: To display the listview of Habits for a user in the "My Habits" tab
 Allow a user to add a habit, swipe left to delete a habit
 Goals:
     -A user can add a habit to the database, but cannot delete a habit from the db yet
+    -Add the days of week to db
     -Allow user to edit an existing habit
     -Visually make it better
  */
@@ -60,6 +61,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -67,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -102,7 +105,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     private TabLayout tabLayout;
     //Declare variables for the list of habits
-    SwipeMenuListView habitListView;
+    //SwipeMenuListView habitListView;
+    ListView habitListView;
     private static ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
     private FirebaseFirestore db;
@@ -119,7 +123,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         setContentView(R.layout.activity_my_habit);
 
         habitDataList = new ArrayList<>();
-        habitListView = (SwipeMenuListView) findViewById(R.id.list);
+        habitListView = (ListView) findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
 
@@ -132,7 +136,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         db = FirebaseFirestore.getInstance();
         //Get a top level reference to the collection
-        final CollectionReference collectionReference = db.collection("Habit");
+        final Query collectionReference = db.collection("Habit")
+                .orderBy("order");
 
         //add habit button action
         final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
@@ -195,6 +200,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             }
         };
 
+        /*
         // set creator
         habitListView.setMenuCreator(creator);
         habitListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
@@ -205,6 +211,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
              * @param index
              * @return
              */
+        /*
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
 
@@ -222,6 +229,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         //set Left direction
         habitListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
+         */
 
 
 
@@ -253,7 +262,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             data.put("days_of_week", dates);
             //this field is used to add the current timestamp of the item, to be used to order the items
             data.put("order", currentTime);
-
 
             documentReference
                     .set(data)
