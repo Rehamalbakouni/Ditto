@@ -1,6 +1,37 @@
 package com.team11.ditto;
 /*
-The Class for MyHabit Activity Screen
+Role: To display the listview of Habits for a user in the "My Habits" tab
+Allow a user to add a habit, swipe left to delete a habit
+Goals:
+    -A user can add a habit to the database, but cannot delete a habit from the db yet
+    -Allow user to edit an existing habit
+    -Visually make it better
+ */
+
+/*
+Permissions for the swipe function for a listview item:
+https://github.com/baoyongzhang/SwipeMenuListView
+The MIT License (MIT)
+
+Copyright (c) 2014 baoyongzhang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
  */
 
 import android.content.Intent;
@@ -39,6 +70,34 @@ import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
+/**To display the listview of Habits for a user in the "My Habits" tab
+ *Allow a user to add a habit, swipe left to delete a habit
+ * Permissions for the swipe function for a listview item:
+ * https://github.com/baoyongzhang/SwipeMenuListView
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 baoyongzhang
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * @author Kelly Shih, Aidan Horemans
+
+ */
 public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs {
 
     private TabLayout tabLayout;
@@ -50,7 +109,10 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     final String TAG = "add";
     HashMap<String, Object> data = new HashMap<>();
 
-
+    /**
+     * Create the Activity instance for the "My Habits" screen, control flow of actions
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +138,10 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         //add habit button action
         final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
         addHabitButton.setOnClickListener(new View.OnClickListener() {
-
+            /**
+             * call the add habit fragment
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 new AddHabitFragment().show(getSupportFragmentManager(), "ADD_HABIT");
@@ -84,8 +149,12 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             }
         });
 
-        //Maintain listview after each activity switch, login, logout
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            /**Maintain listview after each activity switch, login, logout
+             *
+             * @param queryDocumentSnapshots
+             * @param error
+             */
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
@@ -106,7 +175,10 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         });
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
-
+            /**
+             * initialize the swipe menu for a list view object (we only have a delete option)
+             * @param menu
+             */
             @Override
             public void create(SwipeMenu menu) {
                 // create "delete" item
@@ -127,6 +199,13 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         // set creator
         habitListView.setMenuCreator(creator);
         habitListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            /**
+             * After the user CLICKS on the garbage can, we want to delete from listview and database
+             * @param position
+             * @param menu
+             * @param index
+             * @return
+             */
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
 
@@ -150,6 +229,10 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     }
 
+    /**
+     * Adding a habit to the database and listview as the response to the user clicking the "Add" button from the fragment
+     * @param newHabit
+     */
     @Override
     public void onOkPressed(Habit newHabit) {
         //when the user clicks the add button, we want to add to the db and display the new entry
@@ -196,7 +279,9 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     }
 
-
+    /**
+     * To transfer the control to the Main activity/ homepage when the back button is pressed
+     */
     public void onBackPressed() {
         Intent intent = new Intent(MyHabitActivity.this,MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);

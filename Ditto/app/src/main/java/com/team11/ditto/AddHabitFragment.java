@@ -1,5 +1,12 @@
 package com.team11.ditto;
 
+/*
+Role: Initialize a Dialog for the user to input a title, reason, dates for a new Habit.
+Send input back to MyHabitActivity and Firestore Database collection "Habit"
+Goals: Needs work on the visual aspect (to be done in xml)
+
+ */
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -12,7 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-
+/**
+ * This is a class that initializes a Dialog for the user to input a title, reason, dates for a new Habit.
+ * Sends input back to MyHabitActivity and Firestore Database collection "Habit"
+ * @author Kelly Shih, Aidan Horemans
+ */
 public class AddHabitFragment extends DialogFragment {
     private EditText hTitle;
     private EditText hReason;
@@ -30,6 +41,11 @@ public class AddHabitFragment extends DialogFragment {
         listener = (OnFragmentInteractionListener) context;
     }
 
+    /**
+     * Create the dialog with the fields for title, reason, dates, and go to OnOkPressed method when user clicks "Add"
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

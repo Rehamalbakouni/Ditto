@@ -1,9 +1,13 @@
 package com.team11.ditto;
 /*
-Add Habit Event Fragment Class
+Role: Initialize a Dialog for the user to choose an EXISTING Habit from the database, comment, photo, location for a new Habit Event.
+Send input back to MainActivity and Firestore Database collection "HabitEvent", as well as update "Habit" collection
 Goals:
-    To create restraints on user i.e. warn user to pick a Habit before pressing Add
-    To not make the first choice "Go eat ramen" for the choices of habits
+    -To create restraints on user i.e. warn user to pick a Habit before pressing Add
+    -To not make the first choice "Go eat ramen" for the choices of habits
+    -Get Camera and photo library permission
+    -Get location option
+    -Make it better visually (xml)
  */
 import android.Manifest;
 import android.app.Activity;
@@ -45,6 +49,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Initialize a Dialog for the user to choose an EXISTING Habit from the database, comment, photo, location for a new Habit Event.
+ * Send input back to MainActivity and Firestore Database collection "HabitEvent", as well as update "Habit" collection
+ * @author Kelly Shih, Aidan Horemans
+ */
 public class AddHabitEventFragment extends DialogFragment {
     private EditText hComment;
     private Button acc_photo;
@@ -65,6 +73,11 @@ public class AddHabitEventFragment extends DialogFragment {
         listener = (AddHabitEventFragment.OnFragmentInteractionListener) context;
     }
 
+    /**
+     * Create the dialog with the fields for habit (spinner), reason, photo, location and go to OnOkPressed method when user clicks "Add"
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -94,6 +107,7 @@ public class AddHabitEventFragment extends DialogFragment {
                                 habits.add(habitTitle);
                                 habitIDs.add(habitID);
                             }
+                            //initialize the spinner with the options from the database
                             ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, habits);
                             habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(habitAdapter);
@@ -107,6 +121,7 @@ public class AddHabitEventFragment extends DialogFragment {
         final String[] hHabit = new String[1];
         final String[] IDhabit = new String[1];
 
+        //retrive the habit and habit ID from the selected spinner choice
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
@@ -147,14 +162,12 @@ public class AddHabitEventFragment extends DialogFragment {
                         if (hHabit.equals("Habit")) {
                             hHabit = "";
                         }
-
                          */
 
                         //set photo and location
                         String photo = "";
                         String location = "";
 
-                        //right now how are we adding a new Habit???
                         listener.onOkPressed(new HabitEvent(IDhabit[0], comment, photo, location));
 
                     }
