@@ -134,7 +134,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         //Get a top level reference to the collection
         final CollectionReference collectionReference = db.collection("Habit");
 
-
         //add habit button action
         final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
         addHabitButton.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +165,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                     Log.d(TAG, String.valueOf(doc.getData().get("title")));
                     String htitle = (String) doc.getData().get("title");
                     String hreason = (String) doc.getData().get("reason");
-                    String hdate = (String) doc.getData().get("date_to_start");
+                    ArrayList<Integer> hdate = (ArrayList<Integer>) doc.getData().get("days_of_week");
                     habitDataList.add(new Habit(htitle, hreason, hdate)); // Adding the Habits from FireStore
                 }
                 habitAdapter.notifyDataSetChanged();
@@ -239,7 +238,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         final String title = newHabit.getTitle();
         final String reason = newHabit.getReason();
-        final String date = newHabit.getDate();
+        final ArrayList<Integer> dates = newHabit.getDate();
 
         //generate an auto-generated ID for firebase
         final DocumentReference documentReference = db.collection("Habit").document();
@@ -251,7 +250,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             //if there is some data in edittext field, then create new key-value pair
             data.put("title", title);
             data.put("reason", reason);
-            data.put("date_to_start", date);
+            data.put("days_of_week", dates);
             //this field is used to add the current timestamp of the item, to be used to order the items
             data.put("order", currentTime);
 

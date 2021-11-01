@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_my_habit.xml" value="0.20364583333333333" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/add_event_fragment.xml" value="0.18055555555555555" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/add_habit_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/fragment_my_habit.xml" value="0.18055555555555555" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/list_my_habit_event.xml" value="0.6238767650834403" />
         <entry key="..\:/Users/lkcou/Documents/A_University/CMPUT301/TeamProject/Ditto/Ditto/app/src/main/res/layout/activity_following.xml" value="0.182518115942029" />
         <entry key="..\:/Users/lkcou/Documents/A_University/CMPUT301/TeamProject/Ditto/Ditto/app/src/main/res/layout/activity_login.xml" value="0.182518115942029" />
         <entry key="..\:/Users/lkcou/Documents/A_University/CMPUT301/TeamProject/Ditto/Ditto/app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
@@ -39,15 +45,10 @@
         <entry key="app/src/main/res/drawable/ic_round_send_24.xml" value="0.2630208333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_my_habit.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/layout/activity_myhabits.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.182518115942029" />
-        <entry key="app/src/main/res/layout/activity_userprofile.xml" value="0.19791666666666666" />
-        <entry key="app/src/main/res/layout/add_event_fragment.xml" value="0.67" />
-        <entry key="app/src/main/res/layout/add_habit_fragment.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/content_habit.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/fragment_due_today.xml" value="0.182518115942029" />
-        <entry key="app/src/main/res/layout/fragment_follow.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/fragment_my_habit.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/fragment_my_habit_activity.xml" value="0.182518115942029" />
