@@ -48,10 +48,6 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -177,13 +173,13 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                 // Notifying the adapter to render any new data fetched from the cloud
             }
         });
-
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
+        /*
+        SwipeMenuCreator creator = new SwipeMenuCreator() {*/
             /**
              * initialize the swipe menu for a list view object (we only have a delete option)
              * @param menu
              */
-            @Override
+        /*    @Override
             public void create(SwipeMenu menu) {
                 // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
@@ -198,8 +194,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                 // add to menu
                 menu.addMenuItem(deleteItem);
             }
-        };
-
+        };*/
         /*
         // set creator
         habitListView.setMenuCreator(creator);
