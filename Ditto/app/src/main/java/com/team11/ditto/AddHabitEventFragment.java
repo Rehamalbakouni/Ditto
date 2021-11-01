@@ -45,7 +45,6 @@ public class AddHabitEventFragment extends DialogFragment {
     private DatabaseReference root;
     final String TAG = "dbs";
 
-
     public interface OnFragmentInteractionListener {
         void onOkPressed(HabitEvent newHabitEvent);
 
