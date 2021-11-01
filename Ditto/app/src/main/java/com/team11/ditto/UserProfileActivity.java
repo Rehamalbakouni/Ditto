@@ -53,6 +53,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         onFollowNumberTap();
         no_following.setText("1");
         onSearchTap();
+        onFollowRequestTab();
     }
 
 
@@ -90,6 +91,16 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfileActivity.this,SearchUserActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onFollowRequestTab(){
+        fr_pending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, FollowRequestActivity.class);
                 startActivity(intent);
             }
         });
