@@ -4,6 +4,9 @@ The Class for MyHabit Activity Screen
  */
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +16,10 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,7 +43,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     private TabLayout tabLayout;
     //Declare variables for the list of habits
-    ListView habitListView;
+    SwipeMenuListView habitListView;
     private static ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitDataList;
     private FirebaseFirestore db;
@@ -50,7 +57,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         setContentView(R.layout.activity_my_habit);
 
         habitDataList = new ArrayList<>();
-        habitListView = findViewById(R.id.list);
+        habitListView = (SwipeMenuListView) findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
 
@@ -96,6 +103,49 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                 // Notifying the adapter to render any new data fetched from the cloud
             }
         });
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                // set item width
+                deleteItem.setWidth(169);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_round_delete_24);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        // set creator
+        habitListView.setMenuCreator(creator);
+        habitListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+
+                // delete
+                habitDataList.remove(position);
+                habitAdapter.notifyDataSetChanged();
+                //DELETE FROM DATABASE TOO
+                //db.collection("Habit").document()
+
+                // false : close the menu; true : not close the menu
+                return false;
+            }
+        });
+
+
+        //set Left direction
+        habitListView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
+
+
 
     }
 
@@ -151,6 +201,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+
 
 
 }

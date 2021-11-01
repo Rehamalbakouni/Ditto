@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MyHabitActivity">
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
