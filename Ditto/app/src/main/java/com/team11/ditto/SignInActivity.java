@@ -3,6 +3,7 @@ package com.team11.ditto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,7 +51,6 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         TextView createAccountBtn = findViewById(R.id.createAccount);
-
         createAccountBtn.setOnClickListener(view -> startActivity(new Intent(SignInActivity.this, SignUpActivity.class)));
 
         String username = usernameLogin.getText().toString();
@@ -61,11 +61,13 @@ public class SignInActivity extends AppCompatActivity {
         //check user password
 
         //if user exists and password is correct, set the user as ActiveUser
-
-
-
-
-
+        /*createAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+            }
+        });
+        */
 
     }
 }

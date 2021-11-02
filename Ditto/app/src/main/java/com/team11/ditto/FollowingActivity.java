@@ -30,7 +30,6 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
         userDataList = new ArrayList<>();
         userAdapter = new FollowingList(FollowingActivity.this,userDataList);
         followingListView.setAdapter(userAdapter);
-
         User user   = new User("Aryan", "12345678", 25);
         userAdapter.add(user);
 

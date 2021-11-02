@@ -1,6 +1,5 @@
 package com.team11.ditto;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -94,8 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
                 });
             }
             // switch to sign in activity if the user already has ana account
-            already_user_btn.setOnClickListener(view1 -> startActivity(new Intent(SignUpActivity.this, SignInActivity.class)));
-
+            //already_user_btn.setOnClickListener(view1 -> startActivity(new Intent(SignUpActivity.this, SignInActivity.class)));
         });
     }
 }

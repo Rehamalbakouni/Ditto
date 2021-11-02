@@ -20,17 +20,11 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (activeUser == null){
-            Intent intent = new Intent(this, SignInActivity.class);
-            startActivity(intent);
-        }
-
         setContentView(R.layout.activity_main);
         tabLayout = findViewById(R.id.tabs);
 
         currentTab(tabLayout, HOME_TAB);
         switchTabs(this, tabLayout, HOME_TAB);
-
     }
 
 }
