@@ -12,26 +12,28 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
+public class FollowRequestActivity extends AppCompatActivity implements SwitchTabs {
 
     private TabLayout tabLayout;
     //Declare variables for the list of habits
-    ListView followingListView;
+    ListView frlist;
     private static ArrayAdapter<User> userAdapter;
     ArrayList<User> userDataList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.following_list);
-        followingListView = findViewById(R.id.following_list_custom);
+        setContentView(R.layout.activity_follow_request);
+        frlist = findViewById(R.id.following_request_custom);
         tabLayout = findViewById(R.id.tabs);
 
         userDataList = new ArrayList<>();
-        userAdapter = new FollowingList(FollowingActivity.this,userDataList);
-        followingListView.setAdapter(userAdapter);
-        User user   = new User("Aryan", "12345678", 25);
-        userAdapter.add(user);
+        userAdapter = new FollowRequestList(FollowRequestActivity.this,userDataList);
+        frlist.setAdapter(userAdapter);
+
+        User bruce = new User("Bruce Wayne","123456",49);
+
+        userAdapter.add(bruce);
 
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
@@ -39,7 +41,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
 
     public void onBackPressed() {
 
-        Intent intent = new Intent(FollowingActivity.this,UserProfileActivity.class);
+        Intent intent = new Intent(FollowRequestActivity.this,UserProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
