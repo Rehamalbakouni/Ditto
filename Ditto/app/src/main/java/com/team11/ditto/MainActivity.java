@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
     private FirebaseFirestore db;
     HashMap<String, Object> data = new HashMap<>();
     private ActiveUser activeUser;
-    FirebaseFirestore db; //when they addcity button we need to dump into db
-    //public static Bundle habitBundle = new Bundle();
 
 
     /**
