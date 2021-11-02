@@ -10,6 +10,13 @@ Design Rationale: set getters and setters for the data that Habit holds
 
 import java.util.ArrayList;
 
+/**
+ * Purpose: Habit class represents a habit object and holds data for
+ * title
+ * reason
+ * date
+ * Design Rationale: set getters and setters for the data that Habit holds
+ */
 public class Habit {
     private String habitID;
     private String title;

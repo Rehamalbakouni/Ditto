@@ -1,5 +1,8 @@
 package com.team11.ditto;
-
+/*
+Role: Initialize the Custom Listview Item's for the Habit Activity
+Goal: To match the UI more accurately
+ */
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,10 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * Initialize the Custom Listview Item's for the Habit Activity
+ * Goal: to match the UI more accurately
+ */
 public class CustomList_Habit extends ArrayAdapter<Habit> {
 
     private ArrayList<Habit> habits;
@@ -23,6 +30,13 @@ public class CustomList_Habit extends ArrayAdapter<Habit> {
         this.context = context;
     }
 
+    /**
+     * To return the view of the custom list item for the Habits tab
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {

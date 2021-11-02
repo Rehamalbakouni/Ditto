@@ -37,6 +37,9 @@ import javax.annotation.Nullable;
 
 /**
  * Role: Class for Habit Event Activity, be able to see you feed and add a habit event
+ * Goals:
+ *     there is repetition between MyHabitActivity and the Homepage when creating fragments and listviews
+ *     solve by making a more object oriented design
  * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra
  */
 public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHabitEventFragment.OnFragmentInteractionListener {

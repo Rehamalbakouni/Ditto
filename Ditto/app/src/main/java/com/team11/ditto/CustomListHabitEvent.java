@@ -1,5 +1,9 @@
 package com.team11.ditto;
-
+/*
+Role: Initialize the Custom Listview Item's for the Feed Activity
+Goal: To match the UI more accurately
+    To have the custom item grow dynamically when there is a photo or location present
+ */
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,11 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * Initialize the Custom Listview Item's for the Feed Activity
+ * Goal: To match the UI more accurately
+ *     To have the custom item grow dynamically when there is a photo or location present
+ */
 public class CustomListHabitEvent extends ArrayAdapter<HabitEvent> {
     private ArrayList<HabitEvent> habitEvents;
     private Context context;
@@ -24,6 +33,13 @@ public class CustomListHabitEvent extends ArrayAdapter<HabitEvent> {
         this.context = context;
     }
 
+    /**
+     * To return the view of the custom list item for the Homepage tab
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Nonnull
     @Override
     public View getView(int position, @Nullable View convertView,  @Nullable ViewGroup parent){

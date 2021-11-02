@@ -1,12 +1,19 @@
 package com.team11.ditto;
 /*
-Habit Event Object that stores the data for a habit event's
+Role: Habit Event Object that stores the data for a habit event's
 habitID
 comment
 photograph
 location
  */
 
+/**
+ * Role: Habit Event Object that stores the data for a habit event's
+ * habitID
+ * comment
+ * photograph
+ * location
+ */
 public class HabitEvent {
     private String habitId;
     private String comment;
