@@ -1,29 +1,34 @@
 package com.team11.ditto;
 
-import android.media.Image;
+import android.graphics.drawable.Drawable;
+
+import java.util.ArrayList;
 
 public class User {
 
     //User attributes
     private String id;
     private String username;
+    private ArrayList<Habit> habits;
+    private ArrayList<User> iFollow;
+    private ArrayList<User> followMe;
+    private Drawable profilePhoto;
     private String password;
-    private Integer age;
-    private Habit[] habits;
-    private User[] iFollow;
-    private User[] followMe;
-    private Image profilePhoto;
+    private int age;
 
 
     //Constructor
-    public User(String username, String password, Integer age){
-        //get latest user id # from the database
-        //this.id = ...
-
-        //set initial username to the id. The user can change it later
+    public User(String username, String password, int age){
         this.username = username;
+        this.habits = new ArrayList<Habit>();
+        this.iFollow = new ArrayList<User>();
+        this.followMe = new ArrayList<User>();
+        this.profilePhoto = Drawable.createFromPath("ic_action_profile.png");
         this.password = password;
         this.age = age;
+    }
+
+    public User(){
 
     }
 
@@ -56,35 +61,31 @@ public class User {
         this.age = age;
     }
 
-    public Habit[] getHabits() {
+    public ArrayList<Habit> getHabits() {
         return habits;
     }
 
-    public void setHabits(Habit[] habits) {
-        this.habits = habits;
-    }
-
-    public User[] getIFollow() {
+    public ArrayList<User> getIFollow() {
         return iFollow;
     }
 
-    public void setIFollow(User[] iFollow) {
-        this.iFollow = iFollow;
-    }
-
-    public User[] getFollowMe() {
+    public ArrayList<User> getFollowMe() {
         return followMe;
     }
 
-    public void setFollowMe(User[] followMe) {
-        this.followMe = followMe;
+    public void addFollowing(User toFollow){
+        this.iFollow.add(toFollow);
     }
 
-    public Image getProfilePhoto() {
+    public Drawable getProfilePhoto() {
         return profilePhoto;
     }
 
-    public void setProfilePhoto(Image profilePhoto) {
+    public void setProfilePhoto(Drawable profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    public void setID(String id){
+        this.id = id;
     }
 }

@@ -5,6 +5,8 @@ Goals:
     there is repetition between MyHabitActivity and the Homepage when creating fragments and listviews
     solve by making a more object oriented design
  */
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
     private ArrayAdapter<HabitEvent> habitEventAdapter;
     private FirebaseFirestore db;
     HashMap<String, Object> data = new HashMap<>();
+    private ActiveUser activeUser;
+    FirebaseFirestore db; //when they addcity button we need to dump into db
+    //public static Bundle habitBundle = new Bundle();
+
 
     /**
      * Create the Activity instance for the "Homepage" screen, control flow of actions

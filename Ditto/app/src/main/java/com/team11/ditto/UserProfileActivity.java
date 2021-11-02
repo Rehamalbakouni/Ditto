@@ -27,7 +27,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
     private static final String TAG = "tab switch";
 
 
-    FirebaseFirestore db; //when they addcity button we need to dump into db
+    FirebaseFirestore db; //when they add button we need to dump into db
     private TabLayout tabLayout;
     //public static Bundle habitBundle = new Bundle();
     @Override
@@ -47,8 +47,10 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         username = findViewById(R.id.username_editText);
         fr_pending = findViewById(R.id.pending_fr);
         logout = findViewById(R.id.logout_button);
+
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
+
         onFollowingtap();
         onFollowNumberTap();
         no_following.setText("1");
