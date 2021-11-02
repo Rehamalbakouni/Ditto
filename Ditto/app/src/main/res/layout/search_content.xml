@@ -4,14 +4,13 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <com.google.android.material.imageview.ShapeableImageView
 
-        android:id="@+id/user_photo"
+        android:id="@+id/search_user_photo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:padding="20dp"
@@ -21,14 +20,14 @@
         app:shapeAppearanceOverlay="@style/roundimageview"
         app:strokeColor="#000000"
 
-    />
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="243dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/search_user_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
 
@@ -50,21 +49,19 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/remove_circle"
+        android:id="@+id/send_request"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
 
         android:layout_marginEnd="4dp"
         android:clickable="true"
-        android:contentDescription="Remove this user"
+
         android:padding="20dp"
-        android:src="@drawable/ic_round_remove_circle_24"
+        android:src="@drawable/ic_round_send_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#B30000">
+        app:tint="#686060">
 
     </ImageView>
 
 </LinearLayout>
-
-

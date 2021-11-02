@@ -38,6 +38,18 @@
 
 
             />
+        <activity
+            android:name="SearchUserActivity"
+            android:exported="true"
+            android:parentActivityName="UserProfileActivity"
+            android:label="Search Users"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="FollowRequestActivity"
+            android:exported="true"
+            android:parentActivityName="UserProfileActivity"
+            android:label="Follow Requests"/>
 
 
 
