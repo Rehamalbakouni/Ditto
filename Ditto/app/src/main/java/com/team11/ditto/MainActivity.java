@@ -1,5 +1,6 @@
 package com.team11.ditto;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends AppCompatActivity implements SwitchTabs {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
+    private ActiveUser activeUser;
     FirebaseFirestore db; //when they addcity button we need to dump into db
     //public static Bundle habitBundle = new Bundle();
 
@@ -23,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs {
 
         currentTab(tabLayout, HOME_TAB);
         switchTabs(this, tabLayout, HOME_TAB);
-
     }
 
 }

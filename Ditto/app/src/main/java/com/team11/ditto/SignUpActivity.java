@@ -39,9 +39,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         user_name = findViewById(R.id.userName);
-        age = findViewById(R.id.Age);
-        password = findViewById(R.id.Password);
-        register = findViewById(R.id.Register);
+        age = findViewById(R.id.age);
+        password = findViewById(R.id.password);
+        register = findViewById(R.id.register);
         confirm_password = findViewById(R.id.confirmPassword);
         already_user_btn = findViewById(R.id.alreadyUser);
         db = FirebaseFirestore.getInstance();
