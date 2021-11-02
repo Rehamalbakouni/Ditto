@@ -11,6 +11,7 @@ Design Rationale: set getters and setters for the data that Habit holds
 import java.util.ArrayList;
 
 public class Habit {
+    private String habitID;
     private String title;
     private String reason;
     private ArrayList<Integer> dates;
@@ -43,5 +44,13 @@ public class Habit {
 
     public void setDate(ArrayList<Integer> dates) {
         this.dates = dates;
+    }
+
+    public String getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(String habitID) {
+        this.habitID = habitID;
     }
 }

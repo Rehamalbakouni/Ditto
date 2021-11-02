@@ -1,8 +1,9 @@
 package com.team11.ditto;
 /*
-Class for Habit Event Activity, Feed/Homepage
+Role: Class for Habit Event Activity, be able to see you feed and add a habit event
 Goals:
-    To create an interface for these action because there is repetition between MyHabitActivity and the Homepage
+    there is repetition between MyHabitActivity and the Homepage when creating fragments and listviews
+    solve by making a more object oriented design
  */
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,10 @@ import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
+/**
+ * Role: Class for Habit Event Activity, be able to see you feed and add a habit event
+ * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra
+ */
 public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHabitEventFragment.OnFragmentInteractionListener {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
@@ -43,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
     private FirebaseFirestore db;
     HashMap<String, Object> data = new HashMap<>();
 
+    /**
+     * Create the Activity instance for the "Homepage" screen, control flow of actions
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +84,13 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
             }
         });
 
-        //Maintain listview after each activity switch, login, logout
+
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            /**
+             * Maintain listview after each activity switch, login, logout
+             * @param queryDocumentSnapshots
+             * @param error
+             */
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
@@ -100,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
         });
     }
 
+    /**
+     * Adds a habitevent to firestore "HabitEvent" and adds the habitevent ID to the list of habitEvents for the habit in "Habit"
+     * Adds the habitevent to the listview
+     * @param newHabitEvent
+     */
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
 

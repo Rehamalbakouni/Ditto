@@ -120,8 +120,15 @@ public class AddHabitEventFragment extends DialogFragment {
         final String[] hHabit = new String[1];
         final String[] IDhabit = new String[1];
 
-        //retrive the habit and habit ID from the selected spinner choice
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            /**
+             * to retrieve the habit and habit ID from the selected spinner choice
+             * @param parent
+             * @param view
+             * @param position
+             * @param l
+             */
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
                 hHabit[0] = habits.get(position).toString();

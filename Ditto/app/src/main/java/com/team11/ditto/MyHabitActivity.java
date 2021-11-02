@@ -55,6 +55,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -265,6 +266,15 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                         public void onSuccess(Void aVoid) {
                             //method which gets executed when the task is successful
                             Log.d(TAG, "Data has been added successfully!");
+                            Log.d(TAG, "size of dates " + dates.size());
+
+                            for (int i = 0; i < dates.size(); i++) {
+                                DocumentReference arrayID = db.collection("Habit").document(documentReference.getId());
+                                Log.d(TAG, "DOC REFERENCE " + documentReference.getId());
+                                //set the "days_of_week"
+                                arrayID
+                                        .update("days_of_week", FieldValue.arrayUnion(dates.get(i)));
+                            }
 
                         }
                     })

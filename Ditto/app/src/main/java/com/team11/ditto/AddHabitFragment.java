@@ -82,6 +82,11 @@ public class AddHabitFragment extends DialogFragment implements CompoundButton.O
 
     }
 
+    /**
+     * A method to add the weekday (1,2,3,4,5,6,7) to the dates list for the dates the user wants to do the activity
+     * @param compoundButton
+     * @param checked
+     */
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         switch(compoundButton.getId()){
