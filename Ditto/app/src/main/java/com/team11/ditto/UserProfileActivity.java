@@ -35,7 +35,6 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userprofile);
 
-
         tabLayout = findViewById(R.id.tabs);
         imageView =findViewById(R.id.imageView2);
         followers = findViewById(R.id.followers);
