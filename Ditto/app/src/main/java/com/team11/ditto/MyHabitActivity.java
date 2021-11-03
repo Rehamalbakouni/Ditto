@@ -12,17 +12,29 @@ Goals:
 
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -59,10 +71,11 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     private TabLayout tabLayout;
     //Declare variables for the list of habits
-    //SwipeMenuListView habitListView;
-    ListView habitListView;
-    private static ArrayAdapter<Habit> habitAdapter;
-    ArrayList<Habit> habitDataList;
+    private RecyclerView habitListView;
+    //ListView habitListView;
+    //private static ArrayAdapter<Habit> habitAdapter;
+    private RecyclerViewAdapter recyclerViewAdapter;
+    private ArrayList<Habit> habitDataList;
     private FirebaseFirestore db;
     final String TAG = "add";
     HashMap<String, Object> data = new HashMap<>();
@@ -77,12 +90,15 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         setContentView(R.layout.activity_my_habit);
 
         habitDataList = new ArrayList<>();
-        habitListView = (ListView) findViewById(R.id.list);
+        habitListView = (RecyclerView) findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
-
-        habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
-        habitListView.setAdapter(habitAdapter);
+        recyclerViewAdapter = new RecyclerViewAdapter(habitDataList, this);
+        //habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
+        //habitListView.setAdapter(habitAdapter);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        habitListView.setLayoutManager(manager);
+        habitListView.setAdapter(recyclerViewAdapter);
 
         currentTab(tabLayout, MY_HABITS_TAB);
         switchTabs(this, tabLayout, MY_HABITS_TAB);
@@ -125,13 +141,19 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                     String htitle = (String) doc.getData().get("title");
                     String hreason = (String) doc.getData().get("reason");
                     ArrayList<Integer> hdate = (ArrayList<Integer>) doc.getData().get("days_of_week");
-                    habitDataList.add(new Habit(htitle, hreason, hdate)); // Adding the Habits from FireStore
+                    Habit newHabit = new Habit(htitle, hreason, hdate);
+                    newHabit.setHabitID(doc.getId());
+                    habitDataList.add(newHabit); // Adding the Habits from FireStore
+
                 }
-                habitAdapter.notifyDataSetChanged();
+                recyclerViewAdapter.notifyDataSetChanged();
                 // Notifying the adapter to render any new data fetched from the cloud
             }
         });
 
+
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(habitListView);
     }
 
     /**
@@ -168,6 +190,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                             //method which gets executed when the task is successful
                             Log.d(TAG, "Data has been added successfully!");
                             Log.d(TAG, "size of dates " + dates.size());
+                            newHabit.setHabitID(documentReference.getId());
 
                             for (int i = 0; i < dates.size(); i++) {
                                 DocumentReference arrayID = db.collection("Habit").document(documentReference.getId());
@@ -200,6 +223,78 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        /**
+         * To delete an item from the listview and database when a Habit is swiped to the left
+         * @param recyclerView
+         * @param viewHolder
+         * @param target
+         * @return
+         */
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            Habit oldEntry = (Habit) habitDataList.get(viewHolder.getAbsoluteAdapterPosition());
+            habitDataList.remove(viewHolder.getAbsoluteAdapterPosition());
+            recyclerViewAdapter.notifyDataSetChanged();
+
+            //remove from database
+            db.collection("Habit").document(oldEntry.getHabitID())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+
+
+        }
+
+        /**
+         * To set the background color and background icon for a swipe to delete item in the list.
+         * @param c
+         * @param recyclerView
+         * @param viewHolder
+         * @param dX
+         * @param dY
+         * @param actionState
+         * @param isCurrentlyActive
+         */
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                //Get recyclerView item from viewholder
+                View itemView = viewHolder.itemView;
+                ColorDrawable background = new ColorDrawable();
+                background.setColor(Color.rgb(0xC9, 0xC9,
+                        0xCE));
+                background.setBounds((int) (itemView.getRight() + dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                background.draw(c);
+
+                Drawable deleteIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_delete_24);
+                int itemTop = itemView.getTop() + ((itemView.getBottom()-itemView.getTop()) - deleteIcon.getIntrinsicHeight()) / 2;
+                int itemMargin = ((itemView.getBottom()-itemView.getTop()) - deleteIcon.getIntrinsicHeight()) / 2;
+                int itemLeft = itemView.getRight() - itemMargin - deleteIcon.getIntrinsicWidth();
+                int itemRight = itemView.getRight() - itemMargin;
+                int itemBottom = itemTop + deleteIcon.getIntrinsicHeight();
+                deleteIcon.setBounds(itemLeft, itemTop, itemRight, itemBottom);
+                deleteIcon.draw(c);
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
+
 
 
 

@@ -85,6 +85,11 @@ public class AddHabitFragment extends DialogFragment{
                 .setView(view)
                 .setTitle("Add Habit")
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    /**
+                     * On clicking the "add" button, create a new Habit object with the new data inputted by the user
+                     * @param dialogInterface
+                     * @param i
+                     */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String title = hTitle.getText().toString();

@@ -12,12 +12,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 /**
  * Initialize the Custom Listview Item's for the Habit Activity
  * Goal: to match the UI more accurately
+ * @deprecated
  */
 public class CustomList_Habit extends ArrayAdapter<Habit> {
 

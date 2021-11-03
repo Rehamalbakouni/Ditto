@@ -157,6 +157,11 @@ public class AddHabitEventFragment extends DialogFragment {
                 .setView(view)
                 .setTitle("Add Habit Event")
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    /**
+                     * Create a new Habit Event object when the user clicks the add button with inputted data
+                     * @param dialogInterface
+                     * @param i
+                     */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String comment = hComment.getText().toString();
