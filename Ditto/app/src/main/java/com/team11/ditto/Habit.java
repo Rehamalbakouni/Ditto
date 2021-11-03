@@ -8,15 +8,25 @@ date
 Design Rationale: set getters and setters for the data that Habit holds
  */
 
+import java.util.ArrayList;
+
+/**
+ * Purpose: Habit class represents a habit object and holds data for
+ * title
+ * reason
+ * date
+ * Design Rationale: set getters and setters for the data that Habit holds
+ */
 public class Habit {
+    private String habitID;
     private String title;
     private String reason;
-    private String date;
+    private ArrayList<Integer> dates;
 
-    public Habit(String title, String reason, String date) {
+    public Habit(String title, String reason, ArrayList<Integer> dates) {
         this.title = title;
         this.reason = reason;
-        this.date = date;
+        this.dates = dates;
     }
 
     public String getTitle() {
@@ -35,11 +45,19 @@ public class Habit {
         this.reason = reason;
     }
 
-    public String getDate() {
-        return date;
+    public ArrayList<Integer> getDate() {
+        return dates;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(ArrayList<Integer> dates) {
+        this.dates = dates;
+    }
+
+    public String getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(String habitID) {
+        this.habitID = habitID;
     }
 }

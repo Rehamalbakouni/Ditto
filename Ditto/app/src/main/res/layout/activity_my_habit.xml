@@ -9,12 +9,13 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/tabs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tabs"
-        tools:context=".MyHabitFragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/fragment_my_habit" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
