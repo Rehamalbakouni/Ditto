@@ -34,6 +34,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -43,10 +45,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -62,7 +67,7 @@ import javax.annotation.Nullable;
  */
 public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs, RecyclerViewAdapter.HabitClickListener {
 
-    public static String EXTRA_HABIT_ID = "EXTRA_HABIT_ID";
+    public static String EXTRA_HABIT = "EXTRA_HABIT";
     private TabLayout tabLayout;
     //Declare variables for the list of habits
     private RecyclerView habitListView;
@@ -117,7 +122,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             }
         });
 
-
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
              *
@@ -135,7 +139,17 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                     Log.d(TAG, String.valueOf(doc.getData().get("title")));
                     String htitle = (String) doc.getData().get("title");
                     String hreason = (String) doc.getData().get("reason");
-                    ArrayList<Integer> hdate = (ArrayList<Integer>) doc.getData().get("days_of_week");
+                    ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
+                    ArrayList<Integer> hdate = new ArrayList<>();
+
+                    //TEMP FIX DO NOT LEAVE IN
+                    //MAKES SURE ALL VALUES ARE INTS
+                    if(temp.size() > 0){
+                        for(int i = 0; i < temp.size(); i++){
+                            hdate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
+                        }
+                    }
+
                     Habit newHabit = new Habit(htitle, hreason, hdate);
                     newHabit.setHabitID(doc.getId());
                     habitDataList.add(newHabit); // Adding the Habits from FireStore
@@ -145,7 +159,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                 // Notifying the adapter to render any new data fetched from the cloud
             }
         });
-
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(habitListView);
@@ -191,10 +204,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                                 DocumentReference arrayID = db.collection("Habit").document(documentReference.getId());
                                 Log.d(TAG, "DOC REFERENCE " + documentReference.getId());
                                 //set the "days_of_week"
-                                arrayID
-                                        .update("days_of_week", FieldValue.arrayUnion(dates.get(i)));
+                                arrayID.update("days_of_week", FieldValue.arrayUnion(dates.get(i)));
                             }
-
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -290,11 +301,12 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         }
     };
 
+    //Opens ViewHabitActivity to view and potentially update the clicked object
     @Override
-    public void onNoteClick(int position) {
+    public void onHabitClick(int position) {
         habitDataList.get(position);
         Intent intent = new Intent(this, ViewHabitActivity.class);
-        intent.putExtra(EXTRA_HABIT_ID, habitDataList.get(position).getHabitID());
+        intent.putExtra(EXTRA_HABIT, habitDataList.get(position));
         startActivity(intent);
     }
 }

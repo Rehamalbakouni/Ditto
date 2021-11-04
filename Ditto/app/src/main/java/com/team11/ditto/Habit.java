@@ -8,6 +8,7 @@ date
 Design Rationale: set getters and setters for the data that Habit holds
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * date
  * Design Rationale: set getters and setters for the data that Habit holds
  */
-public class Habit {
+public class Habit implements Serializable {
     private String habitID;
     private String title;
     private String reason;

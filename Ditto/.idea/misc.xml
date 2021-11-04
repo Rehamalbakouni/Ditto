@@ -3,13 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/drawable/ic_round_add_24.xml" value="0.21927083333333333" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/drawable/ic_round_check_24.xml" value="0.21927083333333333" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/drawable/ic_round_chevron_left_24.xml" value="0.21927083333333333" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/drawable/ic_round_close_24.xml" value="0.21927083333333333" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/drawable/ic_round_delete_24.xml" value="0.21927083333333333" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/drawable/ic_round_edit_24.xml" value="0.21927083333333333" />
         <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_my_habit.xml" value="0.33" />
-        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_view_habit.xml" value="0.18" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/activity_view_habit.xml" value="0.33" />
         <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/add_event_fragment.xml" value="0.18055555555555555" />
         <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/add_habit_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/fragment_edit_habit.xml" value="0.33" />
         <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/fragment_my_habit.xml" value="0.18055555555555555" />
         <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/layout/list_my_habit_event.xml" value="0.6238767650834403" />
+        <entry key="..\:/Users/ahore/repos/Ditto/Ditto/app/src/main/res/menu/view_menu.xml" value="0.33" />
         <entry key="..\:/Users/lkcou/Documents/A_University/CMPUT301/TeamProject/Ditto/Ditto/app/src/main/res/layout/activity_following.xml" value="0.182518115942029" />
         <entry key="..\:/Users/lkcou/Documents/A_University/CMPUT301/TeamProject/Ditto/Ditto/app/src/main/res/layout/activity_login.xml" value="0.182518115942029" />
         <entry key="..\:/Users/lkcou/Documents/A_University/CMPUT301/TeamProject/Ditto/Ditto/app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />

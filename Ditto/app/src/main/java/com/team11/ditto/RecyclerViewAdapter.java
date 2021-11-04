@@ -92,7 +92,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View view) {
-            habitClickListener.onNoteClick(getBindingAdapterPosition());
+            habitClickListener.onHabitClick(getBindingAdapterPosition());
             habitTitle = itemView.findViewById(R.id.firstLine);
             habitReason = itemView.findViewById(R.id.secondLine);
         }
@@ -100,7 +100,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
     public interface HabitClickListener {
-        void onNoteClick(int position);
+        void onHabitClick(int position);
     }
 
 }
