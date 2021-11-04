@@ -13,15 +13,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener{
 
@@ -30,6 +35,10 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
     Habit selectedHabit;
     Bundle habitBundle;
     final String TAG = "view";
+    private FirebaseFirestore db;
+    HashMap<String, Object> data = new HashMap<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +89,51 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
     @Override
     public void onOkPressed(Habit habit) {
 
-
         //UPDATE THE OLD HABIT WITH THE NEW DATA
+
+        //when the user clicks the add button, we want to add to the db and display the new entry
+        final String title = habit.getTitle();
+        final String reason = habit.getReason();
+        final ArrayList<Integer> dates = habit.getDate();
+        final String habitID = habit.getHabitID();
+        Log.d(TAG, "dates -> "+ dates);
+
+        //THIS ONE LINE IS CAUSING PROBLEMS IDK WHY
+        final DocumentReference documentReference = db.collection("Habit").document(habitID);
+
+
+        //get unique timestamp for ordering our list
+        Date currentTime = Calendar.getInstance().getTime();
+        data.put("title", title);
+        data.put("reason", reason);
+        //data.put("days_of_week", dates);
+
+        //this field is used to add the current timestamp of the item, to be used to order the items
+        data.put("order", currentTime);
+
+
+        documentReference
+                .update(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //method which gets executed when the task is successful
+                        Log.d(TAG, "Data has been added successfully!");
+                        //we want to add the habit event id to the associate Habit field of HabitEventIds
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //method that gets executed if there's a problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+
+                    }
+                });
+
+
+
     }
 }
