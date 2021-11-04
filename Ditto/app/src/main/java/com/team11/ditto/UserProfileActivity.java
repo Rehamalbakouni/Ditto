@@ -54,8 +54,11 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         onFollowingtap();
         onFollowNumberTap();
         no_following.setText("1");
+        no_followers.setText("1");
         onSearchTap();
         onFollowRequestTab();
+        onFollowertap();
+        onFollowNumberTap();
     }
 
 
@@ -103,6 +106,26 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfileActivity.this, FollowRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onFollowertap() {
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, FollowerActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onFollowerNumberTap(){
+        no_followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, FollowerActivity.class);
                 startActivity(intent);
             }
         });
