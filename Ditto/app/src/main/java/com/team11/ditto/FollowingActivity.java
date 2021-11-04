@@ -2,6 +2,8 @@ package com.team11.ditto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -19,6 +21,8 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
     private ListView followingListView;
     private ArrayAdapter<User> userAdapter;
     private ArrayList<User> userDataList;
+    private int UserPosition;
+    private String ParentActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
         setContentView(R.layout.following_list);
         followingListView = findViewById(R.id.following_list_custom);
         tabLayout = findViewById(R.id.tabs);
+        ParentActivity = "Following";
 
         userDataList = new ArrayList<>();
         userAdapter = new FollowingList(FollowingActivity.this,userDataList);
@@ -35,6 +40,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
 
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
+        onProfileClick();
     }
 
     public void onBackPressed() {
@@ -43,4 +49,19 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    public void onProfileClick() {
+        followingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                UserPosition = i;
+                Intent intent = new Intent(FollowingActivity.this, FriendHabitActivity.class);
+                intent.putExtra("parent", ParentActivity);
+                startActivity(intent);
+            }
+
+        });
+
+    }
+
 }
