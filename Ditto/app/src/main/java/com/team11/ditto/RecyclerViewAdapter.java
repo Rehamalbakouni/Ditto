@@ -11,20 +11,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ *  Initialize the Custom RecyclerView item for the Habit Activity
+ *  Goal: to match the UI more accurately
+ * @author Kelly
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
-
-    // creating a variable for our array list and context.
     private ArrayList<Habit> courseDataArrayList;
     private Context mcontext;
     private HabitClickListener habitClickListener;
 
     // creating a constructor class.
+    /**
+     * creating a constructor class
+     * @param recyclerDataArrayList
+     * @param mcontext
+     */
     public RecyclerViewAdapter(ArrayList<Habit> recyclerDataArrayList, Context mcontext, HabitClickListener habitClickListener) {
         this.courseDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
         this.habitClickListener = habitClickListener;
     }
 
+    /**
+     * To inflate the layout for the view
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,33 +47,44 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new RecyclerViewHolder(view, habitClickListener);
     }
 
+    /**
+     * To set the data to textview from the Habit class
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-        // Set the data to textview from our modal class.
-        Habit recyclerData = courseDataArrayList.get(position);
-        holder.courseNameTV.setText(recyclerData.getTitle());
-        holder.courseDescTV.setText(recyclerData.getReason());
+        Habit habit = courseDataArrayList.get(position);
+        holder.habitTitle.setText(habit.getTitle());
+        holder.habitReason.setText(habit.getReason());
     }
 
+    /**
+     * Returns the size of the recyclerview
+     * @return
+     */
     @Override
     public int getItemCount() {
-        // this method returns
-        // the size of recyclerview
         return courseDataArrayList.size();
     }
 
+
+        /**
+         * Viewholder class to handle RecyclerView
+         */
+
     // View Holder Class to handle Recycler View.
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // creating a variable for our text view.
-        private TextView courseNameTV;
-        private TextView courseDescTV;
+        private TextView habitTitle;
+        private TextView habitReason;
         HabitClickListener habitClickListener;
 
         public RecyclerViewHolder(@NonNull View itemView, HabitClickListener habitClickListener) {
             super(itemView);
             // initializing our text views.
-            courseNameTV = itemView.findViewById(R.id.firstLine);
-            courseDescTV = itemView.findViewById(R.id.secondLine);
+            habitTitle = itemView.findViewById(R.id.firstLine);
+            habitReason = itemView.findViewById(R.id.secondLine);
             this.habitClickListener = habitClickListener;
 
             itemView.setOnClickListener(this);
@@ -68,9 +93,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View view) {
             habitClickListener.onNoteClick(getBindingAdapterPosition());
+            habitTitle = itemView.findViewById(R.id.firstLine);
+            habitReason = itemView.findViewById(R.id.secondLine);
         }
-    }
 
+
+    }
     public interface HabitClickListener {
         void onNoteClick(int position);
     }
