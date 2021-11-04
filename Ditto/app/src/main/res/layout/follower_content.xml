@@ -11,7 +11,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
 
-        android:id="@+id/user_photo"
+        android:id="@+id/follower_photo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:padding="20dp"
@@ -21,14 +21,14 @@
         app:shapeAppearanceOverlay="@style/roundimageview"
         app:strokeColor="#000000"
 
-    />
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="243dp"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/follower_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
 
@@ -50,7 +50,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/remove_circle"
+        android:id="@+id/follower_remove_circle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
 
@@ -66,5 +66,3 @@
     </ImageView>
 
 </LinearLayout>
-
-
