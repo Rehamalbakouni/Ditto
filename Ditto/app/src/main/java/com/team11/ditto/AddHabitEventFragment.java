@@ -49,8 +49,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-/**Initialize a Dialog for the user to choose an EXISTING Habit from the database, comment, photo, location for a new Habit Event.
+/**Initialize a Dialog for the user to choose an EXISTING Habit from the database and add comment, dates for a new Habit Event.
  * Send input back to MainActivity and Firestore Database collection "HabitEvent", as well as update "Habit" collection
+ * TODO: allow user to add photo and location
  * @author Kelly Shih, Aidan Horemans
  */
 public class AddHabitEventFragment extends DialogFragment {
@@ -73,7 +74,8 @@ public class AddHabitEventFragment extends DialogFragment {
     }
 
     /**
-     * Create the dialog with the fields for habit (spinner), reason, photo, location and go to OnOkPressed method when user clicks "Add"
+     * Create the dialog with the fields for habit (spinner), reason, dates and go to OnOkPressed method when user clicks "Add"
+     * TODO: photo and location addition
      * @param savedInstanceState
      * @return
      */
@@ -157,6 +159,11 @@ public class AddHabitEventFragment extends DialogFragment {
                 .setView(view)
                 .setTitle("Add Habit Event")
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    /**
+                     * Create a new Habit Event object when the user clicks the add button with inputted data
+                     * @param dialogInterface
+                     * @param i
+                     */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String comment = hComment.getText().toString();
@@ -174,13 +181,12 @@ public class AddHabitEventFragment extends DialogFragment {
                         String photo = "";
                         String location = "";
 
-                        listener.onOkPressed(new HabitEvent(IDhabit[0], comment, photo, location));
+                        listener.onOkPressed(new HabitEvent(IDhabit[0], comment, photo, location, hHabit[0]));
 
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
 
-
     }
-    }
+}

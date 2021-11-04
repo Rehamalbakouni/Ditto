@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * This is a class that initializes a Dialog for the user to input a title, reason, dates for a new Habit.
  * Sends input back to MyHabitActivity and Firestore Database collection "Habit"
- * Goals: Needs work on the visual aspect (to be done in xml)
+ * TODO: Needs work on the visual aspect (to be done in xml)
  * @author Kelly Shih, Aidan Horemans
  */
 public class AddHabitFragment extends DialogFragment{
@@ -85,6 +85,11 @@ public class AddHabitFragment extends DialogFragment{
                 .setView(view)
                 .setTitle("Add Habit")
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    /**
+                     * On clicking the "add" button, create a new Habit object with the new data inputted by the user
+                     * @param dialogInterface
+                     * @param i
+                     */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String title = hTitle.getText().toString();
@@ -97,10 +102,6 @@ public class AddHabitFragment extends DialogFragment{
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
-
-
-
-
     }
 
 
