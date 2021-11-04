@@ -26,17 +26,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import com.baoyz.swipemenulistview.SwipeMenu;
-//import com.baoyz.swipemenulistview.SwipeMenuCreator;
-//import com.baoyz.swipemenulistview.SwipeMenuItem;
-//import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -63,6 +62,7 @@ import javax.annotation.Nullable;
  *     -Allow user to edit an existing habit
  *     -Visually make it better
  *     -Get the happy faces for the level of completion for each habit
+ *     -WHEN YOU DELETE A HABIT, ALSO DELETE THE HABIT EVENT ITS ASSOCIATED WITH
  * @author Kelly Shih, Aidan Horemans
 
  */
@@ -254,22 +254,44 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             habitDataList.remove(viewHolder.getAbsoluteAdapterPosition());
             recyclerViewAdapter.notifyDataSetChanged();
 
-            //remove from database
-            db.collection("Habit").document(oldEntry.getHabitID())
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            //ALSO REMOVE THE ASSOCIATED HABIT EVENTS
+            db.collection("Habit").document(oldEntry.getHabitID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            ArrayList<String> habitEventIds = (ArrayList<String>) document.get("habitEvents");
+                            for (int i = 0; i < habitEventIds.size(); i++) {
+                                //delete the associated habit event in the database
+                                Log.d(TAG, "habiteventid "+habitEventIds.get(i));
+                                db.collection("HabitEvent").document(habitEventIds.get(i))
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                //remove from database
+                                                db.collection("Habit").document(oldEntry.getHabitID())
+                                                        .delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w(TAG, "Error deleting document", e);
+                                                            }
+                                                        });
+                                            }
+                                        });
+                            }
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-
+                    }
+                }
+            });
 
         }
 

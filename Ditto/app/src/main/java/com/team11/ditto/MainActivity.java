@@ -116,9 +116,10 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
                     String hComment = (String) doc.getData().get("comment");
                     String hPhoto = (String) doc.getData().get("photo");
                     String hLoc = (String) doc.getData().get("location");
+                    String hTitle = (String) doc.getData().get("habitTitle");
 
 
-                    habitEventsData.add(new HabitEvent(hID, hComment, hPhoto, hLoc)); // Adding the Habits from FireStore
+                    habitEventsData.add(new HabitEvent(hID, hComment, hPhoto, hLoc, hTitle)); // Adding the Habits from FireStore
                 }
                 habitEventRecyclerAdapter.notifyDataSetChanged();
                 // Notifying the adapter to render any new data fetched from the cloud
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
         final String comment = newHabitEvent.getComment();
         final String photo = newHabitEvent.getPhoto();
         final String location = newHabitEvent.getLocation();
+        final String habitTitle = newHabitEvent.getHabitTitle();
 
         //generate an auto-generated ID for firebase
         final DocumentReference documentReference = db.collection("HabitEvent").document();
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
         data.put("comment", comment);
         data.put("photo", photo);
         data.put("location", location);
+        data.put("habitTitle", habitTitle);
 
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);

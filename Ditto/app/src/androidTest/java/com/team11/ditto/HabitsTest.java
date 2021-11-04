@@ -6,6 +6,7 @@ package com.team11.ditto;
  * public void testEditHabitTitle() //tests the edit function which will be implemented
  * public void testViewPersists() //tests that the view updates the updated data
  * check for repeated Habit titles!!!
+ * public void habitEventDeleted() //when you delete a habit activity, it should also delete the associated habit events
  */
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;

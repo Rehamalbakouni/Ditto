@@ -46,8 +46,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
 
     /**
      * Create the dialog with the fields for reason, dates and go to OnOkPressed method when user clicks "Add"
-     * TODO:
-     * get fields for photos and location
+     * TODO: get fields for photos and location
      * @param savedInstanceState
      */
     @Override

@@ -36,7 +36,7 @@ public class HabitEventRecyclerAdapter extends RecyclerView.Adapter<HabitEventRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolderEvent holder, int position){
         HabitEvent habitEvent = eventArrayList.get(position);
-        holder.habitEventTitle.setText(habitEvent.getHabitId());
+        holder.habitEventTitle.setText(habitEvent.getHabitTitle());
         holder.habitEventComment.setText(habitEvent.getComment());
 
     }

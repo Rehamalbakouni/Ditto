@@ -181,7 +181,7 @@ public class AddHabitEventFragment extends DialogFragment {
                         String photo = "";
                         String location = "";
 
-                        listener.onOkPressed(new HabitEvent(IDhabit[0], comment, photo, location));
+                        listener.onOkPressed(new HabitEvent(IDhabit[0], comment, photo, location, hHabit[0]));
 
                     }
                 })
