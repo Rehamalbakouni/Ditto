@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_textView"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="12pt"
+        android:maxLength="40" />
+
+    <EditText
+        android:id="@+id/reason_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Reason"
+        android:inputType="textPersonName"/>
+
+    <LinearLayout
+        android:id="@+id/day_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <CheckBox
+            android:id="@+id/monday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/tuesday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/wednesday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="W">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/thursday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/friday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="F">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/saturday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S">
+        </CheckBox>
+        <CheckBox
+            android:id="@+id/sunday_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S">
+        </CheckBox>
+    </LinearLayout>
+
+</LinearLayout>

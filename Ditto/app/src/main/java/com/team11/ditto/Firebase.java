@@ -30,7 +30,7 @@ public interface Firebase {
     ArrayList<User> usersFirebase = new ArrayList<>();
     ArrayList<HabitEvent> hEventsFirebase = new ArrayList<>();
 
-    default void autoSnapshotListener(FirebaseFirestore database, ArrayAdapter<?> adapter, String key){
+    default void autoSnapshotListener(FirebaseFirestore database, RecyclerViewAdapter adapter, String key){
         Query query = database.collection(key).orderBy("order");
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
@@ -61,8 +61,22 @@ public interface Firebase {
                     Log.d(TAG, String.valueOf(doc.getData().get("title")));
                     String hTitle = (String) doc.getData().get("title");
                     String hReason = (String) doc.getData().get("reason");
-                    ArrayList<Integer> hDate = (ArrayList<Integer>) doc.getData().get("days_of_week");
-                    habitsFirebase.add(new Habit(hTitle, hReason, hDate));
+                    ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
+                    ArrayList<Integer> hDate = new ArrayList<>();
+
+                    Habit newHabit = new Habit(hTitle, hReason, hDate);
+                    newHabit.setHabitID(doc.getId());
+
+                    habitsFirebase.add(newHabit);
+
+
+                    //TEMP FIX DO NOT LEAVE IN FINAL BUILD
+                    //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
+                    if (temp.size() > 0) {
+                        for (int i = 0; i < temp.size(); i++) {
+                            hDate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
+                        }
+                    }
                     break;
                 case USER_KEY:
                     Log.d(TAG, String.valueOf(doc.getData().get("username")));
