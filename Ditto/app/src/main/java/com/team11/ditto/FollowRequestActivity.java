@@ -31,7 +31,7 @@ public class FollowRequestActivity extends AppCompatActivity implements SwitchTa
         userAdapter = new FollowRequestList(FollowRequestActivity.this,userDataList);
         frlist.setAdapter(userAdapter);
 
-        User bruce = new User("Bruce Wayne","123456",49);
+        User bruce = new User("Bruce Wayne","123456");
 
         userAdapter.add(bruce);
 

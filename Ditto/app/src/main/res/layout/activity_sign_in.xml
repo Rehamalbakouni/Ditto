@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/userName2"
+        android:id="@+id/login_email_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Ditto2" />
 
     <EditText
-        android:id="@+id/Password2"
+        android:id="@+id/login_password_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -70,13 +70,13 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/userName2"
+        app:layout_constraintEnd_toEndOf="@+id/login_email_field"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/userName2"
-        app:layout_constraintTop_toBottomOf="@+id/userName2" />
+        app:layout_constraintStart_toStartOf="@+id/login_email_field"
+        app:layout_constraintTop_toBottomOf="@+id/login_email_field" />
 
     <Button
-        android:id="@+id/signIn"
+        android:id="@+id/login_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -96,21 +96,11 @@
         android:textStyle="bold"
         app:backgroundTint="@null"
         app:iconTint="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/Password2"
+        app:layout_constraintEnd_toEndOf="@+id/login_password_field"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/Password2"
-        app:layout_constraintTop_toBottomOf="@+id/Password2"
+        app:layout_constraintStart_toStartOf="@+id/login_password_field"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_field"
         app:rippleColor="@android:color/darker_gray"
         app:strokeColor="@android:color/darker_gray" />
 
-    <TextView
-        android:id="@+id/createAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Create an Account"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/signIn"
-        app:layout_constraintStart_toStartOf="@+id/signIn"
-        app:layout_constraintTop_toBottomOf="@+id/signIn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

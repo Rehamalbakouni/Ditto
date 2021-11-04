@@ -8,7 +8,7 @@
     android:background="@drawable/background">
 
     <EditText
-        android:id="@+id/confirmPassword"
+        android:id="@+id/signup_password_confirm_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -25,10 +25,10 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/Password"
+        app:layout_constraintEnd_toEndOf="@+id/signup_password_field"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/Password"
-        app:layout_constraintTop_toBottomOf="@+id/Password" />
+        app:layout_constraintStart_toStartOf="@+id/signup_password_field"
+        app:layout_constraintTop_toBottomOf="@+id/signup_password_field" />
 
     <TextView
         android:id="@+id/Ditto"
@@ -49,7 +49,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/Password"
+        android:id="@+id/signup_password_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -66,13 +66,13 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/Age"
+        app:layout_constraintEnd_toEndOf="@+id/signup_email_field"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/Age"
-        app:layout_constraintTop_toBottomOf="@+id/Age" />
+        app:layout_constraintStart_toStartOf="@+id/signup_email_field"
+        app:layout_constraintTop_toBottomOf="@+id/signup_email_field" />
 
     <EditText
-        android:id="@+id/userName"
+        android:id="@+id/signup_name_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -81,7 +81,7 @@
         android:background="@drawable/input_background"
         android:backgroundTint="@color/cardview_shadow_start_color"
         android:ems="10"
-        android:hint="User Name"
+        android:hint="Name"
         android:inputType="textPersonName"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
@@ -98,14 +98,14 @@
         app:layout_constraintTop_toBottomOf="@+id/Ditto" />
 
     <EditText
-        android:id="@+id/Age"
+        android:id="@+id/signup_email_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/input_background"
         android:backgroundTint="@color/cardview_shadow_start_color"
         android:ems="10"
-        android:hint="Age"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
@@ -115,12 +115,12 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/userName"
-        app:layout_constraintStart_toStartOf="@+id/userName"
-        app:layout_constraintTop_toBottomOf="@+id/userName" />
+        app:layout_constraintEnd_toEndOf="@+id/signup_name_field"
+        app:layout_constraintStart_toStartOf="@+id/signup_name_field"
+        app:layout_constraintTop_toBottomOf="@+id/signup_name_field" />
 
     <Button
-        android:id="@+id/Register"
+        android:id="@+id/register_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -140,21 +140,10 @@
         android:textStyle="bold"
         app:backgroundTint="@null"
         app:iconTint="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/confirmPassword"
-        app:layout_constraintStart_toStartOf="@+id/confirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPassword"
+        app:layout_constraintEnd_toEndOf="@+id/signup_password_confirm_field"
+        app:layout_constraintStart_toStartOf="@+id/signup_password_confirm_field"
+        app:layout_constraintTop_toBottomOf="@+id/signup_password_confirm_field"
         app:rippleColor="@android:color/darker_gray"
         app:strokeColor="@android:color/darker_gray" />
-
-    <TextView
-        android:id="@+id/alreadyUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Already Have an Account"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/Register"
-        app:layout_constraintStart_toStartOf="@+id/Register"
-        app:layout_constraintTop_toBottomOf="@+id/Register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
