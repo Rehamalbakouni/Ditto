@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * date
  * Design Rationale: set getters and setters for the data that Habit holds
  */
-public class Habit {
+public class Habit extends Object {
     private String habitID;
     private String title;
     private String reason;

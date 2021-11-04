@@ -19,12 +19,12 @@ import java.util.ArrayList;
  * Initialize the Custom Listview Item's for the Habit Activity
  * Goal: to match the UI more accurately
  */
-public class CustomList_Habit extends ArrayAdapter<Habit> {
+public class CustomListHabit extends ArrayAdapter<Habit> {
 
     private ArrayList<Habit> habits;
     private Context context;
 
-    public CustomList_Habit(Context context, ArrayList<Habit> habits) {
+    public CustomListHabit(Context context, ArrayList<Habit> habits) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;

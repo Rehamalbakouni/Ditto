@@ -11,9 +11,6 @@ Goals:
 
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +24,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -40,8 +36,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -55,7 +49,8 @@ import javax.annotation.Nullable;
  * @author Kelly Shih, Aidan Horemans
 
  */
-public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs {
+public class MyHabitActivity extends AppCompatActivity implements
+        AddHabitFragment.OnFragmentInteractionListener, SwitchTabs, Firebase {
 
     private TabLayout tabLayout;
     //Declare variables for the list of habits
@@ -65,7 +60,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     ArrayList<Habit> habitDataList;
     private FirebaseFirestore db;
     final String TAG = "add";
-    HashMap<String, Object> data = new HashMap<>();
 
     /**
      * Create the Activity instance for the "My Habits" screen, control flow of actions
@@ -81,7 +75,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         tabLayout = findViewById(R.id.tabs);
 
 
-        habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
+        habitAdapter = new CustomListHabit(MyHabitActivity.this, habitDataList);
         habitListView.setAdapter(habitAdapter);
 
         currentTab(tabLayout, MY_HABITS_TAB);

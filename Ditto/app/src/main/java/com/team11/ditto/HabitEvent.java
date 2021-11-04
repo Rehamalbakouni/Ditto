@@ -14,7 +14,7 @@ location
  * photograph
  * location
  */
-public class HabitEvent {
+public class HabitEvent extends Object{
     private String habitId;
     private String comment;
     private String photo;
