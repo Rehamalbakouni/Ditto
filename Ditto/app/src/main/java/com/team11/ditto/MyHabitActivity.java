@@ -11,18 +11,13 @@ Goals:
 
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,15 +26,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
+//import com.baoyz.swipemenulistview.SwipeMenu;
+//import com.baoyz.swipemenulistview.SwipeMenuCreator;
+//import com.baoyz.swipemenulistview.SwipeMenuItem;
+//import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -53,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -67,8 +60,9 @@ import javax.annotation.Nullable;
  * @author Kelly Shih, Aidan Horemans
 
  */
-public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs {
+public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs, RecyclerViewAdapter.HabitClickListener {
 
+    public static String EXTRA_HABIT_ID = "EXTRA_HABIT_ID";
     private TabLayout tabLayout;
     //Declare variables for the list of habits
     private RecyclerView habitListView;
@@ -93,7 +87,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         habitListView = (RecyclerView) findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(habitDataList, this);
+        recyclerViewAdapter = new RecyclerViewAdapter(habitDataList, this, this);
         //habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
         //habitListView.setAdapter(habitAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -109,6 +103,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         final Query collectionReference = db.collection("Habit")
                 .orderBy("order");
 
+
         //add habit button action
         final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
         addHabitButton.setOnClickListener(new View.OnClickListener() {
@@ -119,9 +114,9 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             @Override
             public void onClick(View view) {
                 new AddHabitFragment().show(getSupportFragmentManager(), "ADD_HABIT");
-
             }
         });
+
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
@@ -295,8 +290,11 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         }
     };
 
-
-
-
-
+    @Override
+    public void onNoteClick(int position) {
+        habitDataList.get(position);
+        Intent intent = new Intent(this, ViewHabitActivity.class);
+        intent.putExtra(EXTRA_HABIT_ID, habitDataList.get(position).getHabitID());
+        startActivity(intent);
+    }
 }

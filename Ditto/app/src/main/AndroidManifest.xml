@@ -4,6 +4,7 @@
     package="com.team11.ditto">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera2" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -14,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ditto">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,41 +25,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="MyHabitActivity"
-            android:exported="true"/>
         <activity
-            android:name="UserProfileActivity"
+            android:name=".MyHabitActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UserProfileActivity"
             android:exported="true"
-            android:label="Profile"
-            />
+            android:label="Profile" />
         <activity
-            android:name="FollowingActivity"
+            android:name=".FollowingActivity"
             android:exported="true"
             android:label="Following"
-            android:parentActivityName="UserProfileActivity"
-            />
+            android:parentActivityName=".UserProfileActivity" />
         <activity
             android:name=".DueTodayActivity"
-            android:exported="true"
-
-
-            />
+            android:exported="true" />
         <activity
-            android:name="SearchUserActivity"
+            android:name=".SearchUserActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"
             android:label="Search Users"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:parentActivityName=".UserProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="FollowRequestActivity"
+            android:name=".FollowRequestActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"
-            android:label="Follow Requests"/>
-
-
-
-
+            android:label="Follow Requests"
+            android:parentActivityName=".UserProfileActivity" />
+        <activity
+            android:name=".ViewHabitActivity"
+            android:exported="false"
+            android:parentActivityName="MyHabitActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
