@@ -99,7 +99,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         Log.d(TAG, "dates -> "+ dates);
 
         //THIS ONE LINE IS CAUSING PROBLEMS IDK WHY
-        database = FirebaseFirestore.getInstance();
+        database = FirebaseFirestore.getInstance(); //<- you were missing this line
         final DocumentReference documentReference = database.collection("Habit").document(habitID);
 
 
