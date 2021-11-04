@@ -3,12 +3,9 @@ package com.team11.ditto;
 Role: To display the listview of Habits for a user in the "My Habits" tab
 Allow a user to add a habit, swipe left to delete a habit
 Goals:
-    -A user can add a habit to the database, but cannot delete a habit from the db yet
-    -Add the days of week to db
-    -Allow user to edit an existing habit
+    -Implement occurrence tracking
     -Visually make it better
  */
-
 
 import android.content.Intent;
 import android.graphics.Canvas;

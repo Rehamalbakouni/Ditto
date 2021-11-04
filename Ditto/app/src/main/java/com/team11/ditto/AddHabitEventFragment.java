@@ -188,6 +188,5 @@ public class AddHabitEventFragment extends DialogFragment {
                 .setNegativeButton("Cancel", null)
                 .create();
 
-
     }
-    }
+}
