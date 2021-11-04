@@ -36,7 +36,9 @@ public interface Firebase {
             /**Maintain listview after each activity switch, login, logout
              *
              * @param queryDocumentSnapshots
+             *          event data
              * @param error
+             *          error data
              */
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
@@ -51,7 +53,7 @@ public interface Firebase {
         });
     }
 
-    default void logData(QuerySnapshot queryDocumentSnapshots, String key){
+    default void logData(@Nullable QuerySnapshot queryDocumentSnapshots, String key){
         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
             switch (key) {
@@ -83,20 +85,21 @@ public interface Firebase {
         }
     }
 
-    default void putHabitData(Habit newHabit){
+    default void pushHabitData(FirebaseFirestore database, Habit newHabit){
         final String title = newHabit.getTitle();
         final String reason = newHabit.getReason();
         final ArrayList<Integer> dates = newHabit.getDate();
         Date currentTime = Calendar.getInstance().getTime();
 
-        if (title.length() > 0) {
-            //if there is some data in edittext field, then create new key-value pair
-            data.put("title", title);
-            data.put("reason", reason);
-            data.put("days_of_week", dates);
-            //this field is used to add the current timestamp of the item, to be used to order the items
-            data.put("order", currentTime);
-/*
+        data.put("title", title);
+        data.put("reason", reason);
+        data.put("days_of_week", dates);
+        //this field is used to add the current timestamp of the item, to be used to order the items
+        data.put("order", currentTime);
+
+        pushToDB(database, HABIT_KEY);
+
+/* Do we need this?
             for (int i = 0; i < dates.size(); i++) {
                 DocumentReference arrayID = database.collection("Habit").document(documentReference.getId());
                 Log.d(TAG, "DOC REFERENCE " + documentReference.getId());
@@ -104,7 +107,6 @@ public interface Firebase {
                 arrayID
                         .update("days_of_week", FieldValue.arrayUnion(dates.get(i)));
             }*/
-        }
     }
 
     default void pushToDB(FirebaseFirestore database, String key){
@@ -132,5 +134,31 @@ public interface Firebase {
             default:
                 throw new RuntimeException("keyList: Invalid key passed");
         }
+    }
+
+    default void pushHabitEventData(FirebaseFirestore database, HabitEvent newHabitEvent){
+        String habitID = newHabitEvent.getHabitId();
+        String comment = newHabitEvent.getComment();
+        String photo = newHabitEvent.getPhoto();
+        String location = newHabitEvent.getLocation();
+
+        //get unique timestamp for ordering our list
+        Date currentTime = Calendar.getInstance().getTime();
+        data.put("habitID", habitID);
+        data.put("comment", comment);
+        data.put("photo", photo);
+        data.put("location", location);
+        //this field is used to add the current timestamp of the item, to be used to order the items
+        data.put("order", currentTime);
+
+        pushToDB(database, HABIT_EVENT_KEY);
+    }
+
+    default void pushUserData(FirebaseFirestore database, User newUser) {
+        data.put("username", newUser.getUsername());
+        data.put("password", newUser.getPassword());
+        data.put("age", newUser.getAge());
+
+        pushToDB(database, USER_KEY);
     }
 }

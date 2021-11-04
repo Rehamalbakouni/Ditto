@@ -92,10 +92,8 @@ public class MyHabitActivity extends AppCompatActivity implements
     public void onOkPressed(Habit newHabit) {
         //when the user clicks the add button, we want to add to the db and display the new entry
         if (newHabit.getTitle().length() > 0) {
-            putHabitData(newHabit);
-            pushToDB(db, HABIT_KEY);
+            pushHabitData(db, newHabit);
         }
-        autoSnapshotListener(db, habitAdapter, HABIT_KEY);
     }
 
     /**
