@@ -78,7 +78,7 @@ public class EditHabitFragment extends DialogFragment {
         chk5.setOnCheckedChangeListener(this::onCheckedChanged); chk6.setOnCheckedChangeListener(this::onCheckedChanged);
         chk7.setOnCheckedChangeListener(this::onCheckedChanged);
 
-        //Setting the checkboxes properly
+        //Setting the checkboxes depending on pre-selected days
         if(dates.size() > 0){
             updateCheckboxes();
         }

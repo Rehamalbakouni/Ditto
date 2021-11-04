@@ -9,14 +9,23 @@ package com.team11.ditto;
  * public void habitEventDeleted() //when you delete a habit activity, it should also delete the associated habit events
  */
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -27,12 +36,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
 @RunWith(AndroidJUnit4.class)
 public class HabitsTest {
 
     @Rule
     public ActivityScenarioRule<MyHabitActivity> activityRule = new ActivityScenarioRule<>(MyHabitActivity.class);
-
 
 
     /**
@@ -55,9 +64,16 @@ public class HabitsTest {
         //click add
         onView(withText("ADD")).perform(click());
 
+        //Checks that there is a habit in the recyclerview with text running
+        onView(withId(R.id.list)).check(matches(hasDescendant(withText("Running"))));
+        onView(withId(R.id.list)).check(matches(hasDescendant(withText("Get healthy"))));
+
+        //Remove item when done
+        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
+
+
 
     }
-
 
     /**
      * Test the swipe action to delete
@@ -80,8 +96,13 @@ public class HabitsTest {
         //click add
         onView(withText("ADD")).perform(click());
 
+        onView(withId(R.id.list)).check(matches(hasDescendant(withText("Read a book"))));
+
         //the delete habit
         onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
+
+        //Check that the item is actually gone
+        onView(withId(R.id.list)).check(matches(not(hasDescendant(withText("Read a book")))));
 
     }
 
@@ -100,6 +121,9 @@ public class HabitsTest {
 
         //click add
         onView(withText("ADD")).perform(click());
+
+        //Check eating exists
+        onView(withId(R.id.list)).check(matches(hasDescendant(withText("Eating"))));
 
     }
 
@@ -120,6 +144,9 @@ public class HabitsTest {
 
         //click add
         onView(withText("ADD")).perform(click());
+
+        //Check the item didnt get added
+        onView(withId(R.id.list)).check(matches(not(hasDescendant(withText("To get abs")))));
 
     }
 
@@ -146,6 +173,9 @@ public class HabitsTest {
 
         //click and view activity for habit
         onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        //Checking that the activity switched
+        onView(withId(R.id.tracking)).check(matches(isDisplayed()));
     }
 
     /**
@@ -170,19 +200,28 @@ public class HabitsTest {
         //click add
         onView(withText("ADD")).perform(click());
 
+        onView(withId(R.id.list)).check(matches(hasDescendant(withText("Eat cake"))));
+
         //click on a habit
         onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
 
         //click on the edit button
         onView(withId(R.id.edit_habit)).perform(click());
 
         //edit the reason and dates
         String newreason = "Birthday";
+        onView(withId(R.id.reason_editText)).perform(replaceText("")); //delete old text
         onView(withId(R.id.reason_editText)).perform(typeText(reason));
+
         //click on one of the same date and unclick one, add new cases
         //tuesday should still be clicked
         onView(withId(R.id.saturday_select)).perform(click()); //basically unclick
         onView(withId(R.id.wednesday_select)).perform(click()); //add a new one
+
+        onView(withText("UPDATE")).perform(click());
+
+        onView(withId(R.id.habit_reason)).check(matches(withText(reason)));
 
 
 
