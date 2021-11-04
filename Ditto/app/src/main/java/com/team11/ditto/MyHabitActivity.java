@@ -80,6 +80,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     /**
      * Create the Activity instance for the "My Habits" screen, control flow of actions
+     *
      * @param savedInstanceState
      */
     @Override
@@ -132,8 +133,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
                 // Clear the old list
                 habitDataList.clear();
-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Log.d(TAG, String.valueOf(doc.getData().get("title")));
                     String htitle = (String) doc.getData().get("title");
                     String hreason = (String) doc.getData().get("reason");
@@ -142,8 +142,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
                     //TEMP FIX DO NOT LEAVE IN FINAL BUILD
                     //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
-                    if(temp.size() > 0){
-                        for(int i = 0; i < temp.size(); i++){
+                    if (temp.size() > 0) {
+                        for (int i = 0; i < temp.size(); i++) {
                             hdate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
                         }
                     }
@@ -164,6 +164,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     /**
      * Adding a habit to the database and listview as the response to the user clicking the "Add" button from the fragment
+     *
      * @param newHabit
      */
     @Override
@@ -173,6 +174,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         final String title = newHabit.getTitle();
         final String reason = newHabit.getReason();
         final ArrayList<Integer> dates = newHabit.getDate();
+        //final ArrayList<String> habitEventslist = new ArrayList<String>();
 
         //generate an auto-generated ID for firebase
         final DocumentReference documentReference = db.collection("Habit").document();
@@ -180,11 +182,12 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
 
-        if (title.length()>0) {
+        if (title.length() > 0) {
             //if there is some data in edittext field, then create new key-value pair
             data.put("title", title);
             data.put("reason", reason);
             data.put("days_of_week", dates);
+            //data.put("habitEvents", habitEventslist);
             //this field is used to add the current timestamp of the item, to be used to order the items
             data.put("order", currentTime);
 
@@ -222,8 +225,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
      * To transfer the control to the Main activity/ homepage when the back button is pressed
      */
     public void onBackPressed() {
-        Intent intent = new Intent(MyHabitActivity.this,MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Intent intent = new Intent(MyHabitActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
@@ -259,35 +262,15 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             ArrayList<String> habitEventIds = (ArrayList<String>) document.get("habitEvents");
-                            for (int i = 0; i < habitEventIds.size(); i++) {
-                                //delete the associated habit event in the database
-                                Log.d(TAG, "habiteventid "+habitEventIds.get(i));
-                                db.collection("HabitEvent").document(habitEventIds.get(i))
-                                        .delete()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                //remove from database
-                                                db.collection("Habit").document(oldEntry.getHabitID())
-                                                        .delete()
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void unused) {
-                                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.w(TAG, "Error deleting document", e);
-                                                            }
-                                                        });
-                                            }
-                                        });
+                            if (habitEventIds != null) {
+                                deleteHabitEvents(habitEventIds);
                             }
+
+                            deleteHabit(oldEntry);
                         }
                     }
                 }
+
             });
 
         }
@@ -304,22 +287,22 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
          */
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                //Get recyclerView item from viewholder
-                View itemView = viewHolder.itemView;
-                ColorDrawable background = new ColorDrawable();
-                background.setColor(Color.rgb(0xC9, 0xC9,
-                        0xCE));
-                background.setBounds((int) (itemView.getRight() + dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                background.draw(c);
+            //Get recyclerView item from viewholder
+            View itemView = viewHolder.itemView;
+            ColorDrawable background = new ColorDrawable();
+            background.setColor(Color.rgb(0xC9, 0xC9,
+                    0xCE));
+            background.setBounds((int) (itemView.getRight() + dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+            background.draw(c);
 
-                Drawable deleteIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_delete_24);
-                int itemTop = itemView.getTop() + ((itemView.getBottom()-itemView.getTop()) - deleteIcon.getIntrinsicHeight()) / 2;
-                int itemMargin = ((itemView.getBottom()-itemView.getTop()) - deleteIcon.getIntrinsicHeight()) / 2;
-                int itemLeft = itemView.getRight() - itemMargin - deleteIcon.getIntrinsicWidth();
-                int itemRight = itemView.getRight() - itemMargin;
-                int itemBottom = itemTop + deleteIcon.getIntrinsicHeight();
-                deleteIcon.setBounds(itemLeft, itemTop, itemRight, itemBottom);
-                deleteIcon.draw(c);
+            Drawable deleteIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_delete_24);
+            int itemTop = itemView.getTop() + ((itemView.getBottom() - itemView.getTop()) - deleteIcon.getIntrinsicHeight()) / 2;
+            int itemMargin = ((itemView.getBottom() - itemView.getTop()) - deleteIcon.getIntrinsicHeight()) / 2;
+            int itemLeft = itemView.getRight() - itemMargin - deleteIcon.getIntrinsicWidth();
+            int itemRight = itemView.getRight() - itemMargin;
+            int itemBottom = itemTop + deleteIcon.getIntrinsicHeight();
+            deleteIcon.setBounds(itemLeft, itemTop, itemRight, itemBottom);
+            deleteIcon.draw(c);
 
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
@@ -327,6 +310,7 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     /**
      * Opens ViewHabitActivity to view and potentially update the clicked object
+     *
      * @param position
      */
     @Override
@@ -336,4 +320,34 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         intent.putExtra(EXTRA_HABIT, habitDataList.get(position));
         startActivity(intent);
     }
+
+    /**
+     * If the array is not null, go to this function
+     */
+    public void deleteHabitEvents(ArrayList<String> habitEventIds) {
+        for (int i = 0; i < habitEventIds.size(); i++) {
+            //delete the associated habit event in the database
+            Log.d(TAG, "habiteventid " + habitEventIds.get(i));
+            db.collection("HabitEvent").document(habitEventIds.get(i))
+                    .delete();
+        }
+    }
+
+        public void deleteHabit(Habit oldEntry){
+            //remove from database
+            db.collection("Habit").document(oldEntry.getHabitID())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+        }
 }
