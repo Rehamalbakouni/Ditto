@@ -6,10 +6,8 @@ Goals:
     solve by making a more object oriented design
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,7 +18,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -66,12 +63,9 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
         tabLayout = findViewById(R.id.tabs);
 
         habitEventListView = findViewById(R.id.list_habitevent);
-
         habitEventsData = new ArrayList<>();
         habitEventAdapter = new CustomListHabitEvent(MainActivity.this, habitEventsData);
-
         habitEventListView.setAdapter(habitEventAdapter);
-
         habitEventAdapter.add(new HabitEvent("hahahaha", "this is acomment", "", ""));
 
         currentTab(tabLayout, HOME_TAB);
@@ -83,13 +77,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
                 .orderBy("order");
 
         final FloatingActionButton addHabitEventButton = findViewById(R.id.add_habit_event);
-        addHabitEventButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view){
-                new AddHabitEventFragment().show(getSupportFragmentManager(), "ADD_HABIT_EVENT");
-            }
-        });
+        addHabitEventButton.setOnClickListener(view -> new AddHabitEventFragment().show(getSupportFragmentManager(), "ADD_HABIT_EVENT"));
 
 
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -111,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
                     String hComment = (String) doc.getData().get("comment");
                     String hPhoto = (String) doc.getData().get("photo");
                     String hLoc = (String) doc.getData().get("location");
-
 
                     habitEventsData.add(new HabitEvent(hID, hComment, hPhoto, hLoc)); // Adding the Habits from FireStore
                 }
