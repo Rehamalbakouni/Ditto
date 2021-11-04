@@ -28,6 +28,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Role: An Activity to view the contents of a chosen Habit.
+ * Allow user to edit Habit and return updated data back to this activity
+ * TODO: Get updated photos and locations updating in the database
+ */
 public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener{
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
@@ -39,7 +44,12 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
     HashMap<String, Object> data = new HashMap<>();
 
 
-
+    /**
+     * Create the dialog with the fields for reason, dates and go to OnOkPressed method when user clicks "Add"
+     * TODO:
+     * get fields for photos and location
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +70,22 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         habitTitle = findViewById(R.id.habit_tracking);
     }
 
+    /**
+     * Inflate the menu for the options menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.view_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    //Listener for edit button
+    /**
+     * Listener for the edit button
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
@@ -86,6 +105,10 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Updating a habit to the database and listview as the response to the user clicking the "Add" button from the fragment
+     * @param habit
+     */
     @Override
     public void onOkPressed(Habit habit) {
 
@@ -98,8 +121,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         final String habitID = habit.getHabitID();
         Log.d(TAG, "dates -> "+ dates);
 
-        //THIS ONE LINE IS CAUSING PROBLEMS IDK WHY
-        database = FirebaseFirestore.getInstance(); //<- you were missing this line
+        database = FirebaseFirestore.getInstance();
         final DocumentReference documentReference = database.collection("Habit").document(habitID);
 
 
@@ -107,9 +129,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         Date currentTime = Calendar.getInstance().getTime();
         data.put("title", title);
         data.put("reason", reason);
-        data.remove("days_of_week"); //OTHERWISE DUPES GET ADDED
         data.put("days_of_week", dates);
-
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);
 

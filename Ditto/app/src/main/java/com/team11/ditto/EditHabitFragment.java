@@ -19,6 +19,13 @@ import androidx.fragment.app.DialogFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Role: Initialize a Dialog for the user to edit an EXISTING Habit Event
+ * editable -> reason, dates
+ *  Send input back to ViewHabitActivity and Firestore Database collection "Habit"
+ *  TODO: get the photo and location to be editable
+ *  @author Kelly Shih, Aidan Horemans
+ */
 public class EditHabitFragment extends DialogFragment {
     private TextView hTitle;
     private EditText hReason;
@@ -39,7 +46,7 @@ public class EditHabitFragment extends DialogFragment {
     }
 
     /**
-     * Create the dialog with the fields for title, reason, dates, and go to OnOkPressed method when user clicks "Add"
+     * Create the dialog with the edit fields for reason, dates, and go to OnOkPressed method when user clicks "Add"
      * @param savedInstanceState
      * @return
      */
@@ -102,54 +109,76 @@ public class EditHabitFragment extends DialogFragment {
                 .create();
     }
 
-    //On checked listener for each checkbox
+    /**
+     * On checked listener for each checkbox.
+     * We ensure that if the box isn't already checked, then check
+     * if the box is checked and the user unchecks, remove it from the dates list
+     * @param compoundButton
+     * @param checked
+     */
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         switch(compoundButton.getId()){
             case R.id.monday_select:
-                if(checked)
-                    dates.add(1);
+                if(checked){
+                    if (dates.indexOf(1) <= -1)
+                        dates.add(1);}
                 else
                     dates.remove(Integer.valueOf(1));
                 break;
+
             case R.id.tuesday_select:
-                if(checked)
-                    dates.add(2);
+                if(checked) {
+                    if (dates.indexOf(2) <= -1)
+                        dates.add(2);}
                 else
                     dates.remove(Integer.valueOf(2));
                 break;
+
             case R.id.wednesday_select:
-                if(checked)
-                    dates.add(3);
+                if(checked) {
+                    if (dates.indexOf(3) <= -1)
+                        dates.add(3);}
                 else
                     dates.remove(Integer.valueOf(3));
                 break;
+
             case R.id.thursday_select:
-                if(checked)
-                    dates.add(4);
+                if(checked) {
+                    if (dates.indexOf(4) <= -1)
+                        dates.add(4); }
                 else
                     dates.remove(Integer.valueOf(4));
                 break;
+
             case R.id.friday_select:
-                if(checked)
-                    dates.add(5);
+                if(checked) {
+                    if (dates.indexOf(5) <= -1)
+                        dates.add(5); }
                 else
                     dates.remove(Integer.valueOf(5));
                 break;
+
             case R.id.saturday_select:
-                if(checked)
-                    dates.add(6);
+                if(checked) {
+                    if (dates.indexOf(6) <= -1)
+                        dates.add(6);}
                 else
                     dates.remove(Integer.valueOf(6));
                 break;
+
             case R.id.sunday_select:
-                if(checked)
-                    dates.add(7);
+                if(checked) {
+                    if (dates.indexOf(7) <= -1)
+                        dates.add(7);}
                 else
                     dates.remove(Integer.valueOf(7));
                 break;
         }
     }
 
+    /**
+     * set the check boxes as soon as the fragment opens
+     */
     private void updateCheckboxes(){
         if(dates.contains(1)){
             chk1.setChecked(true);

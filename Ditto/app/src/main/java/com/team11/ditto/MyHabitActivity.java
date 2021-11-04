@@ -57,11 +57,12 @@ import javax.annotation.Nullable;
 
 /**To display the listview of Habits for a user in the "My Habits" tab
  *Allow a user to add a habit, swipe left to delete a habit
- * Goals:
+ * TODO:
  *     -A user can add a habit to the database, but cannot delete a habit from the db yet
  *     -Add the days of week to db
  *     -Allow user to edit an existing habit
  *     -Visually make it better
+ *     -Get the happy faces for the level of completion for each habit
  * @author Kelly Shih, Aidan Horemans
 
  */
@@ -197,7 +198,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                         public void onSuccess(Void aVoid) {
                             //method which gets executed when the task is successful
                             Log.d(TAG, "Data has been added successfully!");
-                            Log.d(TAG, "size of dates " + dates.size());
                             newHabit.setHabitID(documentReference.getId());
 
                             for (int i = 0; i < dates.size(); i++) {
@@ -243,6 +243,11 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             return false;
         }
 
+        /**
+         * When an item is swiped left, delete from database and recyclerview
+         * @param viewHolder
+         * @param direction
+         */
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             Habit oldEntry = (Habit) habitDataList.get(viewHolder.getAbsoluteAdapterPosition());
@@ -301,7 +306,10 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         }
     };
 
-    //Opens ViewHabitActivity to view and potentially update the clicked object
+    /**
+     * Opens ViewHabitActivity to view and potentially update the clicked object
+     * @param position
+     */
     @Override
     public void onHabitClick(int position) {
         habitDataList.get(position);

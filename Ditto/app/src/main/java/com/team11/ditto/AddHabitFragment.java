@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * This is a class that initializes a Dialog for the user to input a title, reason, dates for a new Habit.
  * Sends input back to MyHabitActivity and Firestore Database collection "Habit"
- * Goals: Needs work on the visual aspect (to be done in xml)
+ * TODO: Needs work on the visual aspect (to be done in xml)
  * @author Kelly Shih, Aidan Horemans
  */
 public class AddHabitFragment extends DialogFragment{

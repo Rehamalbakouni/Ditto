@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  *  Initialize the Custom RecyclerView item for the Habit Activity
- *  Goal: to match the UI more accurately
+ *  TODO: to match the UI more accurately
  * @author Kelly
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
@@ -21,7 +21,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mcontext;
     private HabitClickListener habitClickListener;
 
-    // creating a constructor class.
     /**
      * creating a constructor class
      * @param recyclerDataArrayList
