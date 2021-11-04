@@ -55,6 +55,12 @@
             android:parentActivityName="UserProfileActivity"
             android:label="Follow Requests"/>
 
+        <activity
+            android:name="FollowerActivity"
+            android:exported="true"
+            android:parentActivityName="UserProfileActivity"
+            android:label = "Followers"/>
+
 
 
 
