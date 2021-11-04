@@ -4,7 +4,7 @@ Role: Class for Habit Event Activity, be able to see you feed and add a habit ev
 Goals:
     there is repetition between MyHabitActivity and the Homepage when creating fragments and listviews
     solve by making a more object oriented design
- */
+*/
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,16 +46,19 @@ import javax.annotation.Nullable;
  *     solve by making a more object oriented design
  * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra
  */
-public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHabitEventFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHabitEventFragment.OnFragmentInteractionListener, HabitEventRecyclerAdapter.EventClickListener {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
-    ListView habitEventListView;
+    public static String EXTRA_HABIT_EVENT = "EXTRA_HABIT_EVENT";
     private ArrayList<HabitEvent> habitEventsData;
-    private ArrayAdapter<HabitEvent> habitEventAdapter;
+
+    private RecyclerView habitEventList;
+    private HabitEventRecyclerAdapter habitEventRecyclerAdapter;
+
     private FirebaseFirestore db;
     HashMap<String, Object> data = new HashMap<>();
-    private ActiveUser activeUser;
 
+    private ActiveUser activeUser;
 
     /**
      * Create the Activity instance for the "Homepage" screen, control flow of actions
@@ -65,14 +70,14 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
         setContentView(R.layout.activity_main);
         tabLayout = findViewById(R.id.tabs);
 
-        habitEventListView = findViewById(R.id.list_habitevent);
-
         habitEventsData = new ArrayList<>();
-        habitEventAdapter = new CustomListHabitEvent(MainActivity.this, habitEventsData);
+        habitEventList = (RecyclerView) findViewById(R.id.list_habit_event);
 
-        habitEventListView.setAdapter(habitEventAdapter);
+        habitEventRecyclerAdapter = new HabitEventRecyclerAdapter(this, habitEventsData, this);
 
-        habitEventAdapter.add(new HabitEvent("hahahaha", "this is acomment", "", ""));
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        habitEventList.setLayoutManager(manager);
+        habitEventList.setAdapter(habitEventRecyclerAdapter);
 
         currentTab(tabLayout, HOME_TAB);
         switchTabs(this, tabLayout, HOME_TAB);
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
 
                     habitEventsData.add(new HabitEvent(hID, hComment, hPhoto, hLoc)); // Adding the Habits from FireStore
                 }
-                habitEventAdapter.notifyDataSetChanged();
+                habitEventRecyclerAdapter.notifyDataSetChanged();
                 // Notifying the adapter to render any new data fetched from the cloud
             }
         });
@@ -163,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
                         arrayID
                                 .update("habitEvents", FieldValue.arrayUnion(documentReference.getId().toString()));
 
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -174,9 +178,14 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs, AddHa
 
                     }
                 });
+    }
 
-
-
+    @Override
+    public void onEventClick(int position) {
+        habitEventsData.get(position);
+        Intent intent = new Intent(this, ViewEventActivity.class);
+        intent.putExtra(EXTRA_HABIT_EVENT, habitEventsData.get(position));
+        startActivity(intent);
 
     }
 }

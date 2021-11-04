@@ -69,12 +69,13 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
     public static String EXTRA_HABIT = "EXTRA_HABIT";
     private TabLayout tabLayout;
+
     //Declare variables for the list of habits
     private RecyclerView habitListView;
-    //ListView habitListView;
-    //private static ArrayAdapter<Habit> habitAdapter;
+
     private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<Habit> habitDataList;
+
     private FirebaseFirestore db;
     final String TAG = "add";
     HashMap<String, Object> data = new HashMap<>();
@@ -87,14 +88,13 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_habit);
+        tabLayout = findViewById(R.id.tabs);
 
         habitDataList = new ArrayList<>();
         habitListView = (RecyclerView) findViewById(R.id.list);
-        tabLayout = findViewById(R.id.tabs);
 
         recyclerViewAdapter = new RecyclerViewAdapter(habitDataList, this, this);
-        //habitAdapter = new CustomList_Habit(MyHabitActivity.this, habitDataList);
-        //habitListView.setAdapter(habitAdapter);
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         habitListView.setLayoutManager(manager);
         habitListView.setAdapter(recyclerViewAdapter);
@@ -142,8 +142,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
                     ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
                     ArrayList<Integer> hdate = new ArrayList<>();
 
-                    //TEMP FIX DO NOT LEAVE IN
-                    //MAKES SURE ALL VALUES ARE INTS
+                    //TEMP FIX DO NOT LEAVE IN FINAL BUILD
+                    //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
                     if(temp.size() > 0){
                         for(int i = 0; i < temp.size(); i++){
                             hdate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));

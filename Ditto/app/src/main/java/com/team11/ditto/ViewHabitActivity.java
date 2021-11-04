@@ -35,7 +35,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
     Habit selectedHabit;
     Bundle habitBundle;
     final String TAG = "view";
-    private FirebaseFirestore db;
+    private FirebaseFirestore database;
     HashMap<String, Object> data = new HashMap<>();
 
 
@@ -99,14 +99,16 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         Log.d(TAG, "dates -> "+ dates);
 
         //THIS ONE LINE IS CAUSING PROBLEMS IDK WHY
-        final DocumentReference documentReference = db.collection("Habit").document(habitID);
+        database = FirebaseFirestore.getInstance();
+        final DocumentReference documentReference = database.collection("Habit").document(habitID);
 
 
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
         data.put("title", title);
         data.put("reason", reason);
-        //data.put("days_of_week", dates);
+        data.remove("days_of_week"); //OTHERWISE DUPES GET ADDED
+        data.put("days_of_week", dates);
 
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);

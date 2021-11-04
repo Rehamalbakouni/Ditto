@@ -54,7 +54,13 @@
         <activity
             android:name=".ViewHabitActivity"
             android:exported="false"
-            android:parentActivityName="MyHabitActivity"/>
+            android:parentActivityName=".MyHabitActivity" />
+
+        <activity
+            android:name=".ViewEventActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

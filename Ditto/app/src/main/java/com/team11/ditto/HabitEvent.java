@@ -7,6 +7,8 @@ photograph
 location
  */
 
+import java.io.Serializable;
+
 /**
  * Role: Habit Event Object that stores the data for a habit event's
  * habitID
@@ -14,7 +16,7 @@ location
  * photograph
  * location
  */
-public class HabitEvent {
+public class HabitEvent implements Serializable {
     private String habitId;
     private String comment;
     private String photo;
