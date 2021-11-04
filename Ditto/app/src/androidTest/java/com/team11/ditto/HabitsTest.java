@@ -4,7 +4,7 @@ package com.team11.ditto;
  used
  TODO: Future tests:
  * public void testEditHabitTitle() //tests the edit function which will be implemented
- * public void testEditHabitDetails() //make sure details can only be tested
+ * public void testViewPersists() //tests that the view updates the updated data
  * check for repeated Habit titles!!!
  */
 import static androidx.test.espresso.Espresso.onView;
@@ -31,8 +31,6 @@ public class HabitsTest {
 
     @Rule
     public ActivityScenarioRule<MyHabitActivity> activityRule = new ActivityScenarioRule<>(MyHabitActivity.class);
-
-
 
 
 
@@ -149,12 +147,51 @@ public class HabitsTest {
         onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
     }
 
+    /**
+     * test if editing the details of a habit crashes
+     */
+    @Test
+    public void testEditHabitDetails() {
+        //make sure there is a habit in the listview to start
+        //first add a habit then view it
+        String title = "Eat cake";
+        String reason = "Stress relief";
+
+        //open the add habit fragment
+        onView(withId(R.id.add_habit)).perform(click());
+
+        //type in title and reason
+        onView(withId(R.id.title_editText)).perform(typeText(title));
+        onView(withId(R.id.reason_editText)).perform(typeText(reason));
+        onView(withId(R.id.tuesday_select)).perform(click());
+        onView(withId(R.id.saturday_select)).perform(click());
+
+        //click add
+        onView(withText("ADD")).perform(click());
+
+        //click on a habit
+        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        //click on the edit button
+        onView(withId(R.id.edit_habit)).perform(click());
+
+        //edit the reason and dates
+        String newreason = "Birthday";
+        onView(withId(R.id.reason_editText)).perform(typeText(reason));
+        //click on one of the same date and unclick one, add new cases
+        //tuesday should still be clicked
+        onView(withId(R.id.saturday_select)).perform(click()); //basically unclick
+        onView(withId(R.id.wednesday_select)).perform(click()); //add a new one
+
+
+
+    }
+
 
     /*
     Future tests:
     public void testEditHabitTitle() //tests the edit function which will be implemented
-    public void testEditHabitDetails() //make sure details can only be tested
-
+    public void testViewPersists() //tests that the view updates the updated data
      */
 
 
