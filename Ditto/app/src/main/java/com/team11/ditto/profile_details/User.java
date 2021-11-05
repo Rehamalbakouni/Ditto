@@ -30,6 +30,15 @@ public class User extends Object{
         this.age = age;
     }
 
+    public User(String username, String password){
+        this.username = username;
+        this.habits = new ArrayList<Habit>();
+        this.iFollow = new ArrayList<User>();
+        this.followMe = new ArrayList<User>();
+        this.profilePhoto = Drawable.createFromPath("ic_action_profile.png");
+        this.password = password;
+    }
+
     public User(){
 
     }

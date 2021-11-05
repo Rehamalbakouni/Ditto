@@ -60,12 +60,13 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         // If device has userID, go to app - else, go to login
         if (!hasUserID()) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
             this.startActivity(intent);
-        }
+        } */
 
         tabLayout = findViewById(R.id.tabs);
 

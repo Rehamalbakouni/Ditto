@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.follow.FollowRequestActivity;
-import com.team11.ditto.follow.FollowerActivity;
+import com.team11.ditto.FollowerActivity;
 import com.team11.ditto.follow.FollowingActivity;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.profile_details.SearchUserActivity;

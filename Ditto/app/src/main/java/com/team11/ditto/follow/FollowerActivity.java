@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.team11.ditto.R;
+import com.team11.ditto.follow.CustomListFollowerFollowing;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.profile_details.User;
 import com.team11.ditto.UserProfileActivity;
