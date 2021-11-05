@@ -36,7 +36,8 @@ import java.util.HashMap;
 public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener{
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
-    ArrayList<Integer> dates; String title; String reason; String listDays;
+    ArrayList<Integer> dates;
+    String listDays;
     Habit selectedHabit;
     Bundle habitBundle;
     final String TAG = "view";
@@ -54,17 +55,30 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit);
         habitReason = findViewById(R.id.habit_reason);
+        habitDays = findViewById(R.id.habit_days);
 
         //Getting passed habit
         selectedHabit = (Habit) getIntent().getSerializableExtra("EXTRA_HABIT");
 
         //Setting title as habit title
-        title = selectedHabit.getTitle();
-        setTitle(title);
+        setTitle(selectedHabit.getTitle());
 
         //Setting habit_reason textview as habit reason
-        reason = selectedHabit.getReason();
-        habitReason.setText(reason);
+        habitReason.setText(selectedHabit.getReason());
+
+        dates = selectedHabit.getDate();
+
+        //Displaying dates in TextView
+        if(dates != null){
+            if(dates.size() > 0){
+                listDays = "";
+                for(int i = 0; i < dates.size(); i++){
+                    listDays +=  intToDate(dates.get(i)) + " ";
+                }
+            }
+        }
+
+        habitDays.setText(listDays);
 
         habitTitle = findViewById(R.id.habit_tracking);
     }
@@ -121,8 +135,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         Log.d(TAG, "dates -> "+ dates);
 
         database = FirebaseFirestore.getInstance();
-        final DocumentReference documentReference = database.collection("Habit").document(habitID);
-
+        final DocumentReference documentReference = database.collection("Habits").document(habitID);
 
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
@@ -154,7 +167,40 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
                     }
                 });
 
+        //Updating old text with new habit stuff
+        habitReason.setText(habit.getReason());
+
+        if(dates != null){
+            if(dates.size() > 0){
+                listDays = "";
+                for(int i = 0; i < dates.size(); i++){
+                    listDays +=  intToDate(dates.get(i)) + " ";
+                }
+            }
+        }
+
+        habitDays.setText(listDays);
+    }
 
 
+    //Takes an integer and returns the respective day of the week,
+    //returns null when given incorrect int
+    private String intToDate(int date){
+        if(date == 1){
+            return "Monday";
+        } else if (date == 2){
+            return "Tuesday";
+        } else if (date == 3){
+            return "Wednesday";
+        } else if (date == 4){
+            return "Thursday";
+        } else if (date == 5){
+            return "Friday";
+        } else if (date == 6){
+            return "Saturday";
+        } else if (date == 7){
+            return "Sunday";
+        }
+        return null;
     }
 }
