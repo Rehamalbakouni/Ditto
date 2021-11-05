@@ -70,76 +70,76 @@ public class HabitEventFeedTest {
      * Assumes that a Habit named Running exists
      * then adds a habit event for Running
      */
-    @Test
-    public void testAddHabitEventAll() {
-        String habit = "Running";
-        String comment = "I am sweaty";
-
-        //open the add habit fragment
-        onView(withId(R.id.add_habit_event)).perform(click());
-
-        //click choose a habit, create comment, add
-        onView(withId(R.id.event_spinner)).perform(click());
-
-        SystemClock.sleep(3000);
-
-        onView(withText(habit)).inRoot(isPlatformPopup()).perform(click());
-
-        SystemClock.sleep(3000);
-
-        //check if what you chose is correct
-        onView(withId(R.id.event_spinner))
-                .check(matches(withSpinnerText(containsString("Running"))));
-
-        onView(withId(R.id.comment_editText)).perform(typeText(comment));
-
-        //click the add button
-        onView(withText("ADD")).perform(click());
-
-        onView(withId(R.id.list_habit_event)).check(matches(hasDescendant(withText(habit))));
-    }
+//    @Test
+//    public void testAddHabitEventAll() {
+//        String habit = "Running";
+//        String comment = "I am sweaty";
+//
+//        //open the add habit fragment
+//        onView(withId(R.id.add_habit_event)).perform(click());
+//
+//        //click choose a habit, create comment, add
+//        onView(withId(R.id.event_spinner)).perform(click());
+//
+//        SystemClock.sleep(3000);
+//
+//        onView(withText(habit)).inRoot(isPlatformPopup()).perform(click());
+//
+//        SystemClock.sleep(3000);
+//
+//        //check if what you chose is correct
+//        onView(withId(R.id.event_spinner))
+//                .check(matches(withSpinnerText(containsString("Running"))));
+//
+//        onView(withId(R.id.comment_editText)).perform(typeText(comment));
+//
+//        //click the add button
+//        onView(withText("ADD")).perform(click());
+//
+//        onView(withId(R.id.list_habit_event)).check(matches(hasDescendant(withText(habit))));
+//    }
 
 
     /**
      * Assumes that a Habit named Running exists
      * adds the habit then tests the VIEW functionality
-     */
-    @Test
-    public void testViewEvent() {
-        String habit = "Running";
-        String comment = "I am drenched in sweat";
-
-        //open the add habit fragment
-        onView(withId(R.id.add_habit_event)).perform(click());
-
-        //click choose a habit, create comment, add
-        onView(withId(R.id.event_spinner)).perform(click());
-
-        SystemClock.sleep(3000);
-
-        onView(withText(habit)).inRoot(isPlatformPopup()).perform(click());
-
-        SystemClock.sleep(3000);
-
-        //check if what you chose is correct
-        onView(withId(R.id.event_spinner))
-                .check(matches(withSpinnerText(containsString("Running"))));
-
-        onView(withId(R.id.comment_editText)).perform(typeText(comment));
-
-        //click the add button
-        onView(withText("ADD")).perform(click());
-
-        onView(withId(R.id.list_habit_event)).check(matches(hasDescendant(withText(habit))));
-
-        //Assuming no other habit events
-        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(withId(R.id.tracking)).check(matches(isDisplayed()));
-
-
-
-    }
+//     */
+//    @Test
+//    public void testViewEvent() {
+//        String habit = "Running";
+//        String comment = "I am drenched in sweat";
+//
+//        //open the add habit fragment
+//        onView(withId(R.id.add_habit_event)).perform(click());
+//
+//        //click choose a habit, create comment, add
+//        onView(withId(R.id.event_spinner)).perform(click());
+//
+//        SystemClock.sleep(3000);
+//
+//        onView(withText(habit)).inRoot(isPlatformPopup()).perform(click());
+//
+//        SystemClock.sleep(3000);
+//
+//        //check if what you chose is correct
+//        onView(withId(R.id.event_spinner))
+//                .check(matches(withSpinnerText(containsString("Running"))));
+//
+//        onView(withId(R.id.comment_editText)).perform(typeText(comment));
+//
+//        //click the add button
+//        onView(withText("ADD")).perform(click());
+//
+//        onView(withId(R.id.list_habit_event)).check(matches(hasDescendant(withText(habit))));
+//
+//        //Assuming no other habit events
+//        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+//
+//        onView(withId(R.id.tracking)).check(matches(isDisplayed()));
+//
+//
+//
+//    }
 
 
 }
