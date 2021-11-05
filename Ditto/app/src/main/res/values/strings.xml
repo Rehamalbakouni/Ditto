@@ -11,4 +11,5 @@
     <string name="habits">Habits</string>
     <string name="due">DUE</string>
     <string name="profile">Profile</string>
+    <string name="add_habit_event">Add a Habit Event</string>
 </resources>
