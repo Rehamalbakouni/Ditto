@@ -3,8 +3,7 @@ package com.team11.ditto;
 /*
 Role: Initialize a Dialog for the user to input a title, reason, dates for a new Habit.
 Send input back to MyHabitActivity and Firestore Database collection "Habit"
-Goals: Needs work on the visual aspect (to be done in xml)
-
+TODO Needs work on the visual aspect (to be done in xml)
  */
 
 import android.app.AlertDialog;

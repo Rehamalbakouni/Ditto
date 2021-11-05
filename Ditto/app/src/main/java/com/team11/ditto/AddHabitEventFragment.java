@@ -9,42 +9,27 @@ Goals:
     -Get location option
     -Make it better visually (xml)
  */
-import android.Manifest;
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Camera;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +40,7 @@ import java.util.List;
  * @author Kelly Shih, Aidan Horemans
  */
 public class AddHabitEventFragment extends DialogFragment implements Firebase{
+    //Declare necessary values
     private EditText hComment;
     private Button acc_photo;
     private OnFragmentInteractionListener listener;
@@ -62,13 +48,17 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
     private DatabaseReference root;
     final String TAG = "dbs";
 
+    //Declare interface
     public interface OnFragmentInteractionListener {
         void onOkPressed(HabitEvent newHabitEvent);
-
     }
 
+    /**
+     * Tells Android what to do when the Fragment attaches to the Activity
+     * @param context: the context of the Activity
+     */
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         listener = (AddHabitEventFragment.OnFragmentInteractionListener) context;
     }
@@ -76,8 +66,8 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
     /**
      * Create the dialog with the fields for habit (spinner), reason, dates and go to OnOkPressed method when user clicks "Add"
      * TODO: photo and location addition
-     * @param savedInstanceState
-     * @return
+     * @param savedInstanceState current state of the app
+     * @return Dialog Fragment for user inputs
      */
     @NonNull
     @Override
@@ -88,9 +78,9 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
         acc_photo = view.findViewById(R.id.add_photo);
         db = FirebaseFirestore.getInstance();
         root = FirebaseDatabase.getInstance().getReference();
-        Spinner spinner = (Spinner) view.findViewById(R.id.event_spinner);
-        final List<String> habits = new ArrayList<String>();
-        final List<String> habitIDs = new ArrayList<String>();
+        Spinner spinner = view.findViewById(R.id.event_spinner);
+        final List<String> habits = new ArrayList<>();
+        final List<String> habitIDs = new ArrayList<>();
 
 
         //get the documents from Habit
@@ -101,34 +91,33 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             /**
              * to retrieve the habit and habit ID from the selected spinner choice
-             * @param parent
-             * @param view
-             * @param position
-             * @param l
+             * @param parent the adapter for the spinner
+             * @param view the view selected
+             * @param position the position of the view in the list
+             * @param l view Id
              */
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                hHabit[0] = habits.get(position).toString();
-                IDhabit[0] = habitIDs.get(position).toString();
+                hHabit[0] = habits.get(position);
+                IDhabit[0] = habitIDs.get(position);
                 Log.d(TAG, "habit Id => "+IDhabit[0]);
 
             }
 
+            /**
+             * Do nothing if nothing selected
+             * @param adapterView the listview adapter
+             */
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
-
             }
         });
 
-        //Get camera permission for photo
-        acc_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        //TODO Get camera permission for photo
+        acc_photo.setOnClickListener(view1 -> {
         });
 
+        //Builds the Dialog for the user to add a new habit event
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -136,8 +125,8 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     /**
                      * Create a new Habit Event object when the user clicks the add button with inputted data
-                     * @param dialogInterface
-                     * @param i
+                     * @param dialogInterface Android default input
+                     * @param i Android default input
                      */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -145,7 +134,7 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
 
 
 
-                        //If user doesn't choose a Habit...
+                        //TODO If user doesn't choose a Habit...
                         /*
                         if (hHabit.equals("Habit")) {
                             hHabit = "";
