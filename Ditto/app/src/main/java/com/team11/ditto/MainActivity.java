@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // If device has userID, go to app - else, go to login
+        if (new ActiveUser().getUID().equals("")) {
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            this.startActivity(intent);
+        }
+
         tabLayout = findViewById(R.id.tabs);
 
         setTitle("My Feed");
@@ -97,7 +105,18 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
         pushHabitEventData(db, newHabitEvent);
+    }
 
+    // Check if device has stored userID
+    private Boolean hasUserID() {
+
+        LocalStorage ls = new LocalStorage(this);
+        String uid = ls.getUserID();
+
+        if (uid.equals(this.getString(R.string.null_user_id))) {
+            return false;
+        }
+        return true;
     }
 
     /**

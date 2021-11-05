@@ -6,13 +6,7 @@ import com.team11.ditto.habit.Habit;
 
 import java.util.ArrayList;
 
-/**
- * Represents a person using the app;
- * Has:
- *  id, username, habits, people they follow, people who follow them, age, photo, & password
- *
- */
-public class User {
+public class User extends Object{
 
     //User attributes
     private String id;
@@ -41,6 +35,15 @@ public class User {
         this.profilePhoto = Drawable.createFromPath("ic_action_profile.png");
         this.password = password;
         this.age = age;
+    }
+
+    public User(String username, String password){
+        this.username = username;
+        this.habits = new ArrayList<Habit>();
+        this.iFollow = new ArrayList<User>();
+        this.followMe = new ArrayList<User>();
+        this.profilePhoto = Drawable.createFromPath("ic_action_profile.png");
+        this.password = password;
     }
 
     /**

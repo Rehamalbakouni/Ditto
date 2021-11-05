@@ -48,19 +48,18 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs 
         tabLayout = findViewById(R.id.tabs);
 
         usernames = new ArrayList<>();
-        //For Prototype display only
-        //TODO implement User search
-        User Aidan = new User("Aidan","1346789",25);
+        // Just to check if view works as intended
+        User Aidan = new User("Aidan","1346789");
         usernames.add("Aidan");
-        User Courtenay = new User("Courtenay","123456",25);
+        User Courtenay = new User("Courtenay","123456");
         usernames.add("Courtenay");
-        User Kelly = new User("Kelly","123456",25);
+        User Kelly = new User("Kelly","123456");
         usernames.add("Kelly");
-        User Matt = new User("Matt","1213456",25);
+        User Matt = new User("Matt","1213456");
         usernames.add("Matt");
-        User Reham = new User("Reham","123456",25);
+        User Reham = new User("Reham","123456");
         usernames.add("Reham");
-        User Vivek = new User("Vivek","123456",25);
+        User Vivek = new User("Vivek","123456");
         usernames.add("Vivek");
 
         userDataList = new ArrayList<>();

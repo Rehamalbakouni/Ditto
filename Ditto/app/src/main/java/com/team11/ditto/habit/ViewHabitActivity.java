@@ -139,7 +139,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
     //Takes an integer and returns the respective day of the week,
     //returns null when given incorrect int
     //TODO enumerate dates to make this simpler
-    private String intToDate(int date){
+    private String intToDate(Integer date){
         if(date == 1){
             return "Monday";
         } else if (date == 2){
