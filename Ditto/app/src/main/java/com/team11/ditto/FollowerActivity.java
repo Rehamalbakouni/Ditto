@@ -22,7 +22,6 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
     private ArrayAdapter<User> userAdapter;
     private ArrayList<User> userDataList;
     private int UserPosition;
-    private String ParentActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
         setContentView(R.layout.follower_list);
         followingListView = findViewById(R.id.follower_list_custom);
         tabLayout = findViewById(R.id.tabs);
-        ParentActivity = "Follower";
+
         userDataList = new ArrayList<>();
         userAdapter = new CustomFollowList(FollowerActivity.this,userDataList);
         followingListView.setAdapter(userAdapter);
@@ -39,7 +38,7 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
 
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
-        onProfileClick();
+       
     }
 
     public void onBackPressed() {
@@ -49,17 +48,5 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
         startActivity(intent);
     }
 
-    public void onProfileClick() {
-        followingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                UserPosition = i;
-                Intent intent = new Intent(FollowerActivity.this, FriendHabitActivity.class);
-                intent.putExtra("parent", ParentActivity);
-                startActivity(intent);
-            }
 
-        });
-
-    }
 }
