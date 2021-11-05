@@ -9,13 +9,20 @@ Goals:
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit_event.AddHabitEventFragment;
 import com.team11.ditto.habit_event.HabitEvent;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
@@ -72,9 +79,28 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
         setTitle("My Feed");
 
         habitEventList = findViewById(R.id.list_habit_event);
-        habitEventsData = hEventsFirebase;
+        habitEventsData = new ArrayList<>();
 
         habitEventRecyclerAdapter = new HabitEventRecyclerAdapter(this, habitEventsData, this);
+
+        db = FirebaseFirestore.getInstance();
+        db.collection(HABIT_EVENT_KEY)
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getUid())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        habitEventsData.clear();
+                        for (QueryDocumentSnapshot doc: value) {
+                            String eHabitId = (String) doc.getData().get("habitID");
+                            String eHabitTitle = (String) doc.getData().get("habitTitle");
+                            String eComment = (String) doc.getData().get("comment");
+                            String ePhoto = (String) doc.getData().get("photo");
+                            String eLocation = (String) doc.getData().get("location");
+                            habitEventsData.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));
+                        }
+                        habitEventRecyclerAdapter.notifyDataSetChanged();
+                    }
+                });
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         habitEventList.setLayoutManager(manager);

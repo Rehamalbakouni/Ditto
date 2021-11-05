@@ -183,7 +183,6 @@ public class MyHabitActivity extends AppCompatActivity implements
             habitDataList.remove(viewHolder.getAbsoluteAdapterPosition());
             habitRecyclerAdapter.notifyDataSetChanged();
 
-            //ALSO REMOVE THE ASSOCIATED HABIT EVENTS
             deleteDataMyHabit(db, oldEntry);
 
         }
