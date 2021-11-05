@@ -1,5 +1,6 @@
 package com.team11.ditto.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,7 +17,12 @@ import com.team11.ditto.R;
 import com.team11.ditto.profile_details.User;
 import com.team11.ditto.interfaces.Firebase;
 
+/**
+ * Activity to sign up a new User
+ * @author Reham Albakouni
+ */
 public class SignUpActivity extends AppCompatActivity implements Firebase {
+    //Declarations
     private EditText user_name;
     private EditText age;
     private EditText password;
@@ -33,8 +39,17 @@ public class SignUpActivity extends AppCompatActivity implements Firebase {
     String entered_password;
     String confirmed_password;
 
+    /**
+     * Instructions for creating the Activity
+     * -Image background
+     * -fields for new User input data
+     * -button to return to login screen
+     * -button to submit User data
+     * @param savedInstanceState current state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Set layouts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         user_name = findViewById(R.id.userName);
@@ -45,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity implements Firebase {
         already_user_btn = findViewById(R.id.alreadyUser);
         db = FirebaseFirestore.getInstance();
 
+        //Set listener for submit button
         register.setOnClickListener(view -> {
             entered_username = user_name.getText().toString().trim();
             string_age = age.getText().toString().trim();
@@ -70,11 +86,17 @@ public class SignUpActivity extends AppCompatActivity implements Firebase {
                 //input is valid -> create the user
                 pushUserData(db, user);
             }
-            // switch to sign in activity if the user already has ana account
-            //already_user_btn.setOnClickListener(view1 -> startActivity(new Intent(SignUpActivity.this, SignInActivity.class)));
+            // switch to sign in activity if the user already has an account
+            already_user_btn.setOnClickListener(view1 -> startActivity(new Intent(SignUpActivity.this, SignInActivity.class)));
         });
     }
 
+    /**
+     * Push new User data to database
+     * @param database firestore cloud
+     * @param key which collection to access
+     * @param docId document to access
+     */
     @Override
     public void pushToDB(FirebaseFirestore database, String key, String docId) {
         final CollectionReference collectionReference = db.collection(USER_KEY);

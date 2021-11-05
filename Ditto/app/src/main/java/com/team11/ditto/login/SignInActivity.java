@@ -15,6 +15,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.R;
 
+/**
+ * Activity to login a User so they can access the application
+ * @author Reham Albakouni
+ */
 public class SignInActivity extends AppCompatActivity {
     private EditText usernameLogin;
     private EditText passwordLogin;
@@ -22,6 +26,15 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseFirestore db;
     final String TAG = "Sample";
 
+    /**
+     * Instructions for creating Activity
+     * -Image background
+     * -input fields to sign in the user
+     * -button to transfer to sign up Activity
+     * -button to submit login details
+     *
+     * @param savedInstanceState current app state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +69,11 @@ public class SignInActivity extends AppCompatActivity {
         String username = usernameLogin.getText().toString();
         String password = passwordLogin.getText().toString();
 
-        //search db for user
+        //TODO search db for user
 
-        //check user password
+        //TODO check user password
 
-        //if user exists and password is correct, set the user as ActiveUser
+        //TODO if user exists and password is correct, set the user as ActiveUser
         /*createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

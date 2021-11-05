@@ -43,6 +43,6 @@ public class ViewEventActivity extends AppCompatActivity {
         //set comment
         comment = habitEvent.getComment();
         habitComment.setText(comment);
-        
+
     }
 }
