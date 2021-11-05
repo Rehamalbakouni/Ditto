@@ -33,7 +33,7 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     /**
      *Directions for creating this Activity
      * Simple listview, bottom tabs
-     * @param savedInstanceState
+     * @param savedInstanceState current app state
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
