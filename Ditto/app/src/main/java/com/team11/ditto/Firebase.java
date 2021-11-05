@@ -8,8 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,10 +29,13 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-
+/**
+ * Role: implement default methods that interact with firebase
+ * Make code more readable in classes that use firebase
+ */
 public interface Firebase {
 
-    String HABIT_KEY = "Habit";
+    String HABIT_KEY = "Habits";
     String USER_KEY = "User";
     String HABIT_EVENT_KEY = "HabitEvent";
     String TAG = "add";
@@ -38,7 +44,13 @@ public interface Firebase {
     ArrayList<User> usersFirebase = new ArrayList<>();
     ArrayList<HabitEvent> hEventsFirebase = new ArrayList<>();
 
-    //RecyclerViewAdapter
+
+    /**
+     * initializing query for RecyclerViewAdapter
+     * @param database
+     * @param adapter
+     * @param key
+     */
     default void autoSnapshotListener(FirebaseFirestore database, RecyclerViewAdapter adapter, String key){
         Query query = database.collection(key).orderBy("order");
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -62,7 +74,12 @@ public interface Firebase {
         });
     }
 
-    //HabitEventRecyclerAdapter
+    /**
+     * initializing query for HabitEventRecyclerAdapter
+     * @param database
+     * @param adapter
+     * @param key
+     */
     default void autoSnapshotListener(FirebaseFirestore database, HabitEventRecyclerAdapter adapter, String key){
         Query query = database.collection(key).orderBy("order");
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -86,6 +103,11 @@ public interface Firebase {
         });
     }
 
+    /**
+     * handle data collection for the Habit, HabitEvent, and User cases
+     * @param queryDocumentSnapshots
+     * @param key
+     */
     default void logData(@Nullable QuerySnapshot queryDocumentSnapshots, String key){
         for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
 
@@ -135,6 +157,11 @@ public interface Firebase {
         }
     }
 
+    /**
+     * push the Habit document data to the Habit class
+     * @param database
+     * @param newHabit
+     */
     default void pushHabitData(FirebaseFirestore database, Habit newHabit){
         final String title = newHabit.getTitle();
         final String reason = newHabit.getReason();
@@ -147,23 +174,53 @@ public interface Firebase {
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);
 
-        pushToDB(database, HABIT_KEY);
+        pushToDB(database, HABIT_KEY, "");
     }
 
-    default void pushToDB(FirebaseFirestore database, String key){
-        DocumentReference documentReference = database.collection(key).document();
-        documentReference
-                .set(data)
-                .addOnSuccessListener(aVoid -> {
-                    //method which gets executed when the task is successful
-                    Log.d(TAG, "Data has been added successfully!");
-                })
-                .addOnFailureListener(e -> {
-                    //method that gets executed if there's a problem
-                    Log.d(TAG, "Data could not be added!" + e.toString());
-                });
+    /**
+     * Set or update the data directly to the collection
+     * @param database
+     * @param key
+     */
+    default void pushToDB(FirebaseFirestore database, String key, String docID){
+        DocumentReference documentReference;
+        if (docID.equals("")) { //set new
+            documentReference = database.collection(key).document();
+            documentReference
+                    .set(data)
+                    .addOnSuccessListener(aVoid -> {
+                        //method which gets executed when the task is successful
+                        Log.d(TAG, "Data has been added successfully!");
+                    })
+                    .addOnFailureListener(e -> {
+                        //method that gets executed if there's a problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    });
+        }
+
+        else { //update
+            documentReference = database.collection(key).document(docID);
+            documentReference
+                    .update(data)
+                    .addOnSuccessListener(aVoid -> {
+                        //method which gets executed when the task is successful
+                        Log.d(TAG, "Data has been added successfully!");
+                    })
+                    .addOnFailureListener(e -> {
+                        //method that gets executed if there's a problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    });
+        }
+
+
     }
 
+
+    /**
+     * fetch the arraylist of Habit, User, HabitEvent objects. Used to store objects that were already stored in firestore
+     * @param key
+     * @return ArrayList<Habit/User/HabitEvent>
+     */
     default ArrayList<?> keyList(String key){
         switch (key){
             case HABIT_KEY:
@@ -177,13 +234,18 @@ public interface Firebase {
         }
     }
 
+    /**
+     * push the HabitEvent document data to the HabitEvent collection
+     * @param database
+     * @param newHabitEvent
+     */
     default void pushHabitEventData(FirebaseFirestore database, HabitEvent newHabitEvent){
         String habitID = newHabitEvent.getHabitId();
         String comment = newHabitEvent.getComment();
         String photo = newHabitEvent.getPhoto();
         String location = newHabitEvent.getLocation();
         String habitTitle = newHabitEvent.getHabitTitle();
-
+        final DocumentReference documentReference = database.collection(HABIT_EVENT_KEY).document();
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
         data.put("habitID", habitID);
@@ -194,19 +256,56 @@ public interface Firebase {
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);
 
-        pushToDB(database, HABIT_EVENT_KEY);
+        documentReference
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //method which gets executed when the task is successful
+                        Log.d(TAG, "Data has been added successfully!");
+                        //we want to add the habit event id to the associate Habit field of HabitEventIds
+
+                        DocumentReference arrayID = database.collection(HABIT_KEY).document(habitID);
+                        //set the "habitEvents" field of the Habit
+                        arrayID
+                                .update("habitEvents", FieldValue.arrayUnion(documentReference.getId().toString()));
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //method that gets executed if there's a problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+
+                    }
+                });
+
     }
 
+    /**
+     * push the User document data to the User collection
+     * @param database
+     * @param newUser
+     */
     default void pushUserData(FirebaseFirestore database, User newUser) {
         data.put("username", newUser.getUsername());
         data.put("password", newUser.getPassword());
         data.put("age", newUser.getAge());
 
-        pushToDB(database, USER_KEY);
+        pushToDB(database, USER_KEY, "");
     }
 
+    /**
+     * Get connection to the Habit collection to fetch the Habits for the spinner
+     * @param database
+     * @param habits
+     * @param habitsIDs
+     * @param spinner
+     * @param fragmentActivity
+     */
     default void getDocumentsHabit(FirebaseFirestore database, List<String> habits, List<String> habitsIDs, Spinner spinner, FragmentActivity fragmentActivity) {
-        database.collection("Habit")
+        database.collection(HABIT_KEY)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -225,6 +324,12 @@ public interface Firebase {
 
     }
 
+    /**
+     * fetch the Habit parameter information, add to the habits and habitID arrays
+     * @param snapshot
+     * @param habits
+     * @param habitIDs
+     */
     default void addHabitData(QueryDocumentSnapshot snapshot, List<String> habits, List<String> habitIDs) {
         Log.d(TAG, snapshot.getId() + "=>" + snapshot.getData());
         String habitTitle = snapshot.get("title").toString();
@@ -233,10 +338,100 @@ public interface Firebase {
         habitIDs.add(habitID);
     }
 
+    /**
+     * initialize the spinner with the options from the database
+     * @param spinner
+     * @param habits
+     * @param fragmentActivity
+     */
     default void spinnerData(Spinner spinner, List<String> habits, FragmentActivity fragmentActivity) {
         //initialize the spinner with the options from the database
         ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(fragmentActivity, android.R.layout.simple_spinner_item, habits);
         habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(habitAdapter);
+    }
+
+
+    /**
+     * populate the data map with the updated Habit data
+     * @param database
+     * @param habit
+     */
+    default void pushEditData(FirebaseFirestore database, Habit habit) {
+        //get unique timestamp for ordering our list
+        final String habitID = habit.getHabitID();
+        Date currentTime = Calendar.getInstance().getTime();
+        data.put("title", habit.getTitle());
+        data.put("reason", habit.getReason());
+        data.put("days_of_week", habit.getDate());
+        //this field is used to add the current timestamp of the item, to be used to order the items
+        data.put("order", currentTime);
+
+        pushToDB(database, HABIT_KEY, habitID);
+    }
+
+    /**
+     * delete the habit and ensure the associated habit events also get deleted
+     * @param db
+     * @param oldEntry
+     */
+    default void deleteDataMyHabit(FirebaseFirestore db, Habit oldEntry) {
+        //ALSO REMOVE THE ASSOCIATED HABIT EVENTS
+        db.collection(HABIT_KEY).document(oldEntry.getHabitID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ArrayList<String> habitEventIds = (ArrayList<String>) document.get("habitEvents");
+                        if (habitEventIds != null) {
+                            deleteHabitEvents(db, habitEventIds);
+                        }
+
+                        deleteHabit(db, oldEntry);
+                    }
+                }
+            }
+
+        });
+
+
+    }
+
+    /**
+     * If the array is not null, go to this function to delete the habit event
+     * @param db
+     * @param habitEventIds
+     */
+    default void deleteHabitEvents(FirebaseFirestore db, ArrayList<String> habitEventIds) {
+        for (int i = 0; i < habitEventIds.size(); i++) {
+            //delete the associated habit event in the database
+            Log.d(TAG, "habiteventid " + habitEventIds.get(i));
+            db.collection(HABIT_EVENT_KEY).document(habitEventIds.get(i))
+                    .delete();
+        }
+    }
+
+    /**
+     * delete the habit event oldEntry from firestore
+     * @param db
+     * @param oldEntry
+     */
+    default void deleteHabit(FirebaseFirestore db, Habit oldEntry){
+        //remove from database
+        db.collection(HABIT_KEY).document(oldEntry.getHabitID())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
     }
 }

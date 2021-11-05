@@ -143,8 +143,6 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase{
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String comment = hComment.getText().toString();
 
-
-
                         //If user doesn't choose a Habit...
                         /*
                         if (hHabit.equals("Habit")) {

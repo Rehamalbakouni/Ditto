@@ -24,12 +24,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test class for MainActivity. All the UI tests are written here. Espresso test framework is
+ * Test class for MainActivity for the Feed actions. Espresso test framework is
  used
  TODO: FutureTests:
  @Before
  public void clearHabitEvents()
-
  public void testAddPhoto()
  public void testAddGeolocation()
  public void testCantEditTitle() //make sure we cant edit a habit event title

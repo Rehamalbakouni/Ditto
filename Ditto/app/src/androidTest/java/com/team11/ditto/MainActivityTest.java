@@ -25,10 +25,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Test class for MainActivityTest for the Bottom Tab switching. Espresso test framework is used
+ * TODO: check if the current tab we clicked on takes us to the right activity
+ */
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class MainActivityTest {
 
 
+    /**
+     * test to check if the tabs change
+     */
     @Test
     public void changTab() {
         // check if the tabs change
