@@ -91,7 +91,8 @@ public interface Firebase {
                     String eComment = (String) doc.getData().get("comment");
                     String ePhoto = (String) doc.getData().get("photo");
                     String eLocation = (String) doc.getData().get("location");
-                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation));
+                    String eHabitTitle = (String) doc.getData().get("habitTitle");
+                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));
                     break;
                 default:
                     throw new RuntimeException("logData: Improper key used");
