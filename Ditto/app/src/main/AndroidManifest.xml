@@ -40,7 +40,6 @@
             android:name=".DueTodayActivity"
             android:exported="true"
 
-
             />
         <activity
             android:name=".profile_details.SearchUserActivity"
@@ -66,8 +65,13 @@
             android:exported="true"
             android:parentActivityName=".follow.FollowingActivity"/>
 
+        <activity
+            android:name=".ViewHabitActivity"
+            android:parentActivityName=".MyHabitActivity"/>
 
-
+        <activity
+            android:name=".ViewEventActivity"
+            android:parentActivityName=".MainActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
