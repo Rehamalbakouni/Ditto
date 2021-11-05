@@ -11,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.follow.FollowRequestActivity;
+import com.team11.ditto.follow.FollowerActivity;
+import com.team11.ditto.follow.FollowingActivity;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.profile_details.SearchUserActivity;
 
 public class UserProfileActivity extends AppCompatActivity implements SwitchTabs {
 
@@ -27,7 +32,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
     private static final String TAG = "tab switch";
 
 
-    FirebaseFirestore db; //when they addcity button we need to dump into db
+    FirebaseFirestore db; //when they add button we need to dump into db
     private TabLayout tabLayout;
     //public static Bundle habitBundle = new Bundle();
     @Override
@@ -46,20 +51,25 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         username = findViewById(R.id.username_editText);
         fr_pending = findViewById(R.id.pending_fr);
         logout = findViewById(R.id.logout_button);
+
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
+
         onFollowingtap();
         onFollowNumberTap();
         no_following.setText("1");
+        no_followers.setText("1");
         onSearchTap();
         onFollowRequestTab();
+        onFollowertap();
+        onFollowNumberTap();
     }
 
 
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
@@ -68,7 +78,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         following.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfileActivity.this,FollowingActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, FollowingActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,7 +99,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfileActivity.this,SearchUserActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, SearchUserActivity.class);
                 startActivity(intent);
             }
         });
@@ -100,6 +110,26 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfileActivity.this, FollowRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onFollowertap() {
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, FollowerActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onFollowerNumberTap(){
+        no_followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, FollowerActivity.class);
                 startActivity(intent);
             }
         });

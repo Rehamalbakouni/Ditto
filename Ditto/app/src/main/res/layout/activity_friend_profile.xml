@@ -8,21 +8,19 @@
     <FrameLayout
 
 
-        android:id="@+id/frameLayout4"
+        android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         tools:context=".MainActivity">
 
         <ListView
 
-            android:id="@+id/due_today_custom_list"
+            android:id="@+id/friend_habits"
             android:layout_width="match_parent"
             android:layout_height="580dp" />
 
@@ -39,9 +37,10 @@
         android:textDirection="locale"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintTop_toTopOf="@+id/frameLayout3"
         app:layout_constraintVertical_bias="1.0">
 
         <com.google.android.material.tabs.TabItem

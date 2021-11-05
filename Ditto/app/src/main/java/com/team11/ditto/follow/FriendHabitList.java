@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,13 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.team11.ditto.R;
+import com.team11.ditto.profile_details.User;
+
 import java.util.ArrayList;
 
-public class FollowRequestList extends ArrayAdapter {
+public class FriendHabitList extends ArrayAdapter<User> {
+
     private ArrayList<User> users;
     private Context context;
 
-    public FollowRequestList(Context context, ArrayList<User> users) {
+    public FriendHabitList(Context context, ArrayList<User> users) {
         super(context,0,users);
         this.users = users;
         this.context = context;
@@ -31,18 +35,18 @@ public class FollowRequestList extends ArrayAdapter {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.follow_request_content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.friend_profile_content, parent,false);
         }
 
         User user = users.get(position);
 
-        TextView username = view.findViewById(R.id.fr_user_name);
-        ImageView userphoto = view.findViewById(R.id.fr_user_photo);
+        TextView habitName = view.findViewById(R.id.friend_habit_name);
+        TextView habitDescription = view.findViewById(R.id.friend_habit_description);
+        ImageView progress = view.findViewById(R.id.friend_progress);
 
-        username.setText(user.getUsername());
-        userphoto.setImageResource(R.drawable.bwayne);
+        habitName.setText(user.getUsername());
+        habitDescription.setText("This is a sample description of a habit");
 
         return view;
     }
-
 }

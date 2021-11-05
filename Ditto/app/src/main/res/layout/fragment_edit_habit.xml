@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/title_editText"
+    <TextView
+        android:id="@+id/title_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:ems="10"
-        android:hint="Habit Title"
-        android:maxLength="40"
-        android:inputType="textPersonName"/>
+        android:inputType="textPersonName"
+        android:textSize="12pt"
+        android:maxLength="40" />
 
     <EditText
         android:id="@+id/reason_editText"
@@ -72,6 +70,5 @@
             android:text="S">
         </CheckBox>
     </LinearLayout>
-
 
 </LinearLayout>

@@ -9,28 +9,14 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.google.android.material.imageview.ShapeableImageView
-
-        android:id="@+id/user_photo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:padding="20dp"
-        android:src="@drawable/ic_action_profile"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:shapeAppearanceOverlay="@style/roundimageview"
-        app:strokeColor="#000000"
-
-    />
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="243dp"
-        android:layout_height="match_parent">
+        android:layout_width="320dp"
+        android:layout_height="100dp">
 
         <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/due_habit_name"
+            android:layout_width="314dp"
+            android:layout_height="48dp"
 
             android:paddingLeft="20dp"
             android:paddingTop="25dp"
@@ -40,31 +26,39 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
 
-            app:layout_constraintHorizontal_bias="0.015"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
         </TextView>
 
+        <TextView
+            android:id="@+id/due_habit_description"
+            android:layout_width="297dp"
+            android:layout_height="48dp"
+            android:text="This is a sample description of a habit....."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/remove_circle"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:id="@+id/my_progress"
+        android:layout_width="64dp"
+        android:layout_height="77dp"
 
-        android:layout_marginEnd="4dp"
         android:clickable="true"
-        android:contentDescription="Remove this user"
+        android:contentDescription="Happy"
         android:padding="20dp"
-        android:src="@drawable/ic_round_remove_circle_24"
+        android:src="@drawable/sad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#B30000">
+        app:tint="#E30202">
 
     </ImageView>
 
 </LinearLayout>
-
-

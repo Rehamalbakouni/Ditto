@@ -6,16 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MyHabitActivity">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
+
+        app:layout_constraintBottom_toTopOf="@id/tabs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tabs"
-        tools:context=".MyHabitFragment"
-        tools:listitem="@layout/fragment_my_habit" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="LinearLayoutManager"
+         >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_habit"
