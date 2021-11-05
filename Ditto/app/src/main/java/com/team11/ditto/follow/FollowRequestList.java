@@ -48,4 +48,8 @@ public class FollowRequestList extends ArrayAdapter {
         return view;
     }
 
+    public void add(User user){
+        users.add(user);
+    }
+
 }
