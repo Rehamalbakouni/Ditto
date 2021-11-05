@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -30,7 +31,32 @@ public interface Firebase {
     ArrayList<User> usersFirebase = new ArrayList<>();
     ArrayList<HabitEvent> hEventsFirebase = new ArrayList<>();
 
+    //RecyclerViewAdapter
     default void autoSnapshotListener(FirebaseFirestore database, RecyclerViewAdapter adapter, String key){
+        Query query = database.collection(key).orderBy("order");
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            /**Maintain listview after each activity switch, login, logout
+             *
+             * @param queryDocumentSnapshots
+             *          event data
+             * @param error
+             *          error data
+             */
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                    FirebaseFirestoreException error) {
+
+                // Clear the old list
+                keyList(key).clear();
+                logData(queryDocumentSnapshots, key);
+                adapter.notifyDataSetChanged();
+                // Notifying the adapter to render any new data fetched from the cloud
+            }
+        });
+    }
+
+    //HabitEventRecyclerAdapter
+    default void autoSnapshotListener(FirebaseFirestore database, HabitEventRecyclerAdapter adapter, String key){
         Query query = database.collection(key).orderBy("order");
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
@@ -91,7 +117,7 @@ public interface Firebase {
                     String eComment = (String) doc.getData().get("comment");
                     String ePhoto = (String) doc.getData().get("photo");
                     String eLocation = (String) doc.getData().get("location");
-                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation));
+                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, "title"));
                     break;
                 default:
                     throw new RuntimeException("logData: Improper key used");
@@ -112,15 +138,6 @@ public interface Firebase {
         data.put("order", currentTime);
 
         pushToDB(database, HABIT_KEY);
-
-/* Do we need this?
-            for (int i = 0; i < dates.size(); i++) {
-                DocumentReference arrayID = database.collection("Habit").document(documentReference.getId());
-                Log.d(TAG, "DOC REFERENCE " + documentReference.getId());
-                //set the "days_of_week"
-                arrayID
-                        .update("days_of_week", FieldValue.arrayUnion(dates.get(i)));
-            }*/
     }
 
     default void pushToDB(FirebaseFirestore database, String key){
