@@ -12,18 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.team11.ditto.R;
+import com.team11.ditto.habit.Habit;
 import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
-public class FriendHabitList extends ArrayAdapter<User> {
+public class FriendHabitList extends ArrayAdapter<Habit> {
 
-    private ArrayList<User> users;
+    private ArrayList<Habit> habits;
     private Context context;
 
-    public FriendHabitList(Context context, ArrayList<User> users) {
-        super(context,0,users);
-        this.users = users;
+    public FriendHabitList(Context context, ArrayList<Habit> habits) {
+        super(context,0,habits);
+        this.habits = habits;
         this.context = context;
     }
 
@@ -38,13 +39,13 @@ public class FriendHabitList extends ArrayAdapter<User> {
             view = LayoutInflater.from(context).inflate(R.layout.friend_profile_content, parent,false);
         }
 
-        User user = users.get(position);
+        Habit habit = habits.get(position);
 
         TextView habitName = view.findViewById(R.id.friend_habit_name);
         TextView habitDescription = view.findViewById(R.id.friend_habit_description);
         ImageView progress = view.findViewById(R.id.friend_progress);
 
-        habitName.setText(user.getUsername());
+        habitName.setText(habit.getTitle());
         habitDescription.setText("This is a sample description of a habit");
 
         return view;
