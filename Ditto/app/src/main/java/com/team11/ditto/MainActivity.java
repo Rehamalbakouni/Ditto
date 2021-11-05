@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
         setContentView(R.layout.activity_main);
         tabLayout = findViewById(R.id.tabs);
 
+        setTitle("My Feed");
+
         habitEventList = findViewById(R.id.list_habit_event);
         habitEventsData = hEventsFirebase;
 

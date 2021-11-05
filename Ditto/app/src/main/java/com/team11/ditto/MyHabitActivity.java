@@ -74,6 +74,8 @@ public class MyHabitActivity extends AppCompatActivity implements
         tabLayout = findViewById(R.id.tabs);
         db = FirebaseFirestore.getInstance();
 
+        setTitle("My Habits");
+
         habitDataList = habitsFirebase;
         habitListView = findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
