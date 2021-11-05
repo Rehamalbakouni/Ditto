@@ -14,11 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.follow.FollowRequestActivity;
-import com.team11.ditto.FollowerActivity;
+import com.team11.ditto.follow.FollowerActivity;
 import com.team11.ditto.follow.FollowingActivity;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
@@ -100,7 +101,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
                 }
             });
 
-        username.setText(currentUser.getUID());
+        username.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
         onFollowingtap();
         onFollowNumberTap();

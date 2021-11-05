@@ -103,10 +103,11 @@ public class MyHabitActivity extends AppCompatActivity implements
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     habitDataList.clear();
                     for (QueryDocumentSnapshot document: value) {
+                        String id = document.getId();
                         String title = (String) document.getData().get("title");
                         String reason = (String) document.getData().get("reason");
                         ArrayList<Integer> days = (ArrayList<Integer>) document.getData().get("days_of_week");
-                        Habit habit = new Habit(title, reason, days);
+                        Habit habit = new Habit(id, title, reason, days);
                         habitDataList.add(habit);
                     }
                     habitRecyclerAdapter.notifyDataSetChanged();

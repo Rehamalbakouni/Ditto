@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.team11.ditto.login.SignUpActivity;
+import com.team11.ditto.login.SignInActivity;
+
 
 public class WelcomeActivity extends Activity {
 

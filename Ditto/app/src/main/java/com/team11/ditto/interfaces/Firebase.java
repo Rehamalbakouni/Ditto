@@ -6,6 +6,7 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -85,7 +86,9 @@ public interface Firebase {
      * @param key which collection to access
      */
     default void autoSnapshotListener(FirebaseFirestore database, HabitEventRecyclerAdapter adapter, String key){
-        Query query = database.collection(key).orderBy("order", Query.Direction.DESCENDING);
+        Query query = database.collection(key)
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getUid())
+                .orderBy("order", Query.Direction.DESCENDING);
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
              *
@@ -121,7 +124,7 @@ public interface Firebase {
                         Log.d(TAG, String.valueOf(doc.getData().get("title")));
                         String hTitle = (String) doc.getData().get("title");
                         String hReason = (String) doc.getData().get("reason");
-                        ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
+                        ArrayList<Integer> temp = (ArrayList<Integer>) doc.getData().get("days_of_week");
                         ArrayList<Integer> hDate = new ArrayList<>();
 
                         Habit newHabit = new Habit(hTitle, hReason, hDate);
@@ -256,6 +259,7 @@ public interface Firebase {
         final DocumentReference documentReference = database.collection(HABIT_EVENT_KEY).document();
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
+        data.put("uid", FirebaseAuth.getInstance().getUid());
         data.put("habitID", habitID);
         data.put("comment", comment);
         data.put("photo", photo);
@@ -289,7 +293,10 @@ public interface Firebase {
      * @param fragmentActivity fragment associated with spinner
      */
     default void getDocumentsHabit(FirebaseFirestore database, List<String> habits, List<String> habitsIDs, Spinner spinner, FragmentActivity fragmentActivity) {
+
+        ActiveUser currentUser = new ActiveUser();
         database.collection(HABIT_KEY)
+                .whereEqualTo("uid", currentUser.getUID())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

@@ -60,13 +60,13 @@
             android:label = "Followers"/>
 
         <activity
-            android:name="SignUpActivity"
+            android:name=".login.SignUpActivity"
             android:exported="true"
             android:label="Sign Up"
             />
 
         <activity
-            android:name="SignInActivity"
+            android:name=".login.SignInActivity"
             android:exported="true"
             android:label="Sign In"
             />
