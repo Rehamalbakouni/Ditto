@@ -1,8 +1,13 @@
 package com.team11.ditto.login;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.team11.ditto.WelcomeActivity;
 import com.team11.ditto.profile_details.User;
 
 /**
@@ -12,6 +17,7 @@ import com.team11.ditto.profile_details.User;
 public class ActiveUser extends User {
 
     static ActiveUser activeUser;
+    FirebaseUser fbUser;
 
     /**
      * Constructor for the ActiveUser
@@ -19,6 +25,11 @@ public class ActiveUser extends User {
      */
     private ActiveUser(User user){
         activeUser = (ActiveUser) user;
+        fbUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    public ActiveUser() {
+        fbUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
@@ -49,9 +60,23 @@ public class ActiveUser extends User {
     }
 
     /**
-     * Sets the ActiveUser to null, effectively logging out the user
+     * Returns the UID of the signed in user on Firebase
+     * @return String : String form of the current user UID
+     */
+    public String getUID() {
+        if (fbUser != null) {
+            return fbUser.getUid();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Sets the ActiveUser to null
+     * Logs the user out of Firebase
      */
     public void logout(){
+        FirebaseAuth.getInstance().signOut();
         activeUser = null;
     }
 }
