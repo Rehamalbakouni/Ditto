@@ -1,38 +1,32 @@
 package com.team11.ditto;
-/**
- * Test class for MyHabitActivity. All the UI tests are written here. Espresso test framework is
+/*
+ Test class for MyHabitActivity. All the UI tests are written here. Espresso test framework is
  used
  TODO: Future tests:
- * public void testEditHabitTitle() //tests the edit function which will be implemented
- * public void testViewPersists() //tests that the view updates the updated data
- * check for repeated Habit titles!!!
- * public void habitEventDeleted() //when you delete a habit activity, it should also delete the associated habit events
- * @author Kelly Shih, Aidan Horemans
+  public void testEditHabitTitle() //tests the edit function which will be implemented
+  public void testViewPersists() //tests that the view updates the updated data
+  check for repeated Habit titles!!!
+  public void habitEventDeleted() //when you delete a habit activity, it should also delete the associated habit events
+
+  @author Kelly Shih, Aidan Horemans
  */
+
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
-
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -214,7 +208,7 @@ public class HabitsTest {
         //edit the reason and dates
         String newreason = "Birthday";
         onView(withId(R.id.reason_editText)).perform(replaceText("")); //delete old text
-        onView(withId(R.id.reason_editText)).perform(typeText(reason));
+        onView(withId(R.id.reason_editText)).perform(typeText(newreason));
 
         //click on one of the same date and unclick one, add new cases
         //tuesday should still be clicked
