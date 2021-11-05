@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase {
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
-    ArrayList<Integer> dates; String title; String reason; String listDays;
+    ArrayList<Integer> dates; String listDays;
     Habit selectedHabit;
     Bundle habitBundle;
     final String TAG = "view";
