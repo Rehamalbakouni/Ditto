@@ -95,7 +95,6 @@ public interface Firebase {
 
                     habitsFirebase.add(newHabit);
 
-
                     //TEMP FIX DO NOT LEAVE IN FINAL BUILD
                     //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
                     if (temp.size() > 0) {
@@ -104,6 +103,7 @@ public interface Firebase {
                         }
                     }
                     break;
+
                 case USER_KEY:
                     Log.d(TAG, String.valueOf(doc.getData().get("username")));
                     String uUsername = (String) doc.getData().get("username");
@@ -111,14 +111,16 @@ public interface Firebase {
                     int uAge = Integer.parseInt( (String) doc.getData().get("age"));
                     usersFirebase.add(new User(uUsername, uPassword, uAge));
                     break;
+
                 case HABIT_EVENT_KEY:
                     Log.d(TAG, String.valueOf(doc.getData().get("habitID")));
                     String eHabitId = (String) doc.getData().get("habitID");
                     String eComment = (String) doc.getData().get("comment");
                     String ePhoto = (String) doc.getData().get("photo");
                     String eLocation = (String) doc.getData().get("location");
-                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, "title"));
+                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitId));
                     break;
+
                 default:
                     throw new RuntimeException("logData: Improper key used");
             }
