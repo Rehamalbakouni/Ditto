@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.R;
 import com.team11.ditto.habit.EditHabitFragment;
 import com.team11.ditto.habit.Habit;
+import com.team11.ditto.interfaces.Firebase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +28,7 @@ import java.util.HashMap;
  * Allow user to edit Habit and return updated data back to this activity
  * TODO: Get updated photos and locations updating in the database
  */
-public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase{
+public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase {
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
     ArrayList<Integer> dates; String title; String reason; String listDays;
