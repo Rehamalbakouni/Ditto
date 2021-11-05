@@ -11,9 +11,9 @@
         android:layout_above="@+id/secondLine"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="6dip"
+        android:layout_marginEnd="6dip"
         android:layout_marginBottom="2dp"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/icon"
         android:src="@mipmap/ic_launcher" />
 
     <TextView
@@ -23,23 +23,23 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_above="@id/secondLine"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="55dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="55dp"
         android:layout_marginBottom="1dp"
-        android:layout_toRightOf="@id/icon"
+        android:layout_toEndOf="@id/icon"
         android:gravity="center_vertical"
-        android:text="Example application"
+        android:text="@string/example_application"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/secondLine"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="Description"
+        android:text="@string/description"
         android:textSize="12sp" />
 
 

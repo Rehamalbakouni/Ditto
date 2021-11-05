@@ -34,7 +34,7 @@
             android:paddingLeft="20dp"
             android:paddingTop="25dp"
             android:paddingRight="20dp"
-            android:text="Alejandra"
+            android:text="@string/sample_user"
             android:textColor="@color/black"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,9 @@
         android:src="@drawable/ic_round_send_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#686060">
+        app:tint="#686060"
+        android:focusable="true"
+        android:contentDescription="@string/send_request">
 
     </ImageView>
 

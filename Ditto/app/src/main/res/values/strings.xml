@@ -36,4 +36,8 @@
     <string name="remove_user">Remove this user</string>
     <string name="accept">Accept Request</string>
     <string name="deny">Deny Request</string>
+    <string name="icon">Icon</string>
+    <string name="example_application">Example application</string>
+    <string name="description">Description</string>
+    <string name="send_request">Send Follow Request</string>
 </resources>
