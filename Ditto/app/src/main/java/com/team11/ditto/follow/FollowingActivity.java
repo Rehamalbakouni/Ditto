@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
+import com.team11.ditto.R;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.profile_details.User;
+import com.team11.ditto.UserProfileActivity;
 
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
 
 
         userDataList = new ArrayList<>();
-        userAdapter = new CustomFollowList(FollowingActivity.this,userDataList);
+        userAdapter = new CustomListFollowerFollowing(FollowingActivity.this,userDataList);
         followingListView.setAdapter(userAdapter);
         User user   = new User("Aryan", "12345678", 25);
         userAdapter.add(user);
@@ -45,7 +49,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs {
 
     public void onBackPressed() {
 
-        Intent intent = new Intent(FollowingActivity.this,UserProfileActivity.class);
+        Intent intent = new Intent(FollowingActivity.this, UserProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

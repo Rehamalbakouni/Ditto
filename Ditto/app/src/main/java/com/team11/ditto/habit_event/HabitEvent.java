@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.habit_event;
 /*
 Role: Habit Event Object that stores the data for a habit event's
 habitID

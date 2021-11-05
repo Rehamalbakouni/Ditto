@@ -12,17 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.team11.ditto.R;
-import com.team11.ditto.User;
+import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
-public class CustomList_Follow extends ArrayAdapter<User> implements UserCodes{
+public class FriendHabitList extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
 
-    public CustomList_Follow(Context context, ArrayList<User> users) {
-        super(context, 0, users);
+    public FriendHabitList(Context context, ArrayList<User> users) {
+        super(context,0,users);
         this.users = users;
         this.context = context;
     }
@@ -35,18 +35,18 @@ public class CustomList_Follow extends ArrayAdapter<User> implements UserCodes{
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.fragment_follow, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.friend_profile_content, parent,false);
         }
 
         User user = users.get(position);
 
-        TextView userName = view.findViewById(R.id.user_name);
-        ImageView userPhoto = view.findViewById(R.id.user_photo);
+        TextView habitName = view.findViewById(R.id.friend_habit_name);
+        TextView habitDescription = view.findViewById(R.id.friend_habit_description);
+        ImageView progress = view.findViewById(R.id.friend_progress);
 
-        userName.setText(user.getUsername());
-        //userPhoto.setImageDrawable(user.getPhoto());
+        habitName.setText(user.getUsername());
+        habitDescription.setText("This is a sample description of a habit");
 
         return view;
     }
 }
-

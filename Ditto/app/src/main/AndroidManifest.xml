@@ -26,15 +26,15 @@
         <activity android:name="MyHabitActivity"
             android:exported="true"/>
         <activity
-            android:name="UserProfileActivity"
+            android:name=".UserProfileActivity"
             android:exported="true"
             android:label="Profile"
             />
         <activity
-            android:name="FollowingActivity"
+            android:name=".follow.FollowingActivity"
             android:exported="true"
             android:label="Following"
-            android:parentActivityName="UserProfileActivity"
+            android:parentActivityName=".UserProfileActivity"
             />
         <activity
             android:name=".DueTodayActivity"
@@ -43,28 +43,28 @@
 
             />
         <activity
-            android:name="SearchUserActivity"
+            android:name=".profile_details.SearchUserActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"
+            android:parentActivityName=".UserProfileActivity"
             android:label="Search Users"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name="FollowRequestActivity"
+            android:name=".follow.FollowRequestActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"
+            android:parentActivityName=".UserProfileActivity"
             android:label="Follow Requests"/>
 
         <activity
-            android:name="FollowerActivity"
+            android:name=".follow.FollowerActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"
+            android:parentActivityName=".UserProfileActivity"
             android:label = "Followers"/>
 
         <activity
-            android:name="FriendHabitActivity"
+            android:name=".follow.FriendHabitActivity"
             android:exported="true"
-            android:parentActivityName="FollowingActivity"/>
+            android:parentActivityName=".follow.FollowingActivity"/>
 
 
 

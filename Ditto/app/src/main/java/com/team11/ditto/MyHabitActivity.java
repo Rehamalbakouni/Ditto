@@ -31,6 +31,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.habit.AddHabitFragment;
+import com.team11.ditto.habit.Habit;
+import com.team11.ditto.habit.RecyclerViewAdapter;
+import com.team11.ditto.habit.ViewHabitActivity;
+import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.SwitchTabs;
 
 import java.util.ArrayList;
 

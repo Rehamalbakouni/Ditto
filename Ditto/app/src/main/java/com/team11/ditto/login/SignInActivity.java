@@ -1,9 +1,8 @@
-package com.team11.ditto;
+package com.team11.ditto.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.R;
 
 public class SignInActivity extends AppCompatActivity {
     private EditText usernameLogin;

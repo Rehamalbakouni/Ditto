@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.habit;
 
 /*
 Purpose: Habit class represents a habit object and holds data for

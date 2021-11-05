@@ -1,13 +1,15 @@
-package com.team11.ditto;
+package com.team11.ditto.login;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.team11.ditto.profile_details.User;
 
 /**
  * Represents the User who is currently logged in
  * @author Courtenay Laing-Kobe
  */
-public class ActiveUser extends User{
+public class ActiveUser extends User {
 
     static ActiveUser activeUser;
 

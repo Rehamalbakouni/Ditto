@@ -1,7 +1,6 @@
-package com.team11.ditto;
+package com.team11.ditto.profile_details;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.team11.ditto.R;
+
 import java.util.ArrayList;
 
-public class FriendHabitList extends ArrayAdapter<User> {
+public class SearchList extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
 
-    public FriendHabitList(Context context, ArrayList<User> users) {
+    public SearchList(Context context, ArrayList<User> users) {
         super(context,0,users);
         this.users = users;
         this.context = context;
@@ -33,18 +34,19 @@ public class FriendHabitList extends ArrayAdapter<User> {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.friend_profile_content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.search_content, parent,false);
         }
 
         User user = users.get(position);
 
-        TextView habitName = view.findViewById(R.id.friend_habit_name);
-        TextView habitDescription = view.findViewById(R.id.friend_habit_description);
-        ImageView progress = view.findViewById(R.id.friend_progress);
+        TextView username = view.findViewById(R.id.search_user_name);
+        ImageView userphoto = view.findViewById(R.id.search_user_photo);
 
-        habitName.setText(user.getUsername());
-        habitDescription.setText("This is a sample description of a habit");
+        username.setText(user.getUsername());
+        userphoto.setImageResource(R.drawable.background);
 
         return view;
     }
+
+
 }

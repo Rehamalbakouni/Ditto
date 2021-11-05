@@ -1,7 +1,6 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.team11.ditto.R;
+import com.team11.ditto.profile_details.User;
+
 import java.util.ArrayList;
 
-public class DueCustomList extends ArrayAdapter<User> {
-
+public class FollowRequestList extends ArrayAdapter {
     private ArrayList<User> users;
     private Context context;
 
-    public DueCustomList(Context context, ArrayList<User> users) {
+    public FollowRequestList(Context context, ArrayList<User> users) {
         super(context,0,users);
         this.users = users;
         this.context = context;
@@ -33,18 +34,18 @@ public class DueCustomList extends ArrayAdapter<User> {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.duetoday_content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.follow_request_content, parent,false);
         }
 
         User user = users.get(position);
 
-        TextView habitName = view.findViewById(R.id.due_habit_name);
-        TextView habitDescription = view.findViewById(R.id.due_habit_description);
-        ImageView progress = view.findViewById(R.id.my_progress);
+        TextView username = view.findViewById(R.id.fr_user_name);
+        ImageView userphoto = view.findViewById(R.id.fr_user_photo);
 
-        habitName.setText(user.getUsername());
-        habitDescription.setText("Been missing gym for 2 years now");
+        username.setText(user.getUsername());
+        userphoto.setImageResource(R.drawable.bwayne);
 
         return view;
     }
+
 }

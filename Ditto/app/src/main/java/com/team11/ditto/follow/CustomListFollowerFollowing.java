@@ -1,7 +1,6 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.team11.ditto.R;
+import com.team11.ditto.profile_details.User;
+
 import java.util.ArrayList;
 
 /**
  * Custom ArrayAdapter for User Class
  * @author Courtenay Laing-Kobe
  */
-public class CustomFollowList extends ArrayAdapter<User> {
+public class CustomListFollowerFollowing extends ArrayAdapter<User> {
 
     //Declare values
     private ArrayList<User> users;
@@ -29,7 +31,7 @@ public class CustomFollowList extends ArrayAdapter<User> {
      * @param context application context
      * @param users ArrayList of User objects to display
      */
-    public CustomFollowList(Context context, ArrayList<User> users) {
+    public CustomListFollowerFollowing(Context context, ArrayList<User> users) {
         super(context,0,users);
         this.users = users;
         this.context = context;

@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.habit_event;
 /*
 Role: Initialize a Dialog for the user to choose an EXISTING Habit from the database, comment, photo, location for a new Habit Event.
 Send input back to MainActivity and Firestore Database collection "HabitEvent", as well as update "Habit" collection
@@ -30,6 +30,8 @@ import androidx.fragment.app.DialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ import java.util.List;
  * TODO: allow user to add photo and location
  * @author Kelly Shih, Aidan Horemans
  */
-public class AddHabitEventFragment extends DialogFragment implements Firebase{
+public class AddHabitEventFragment extends DialogFragment implements Firebase {
     //Declare necessary values
     private EditText hComment;
     private Button acc_photo;

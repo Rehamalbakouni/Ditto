@@ -1,9 +1,7 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -11,6 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
+import com.team11.ditto.R;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class FriendHabitActivity extends AppCompatActivity implements SwitchTabs
 
     public void onBackPressed() {
 
-            Intent intent = new Intent(FriendHabitActivity.this,FollowingActivity.class);
+            Intent intent = new Intent(FriendHabitActivity.this, FollowingActivity.class);
 
             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

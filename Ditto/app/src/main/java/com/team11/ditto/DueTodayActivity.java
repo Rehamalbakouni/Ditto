@@ -11,12 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.habit.CustomListDue;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.profile_details.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ *
+ */
 public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     FirebaseFirestore db;
     private TabLayout tabLayout;
@@ -27,8 +33,6 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
 
@@ -47,7 +51,7 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         tabLayout = (TabLayout)findViewById(R.id.tabs);
         list = findViewById(R.id.due_today_custom_list);
         user = new ArrayList<>();
-        dueTodayAdapter = new DueCustomList(DueTodayActivity.this, user);
+        dueTodayAdapter = new CustomListDue(DueTodayActivity.this, user);
         list.setAdapter(dueTodayAdapter);
         User user1 = new User("Mark","123456",26);
         dueTodayAdapter.add(user1);

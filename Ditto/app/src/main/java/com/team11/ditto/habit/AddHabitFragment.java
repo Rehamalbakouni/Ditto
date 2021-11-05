@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.habit;
 
 /*
 Role: Initialize a Dialog for the user to input a title, reason, dates for a new Habit.
@@ -20,6 +20,8 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.team11.ditto.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

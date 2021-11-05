@@ -1,27 +1,21 @@
-package com.team11.ditto;
+package com.team11.ditto.habit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Document;
+import com.team11.ditto.R;
+import com.team11.ditto.habit.EditHabitFragment;
+import com.team11.ditto.habit.Habit;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,9 +1,12 @@
-package com.team11.ditto;
+package com.team11.ditto.habit_event;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.team11.ditto.R;
+import com.team11.ditto.habit_event.HabitEvent;
 
 public class ViewEventActivity extends AppCompatActivity {
 

@@ -1,10 +1,9 @@
-package com.team11.ditto;
+package com.team11.ditto.interfaces;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -14,6 +13,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
+import com.team11.ditto.habit.RecyclerViewAdapter;
+import com.team11.ditto.profile_details.User;
+import com.team11.ditto.habit.Habit;
+import com.team11.ditto.habit_event.HabitEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;

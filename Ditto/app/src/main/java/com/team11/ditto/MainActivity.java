@@ -8,7 +8,6 @@ Goals:
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.habit_event.AddHabitEventFragment;
+import com.team11.ditto.habit_event.HabitEvent;
+import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
+import com.team11.ditto.habit_event.ViewEventActivity;
+import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.login.ActiveUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
