@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *  TODO: to match the UI more accurately
  * @author Kelly
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+public class HabitRecyclerAdapter extends RecyclerView.Adapter<HabitRecyclerAdapter.RecyclerViewHolder> {
     private ArrayList<Habit> courseDataArrayList;
     private Context mcontext;
     private HabitClickListener habitClickListener;
@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * @param recyclerDataArrayList
      * @param mcontext
      */
-    public RecyclerViewAdapter(ArrayList<Habit> recyclerDataArrayList, Context mcontext, HabitClickListener habitClickListener) {
+    public HabitRecyclerAdapter(ArrayList<Habit> recyclerDataArrayList, Context mcontext, HabitClickListener habitClickListener) {
         this.courseDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
         this.habitClickListener = habitClickListener;

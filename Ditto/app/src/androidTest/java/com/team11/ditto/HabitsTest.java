@@ -176,6 +176,7 @@ public class HabitsTest {
 
         //Checking that the activity switched
         onView(withId(R.id.tracking)).check(matches(isDisplayed()));
+        onView(withId(R.id.habit_reason)).check(matches(withText("Stress relief")));
     }
 
     /**

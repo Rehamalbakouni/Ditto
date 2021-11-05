@@ -20,8 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.team11.ditto.habit.HabitRecyclerAdapter;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
-import com.team11.ditto.habit.RecyclerViewAdapter;
 import com.team11.ditto.profile_details.User;
 import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit_event.HabitEvent;
@@ -51,12 +51,12 @@ public interface Firebase {
 
 
     /**
-     * initializing query for RecyclerViewAdapter
+     * initializing query for HabitRecyclerAdapter
      * @param database
      * @param adapter
      * @param key
      */
-    default void autoSnapshotListener(FirebaseFirestore database, RecyclerViewAdapter adapter, String key){
+    default void autoSnapshotListener(FirebaseFirestore database, HabitRecyclerAdapter adapter, String key){
         Query query = database.collection(key).orderBy("order", Query.Direction.DESCENDING);
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
