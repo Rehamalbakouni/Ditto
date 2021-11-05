@@ -28,8 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * NOTE:
- * This test will be complete when the user is active
+ * TODO: This test will be complete when the user is active
  */
 @RunWith(AndroidJUnit4.class)
 public class UserProfileActivityTest {

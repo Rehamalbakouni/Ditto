@@ -100,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
 
     }
 
+    /**
+     * Handles the view Habit event activity
+     * starts a new activity to view the clicked habit event
+     * @param position of the clicked habit event
+     */
     @Override
     public void onEventClick(int position) {
         habitEventsData.get(position);

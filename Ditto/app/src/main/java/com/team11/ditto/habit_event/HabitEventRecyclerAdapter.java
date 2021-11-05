@@ -14,7 +14,7 @@ import com.team11.ditto.R;
 import java.util.ArrayList;
 
 /**
- * Custom RecyclerViewAdapter for HabitEvents
+ * Custom RecyclerViewAdapter for HabitEvents item
  * @author Kelly Shih, Aidan Horemans
  */
 public class HabitEventRecyclerAdapter extends RecyclerView.Adapter<HabitEventRecyclerAdapter.ViewHolderEvent>{
@@ -36,7 +36,7 @@ public class HabitEventRecyclerAdapter extends RecyclerView.Adapter<HabitEventRe
     }
 
     /**
-     * Create a holder for the view
+     * Initialize the viewholder for the position within the recyclerview
      * @param parent Android default
      * @param viewType Android default
      * @return view holder
@@ -69,13 +69,18 @@ public class HabitEventRecyclerAdapter extends RecyclerView.Adapter<HabitEventRe
     }
 
     /**
-     * Class TODO Please finish this I have no idea what the point of this is ^^;;
+     * Viewholder class to handle RecyclerView
      */
     public class ViewHolderEvent extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView habitEventTitle;
         private TextView habitEventComment;
         EventClickListener eventClickListener;
 
+        /**
+         * Pair the holder with the item view
+         * @param itemView
+         * @param eventClickListener
+         */
         public ViewHolderEvent(@NonNull View itemView, EventClickListener eventClickListener){
             super(itemView);
             habitEventTitle = itemView.findViewById(R.id.firstLine);
@@ -85,6 +90,10 @@ public class HabitEventRecyclerAdapter extends RecyclerView.Adapter<HabitEventRe
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * capture title, and comment of clicked view
+         * @param view view clicked
+         */
         @Override
         public void onClick(View view){
             eventClickListener.onEventClick(getBindingAdapterPosition());
@@ -94,6 +103,9 @@ public class HabitEventRecyclerAdapter extends RecyclerView.Adapter<HabitEventRe
         }
     }
 
+    /**
+     * Listener interface
+     */
     public interface EventClickListener{
         void onEventClick(int position);
     }

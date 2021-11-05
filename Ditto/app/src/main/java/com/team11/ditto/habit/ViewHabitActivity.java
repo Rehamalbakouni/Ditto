@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Role: An Activity to view the contents of a chosen Habit.
  * Allow user to edit Habit and return updated data back to this activity
  * TODO: Get updated photos and locations updating in the database
- * @author Kelly Shih
+ * @author Kelly Shih, Aidan Horemans
  */
 public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase {
 

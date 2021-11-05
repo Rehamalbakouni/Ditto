@@ -30,8 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test class for MainActivity for the Feed actions. Espresso test framework is
- used
+ * Test class for MainActivity for the Feed actions. Espresso test framework is used
  TODO: FutureTests:
  @Before
  public void clearHabitEvents()
@@ -39,6 +38,7 @@ import org.junit.runner.RunWith;
  public void testAddGeolocation()
  public void testCantEditTitle() //make sure we cant edit a habit event title
  public void testEditHabitEvent() //make sure we can edit details like reason, photo, location, and dates for a habit event
+ * @author Kelly Shih, Aidan Horemans
  */
 
 @RunWith(AndroidJUnit4.class)
@@ -52,7 +52,10 @@ public class HabitEventFeedTest {
      * TODO: create tests for adding photos and location
      */
 
-    //Assumes that a Habit named Running exists
+    /**
+     * Assumes that a Habit named Running exists
+     * then adds a habit event for Running
+     */
     @Test
     public void testAddHabitEventAll() {
         String habit = "Running";
@@ -83,7 +86,10 @@ public class HabitEventFeedTest {
     }
 
 
-    //Assumes that a Habit named Running exists
+    /**
+     * Assumes that a Habit named Running exists
+     * adds the habit then tests the VIEW functionality
+     */
     @Test
     public void testViewEvent() {
         String habit = "Running";
