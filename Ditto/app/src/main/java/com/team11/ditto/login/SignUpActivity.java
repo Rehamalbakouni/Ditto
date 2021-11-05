@@ -76,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity implements Firebase {
     }
 
     @Override
-    public void pushToDB(FirebaseFirestore database, String key) {
+    public void pushToDB(FirebaseFirestore database, String key, String docId) {
         final CollectionReference collectionReference = db.collection(USER_KEY);
         DocumentReference documentReference = db.collection(USER_KEY).document(entered_username);
         documentReference.get().addOnCompleteListener(task -> {

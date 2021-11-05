@@ -162,23 +162,7 @@ public class MyHabitActivity extends AppCompatActivity implements
             recyclerViewAdapter.notifyDataSetChanged();
 
             //ALSO REMOVE THE ASSOCIATED HABIT EVENTS
-            db.collection("Habit").document(oldEntry.getHabitID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            ArrayList<String> habitEventIds = (ArrayList<String>) document.get("habitEvents");
-                            if (habitEventIds != null) {
-                                deleteHabitEvents(habitEventIds);
-                            }
-
-                            deleteHabit(oldEntry);
-                        }
-                    }
-                }
-
-            });
+            deleteDataMyHabit(db, oldEntry);
 
         }
 
@@ -228,33 +212,5 @@ public class MyHabitActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    /**
-     * If the array is not null, go to this function
-     */
-    public void deleteHabitEvents(ArrayList<String> habitEventIds) {
-        for (int i = 0; i < habitEventIds.size(); i++) {
-            //delete the associated habit event in the database
-            Log.d(TAG, "habiteventid " + habitEventIds.get(i));
-            db.collection("HabitEvent").document(habitEventIds.get(i))
-                    .delete();
-        }
-    }
 
-        public void deleteHabit(Habit oldEntry){
-            //remove from database
-            db.collection("Habit").document(oldEntry.getHabitID())
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-        }
 }

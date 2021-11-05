@@ -97,12 +97,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
         pushHabitEventData(db, newHabitEvent);
-        //Do we need this?
-/*                        DocumentReference arrayID = db.collection("Habit").document(habitID);
-                        //set the "habitEvents" field of the Habit
-                        arrayID
-                                .update("habitEvents", FieldValue.arrayUnion(documentReference.getId().toString()));
-*/
+
     }
 
     @Override

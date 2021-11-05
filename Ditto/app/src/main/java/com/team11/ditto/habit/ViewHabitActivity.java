@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.R;
 import com.team11.ditto.habit.EditHabitFragment;
 import com.team11.ditto.habit.Habit;
+import com.team11.ditto.interfaces.Firebase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,11 +28,10 @@ import java.util.HashMap;
  * Allow user to edit Habit and return updated data back to this activity
  * TODO: Get updated photos and locations updating in the database
  */
-public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener{
+public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase {
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
-    ArrayList<Integer> dates;
-    String listDays;
+    ArrayList<Integer> dates; String title; String reason; String listDays;
     Habit selectedHabit;
     Bundle habitBundle;
     final String TAG = "view";
@@ -129,37 +129,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         Log.d(TAG, "dates -> "+ dates);
 
         database = FirebaseFirestore.getInstance();
-        final DocumentReference documentReference = database.collection("Habits").document(habitID);
-
-        //get unique timestamp for ordering our list
-        Date currentTime = Calendar.getInstance().getTime();
-        data.put("title", title);
-        data.put("reason", reason);
-        data.put("days_of_week", dates);
-        //this field is used to add the current timestamp of the item, to be used to order the items
-        data.put("order", currentTime);
-
-
-        documentReference
-                .update(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //method which gets executed when the task is successful
-                        Log.d(TAG, "Data has been added successfully!");
-                        //we want to add the habit event id to the associate Habit field of HabitEventIds
-
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //method that gets executed if there's a problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-
-                    }
-                });
+        pushEditData(database, habit);
 
         //Updating old text with new habit stuff
         habitReason.setText(habit.getReason());
