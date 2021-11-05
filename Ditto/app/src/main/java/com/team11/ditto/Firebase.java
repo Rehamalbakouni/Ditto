@@ -2,7 +2,13 @@ package com.team11.ditto;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -16,14 +22,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
 
 public interface Firebase {
 
-    String HABIT_KEY = "Habits";
-    String USER_KEY = "Users";
+    String HABIT_KEY = "Habit";
+    String USER_KEY = "User";
     String HABIT_EVENT_KEY = "HabitEvent";
     String TAG = "add";
     HashMap<String, Object> data = new HashMap<>();
@@ -115,10 +122,11 @@ public interface Firebase {
                 case HABIT_EVENT_KEY:
                     Log.d(TAG, String.valueOf(doc.getData().get("habitID")));
                     String eHabitId = (String) doc.getData().get("habitID");
+                    String eHabitTitle = (String) doc.getData().get("habitTitle");
                     String eComment = (String) doc.getData().get("comment");
                     String ePhoto = (String) doc.getData().get("photo");
                     String eLocation = (String) doc.getData().get("location");
-                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitId));
+                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));
                     break;
 
                 default:
@@ -174,6 +182,7 @@ public interface Firebase {
         String comment = newHabitEvent.getComment();
         String photo = newHabitEvent.getPhoto();
         String location = newHabitEvent.getLocation();
+        String habitTitle = newHabitEvent.getHabitTitle();
 
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
@@ -181,6 +190,7 @@ public interface Firebase {
         data.put("comment", comment);
         data.put("photo", photo);
         data.put("location", location);
+        data.put("habitTitle", habitTitle);
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);
 
@@ -193,5 +203,40 @@ public interface Firebase {
         data.put("age", newUser.getAge());
 
         pushToDB(database, USER_KEY);
+    }
+
+    default void getDocumentsHabit(FirebaseFirestore database, List<String> habits, List<String> habitsIDs, Spinner spinner, FragmentActivity fragmentActivity) {
+        database.collection("Habit")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                addHabitData(snapshot, habits, habitsIDs);
+                            }
+                            spinnerData(spinner, habits, fragmentActivity);
+                        }
+                        else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+    default void addHabitData(QueryDocumentSnapshot snapshot, List<String> habits, List<String> habitIDs) {
+        Log.d(TAG, snapshot.getId() + "=>" + snapshot.getData());
+        String habitTitle = snapshot.get("title").toString();
+        String habitID = snapshot.getId().toString();
+        habits.add(habitTitle);
+        habitIDs.add(habitID);
+    }
+
+    default void spinnerData(Spinner spinner, List<String> habits, FragmentActivity fragmentActivity) {
+        //initialize the spinner with the options from the database
+        ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(fragmentActivity, android.R.layout.simple_spinner_item, habits);
+        habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(habitAdapter);
     }
 }
