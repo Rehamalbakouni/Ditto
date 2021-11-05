@@ -26,7 +26,7 @@ public class CustomListDue extends ArrayAdapter<Habit> {
     private Context context;
 
     public CustomListDue(Context context, ArrayList<Habit> habits) {
-        super(context,0,habits);
+        super(context,0, habits);
         this.habits = habits;
         this.context = context;
     }
@@ -46,10 +46,8 @@ public class CustomListDue extends ArrayAdapter<Habit> {
         TextView habitDescription = view.findViewById(R.id.due_habit_description);
         ImageView progress = view.findViewById(R.id.my_progress);
 
-        //For prototype display only
-        //TODO implement actual Habits due
         habitName.setText(habit.getTitle());
-        habitDescription.setText("Been missing gym for 2 years now");
+        habitDescription.setText(habit.getReason());
 
         return view;
     }

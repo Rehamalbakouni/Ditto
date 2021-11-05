@@ -1,43 +1,49 @@
 package com.team11.ditto.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.MainActivity;
 import com.team11.ditto.R;
 import com.team11.ditto.profile_details.User;
-import com.team11.ditto.interfaces.Firebase;
 
-/**
- * Activity to sign up a new User
- * @author Reham Albakouni
- */
-public class SignUpActivity extends AppCompatActivity implements Firebase {
-    //Declarations
-    private EditText user_name;
-    private EditText age;
-    private EditText password;
-    private EditText confirm_password;
-    private TextView register;
-    private TextView already_user_btn;
-    FirebaseFirestore db;
+import java.util.HashMap;
+
+public class SignUpActivity extends AppCompatActivity {
+    private EditText nameField;
+    private EditText emailField;
+    private EditText passwordField;
+    private EditText confirmPasswordField;
+    private TextView registerButton;
     private User user;
     final String TAG = "Sample";
 
-    String entered_username;
-    String string_age;
-    int entered_age;
-    String entered_password;
-    String confirmed_password;
+    Context context = this;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     /**
      * Instructions for creating the Activity
@@ -52,76 +58,104 @@ public class SignUpActivity extends AppCompatActivity implements Firebase {
         //Set layouts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        user_name = findViewById(R.id.userName);
-        age = findViewById(R.id.age);
-        password = findViewById(R.id.password);
-        register = findViewById(R.id.register);
-        confirm_password = findViewById(R.id.confirmPassword);
-        already_user_btn = findViewById(R.id.alreadyUser);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        nameField = findViewById(R.id.signup_name_field);
+        emailField = findViewById(R.id.signup_email_field);
+        passwordField = findViewById(R.id.signup_password_field);
+        registerButton = findViewById(R.id.register_button);
+        confirmPasswordField = findViewById(R.id.signup_password_confirm_field);
         db = FirebaseFirestore.getInstance();
 
-        //Set listener for submit button
-        register.setOnClickListener(view -> {
-            entered_username = user_name.getText().toString().trim();
-            string_age = age.getText().toString().trim();
-            entered_age = Integer.parseInt(string_age);
-            entered_password = password.getText().toString().trim();
-            confirmed_password = confirm_password.getText().toString().trim();
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = nameField.getText().toString().trim();
+                String email = emailField.getText().toString().trim();
+                String password = passwordField.getText().toString().trim();
+                String passwordConfirm = confirmPasswordField.getText().toString().trim();
 
-            // Validate input
-            if (TextUtils.isEmpty(entered_username)) {
-                user_name.setError("UserName is required.");
-            } else if (TextUtils.isEmpty(string_age)) {
-                user_name.setError("Age is required.");
-            } else if (TextUtils.isEmpty(entered_password)) {
-                user_name.setError("Password is required.");
-            } else if (TextUtils.isEmpty(entered_password)) {
-                user_name.setError("Confirm Password is required.");
-            } else if (password.length() < 8) {
-                password.setError("Password must be at least 8 characters.");
-            } else if (!entered_password.equals(confirmed_password)) {
-                confirm_password.setError("Password does not match.");
-            } else {
-                user = new User(entered_username, entered_password, entered_age);
-                //input is valid -> create the user
-                pushUserData(db, user);
+                // Validate input
+                if (TextUtils.isEmpty(name)) {
+                    nameField.setError("Name is required.");
+                } else if (TextUtils.isEmpty(email)) {
+                    emailField.setError("email is required.");
+                } else if (TextUtils.isEmpty(password)) {
+                    passwordField.setError("Password is required.");
+                } else if (TextUtils.isEmpty(passwordConfirm)) {
+                    confirmPasswordField.setError("Confirm Password is required.");
+                } else if (password.length() < 8) {
+                    passwordField.setError("Password must be at least 8 characters.");
+                } else if (!password.equals(passwordConfirm)) {
+                    confirmPasswordField.setError("Password does not match.");
+                } else {
+                    HashMap<String, String> data = new HashMap<>();
+                    user = new User(name, email);
+                    //input is valid -> create the user
+                    data.put("name", name);
+                    data.put("email", email);
+
+                    registerUser(email, password, data);
+                }
             }
-            // switch to sign in activity if the user already has an account
-            already_user_btn.setOnClickListener(view1 -> startActivity(new Intent(SignUpActivity.this, SignInActivity.class)));
         });
+    }
+
+
+    // Attempt to register a user on Firebase
+    private void registerUser(String email, String password, HashMap<String, String> userData) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(userData.get("name"))
+                                    .build();
+                            user.updateProfile(profileChangeRequest);
+                            storeUserData(user.getUid(), userData);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     /**
      * Push new User data to database
-     * @param database firestore cloud
-     * @param key which collection to access
-     * @param docId document to access
+     * @param uid uid of user
+     * @param userData the data to store under the uid
      */
-    @Override
-    public void pushToDB(FirebaseFirestore database, String key, String docId) {
-        final CollectionReference collectionReference = db.collection(USER_KEY);
-        DocumentReference documentReference = db.collection(USER_KEY).document(entered_username);
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                assert document != null;
-                if (document.exists()) {
-                    //Username already exists
-                    Log.d(TAG, "This username is already exists.");
-                } else {
-                    collectionReference
-                            .document(entered_username)
-                            .set(data)
-                            .addOnSuccessListener(unused -> {
-                                Log.d(TAG, "User has been added successfully!");
-                                //startActivity(home)
-                            })
-                            .addOnFailureListener(e -> {
-                                // These are a method which gets executed if there’s any problem
-                                Log.d(TAG, "Data could not be added!" + e.toString());
-                            });
-                }
-            }
-        });
+    // Store user data on Firestore
+    private void storeUserData(String uid, HashMap<String, String> userData) {
+        CollectionReference collectionReference = db.collection("User");
+        DocumentReference documentReference = collectionReference.document(uid);
+
+        documentReference
+                .set(userData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "User data added successfully!");
+
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.w(TAG, "Data could not be added!" + e.toString());
+                    }
+                });
     }
 }

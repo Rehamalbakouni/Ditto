@@ -60,6 +60,26 @@
             android:label = "Followers"/>
 
         <activity
+            android:name=".login.SignUpActivity"
+            android:exported="true"
+            android:label="Sign Up"
+            />
+
+        <activity
+            android:name=".login.SignInActivity"
+            android:exported="true"
+            android:label="Sign In"
+            />
+
+        <activity
+            android:name="WelcomeActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            />
+
+
+
+        <activity
             android:name=".follow.FriendHabitActivity"
             android:exported="true"
             android:parentActivityName=".follow.FollowingActivity"/>

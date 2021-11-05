@@ -2,22 +2,34 @@ package com.team11.ditto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.follow.FollowRequestActivity;
 import com.team11.ditto.follow.FollowerActivity;
 import com.team11.ditto.follow.FollowingActivity;
+import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.SearchUserActivity;
 
-public class UserProfileActivity extends AppCompatActivity implements SwitchTabs {
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserProfileActivity extends AppCompatActivity implements SwitchTabs, Firebase {
 
     private ImageView imageView;
     private TextView followers;
@@ -29,8 +41,9 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
     private Button search;
     private Button fr_pending;
     private Button logout;
-    private static final String TAG = "tab switch";
+    private static final String TAG = "UserProfileActivity";
 
+    private ActiveUser currentUser;
 
     FirebaseFirestore db; //when they add button we need to dump into db
     private TabLayout tabLayout;
@@ -40,6 +53,8 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userprofile);
 
+        db = FirebaseFirestore.getInstance();
+        currentUser = new ActiveUser();
 
         tabLayout = findViewById(R.id.tabs);
         imageView =findViewById(R.id.imageView2);
@@ -56,14 +71,54 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
 
+        // Get the current user's followers
+        db.collection("Following")
+            .whereEqualTo("following", currentUser.getUID())
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        no_followers.setText((String.valueOf(task.getResult().getDocuments().size())));
+                    } else {
+                        Log.w(TAG, "UserProfileActivity - could not fetch followers");
+                    }
+                }
+            });
+
+        // Get the accounts the current user is following
+        db.collection("Following")
+            .whereEqualTo("follower", currentUser.getUID())
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        no_following.setText((String.valueOf(task.getResult().getDocuments().size())));
+                    } else {
+                        Log.w(TAG, "UserProfileActivity - could not fetch following");
+                    }
+                }
+            });
+
+        username.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
         onFollowingtap();
         onFollowNumberTap();
-        no_following.setText("1");
-        no_followers.setText("1");
         onSearchTap();
         onFollowRequestTab();
         onFollowertap();
         onFollowNumberTap();
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ActiveUser().logout();
+                Intent intent = new Intent(UserProfileActivity.this, WelcomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
 

@@ -33,6 +33,20 @@ public class Habit implements Serializable {
     }
 
     /**
+     * Constructor for Habit object
+     * @param id Habit id
+     * @param title Habit title
+     * @param reason Reason for habit
+     * @param dates Days of the week for scheduling
+     */
+    public Habit(String id, String title, String reason, ArrayList<Integer> dates) {
+        this.habitID = id;
+        this.title = title;
+        this.reason = reason;
+        this.dates = dates;
+    }
+
+    /**
      * Getter for Habit title
      * @return Habit title
      */

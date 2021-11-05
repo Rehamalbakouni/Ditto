@@ -2,6 +2,7 @@ package com.team11.ditto.follow;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -47,9 +48,8 @@ public class FollowRequestActivity extends AppCompatActivity implements SwitchTa
         userAdapter = new FollowRequestList(FollowRequestActivity.this,userDataList);
         frlist.setAdapter(userAdapter);
 
-        //TODO implement actual requests
-        //For prototype display only
-        User bruce = new User("Bruce Wayne","123456",49);
+        User bruce = new User("Bruce Wayne","123456");
+
         userAdapter.add(bruce);
 
         //Enable tab switching

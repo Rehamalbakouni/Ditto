@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.team11.ditto.R;
+import com.team11.ditto.follow.CustomListFollowerFollowing;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.profile_details.User;
 import com.team11.ditto.UserProfileActivity;
@@ -45,16 +46,13 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
         userDataList = new ArrayList<>();
         userAdapter = new CustomListFollowerFollowing(FollowerActivity.this,userDataList);
         followingListView.setAdapter(userAdapter);
-
-        //TODO implement actual ActiveUser follower list
-        //For prototype only
-        User user   = new User("Ezio Auditore da Firenze", "12345678", 25);
+        User user   = new User("Ezio Auditore da Firenze", "12345678");
         userAdapter.add(user);
 
         //Enable tab switching
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
-       
+
     }
 
     /**

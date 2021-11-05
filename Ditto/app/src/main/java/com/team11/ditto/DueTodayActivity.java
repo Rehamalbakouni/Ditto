@@ -3,17 +3,28 @@ package com.team11.ditto;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.habit.CustomListDue;
 import com.team11.ditto.habit.Habit;
 import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.login.ActiveUser;
+import com.team11.ditto.profile_details.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,8 +38,10 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     FirebaseFirestore db;
     private TabLayout tabLayout;
     private ListView list;
-    private ArrayAdapter<Habit> dueTodayAdapter ;
-    private ArrayList<Habit> habits;
+    private ArrayAdapter<Habit> dueTodayAdapter ;  // This needs to change to adapter of habits. For now, using user to check UI
+    private ArrayList<Habit> habits;                // This also needs to change '' '' '' ' '''''''
+    private ActiveUser currentUser;
+    private String TAG = "DueTodayActivity";
 
     /**
      *Directions for creating this Activity
@@ -40,6 +53,10 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     protected void onCreate(Bundle savedInstanceState) {
         //Set layouts
         super.onCreate(savedInstanceState);
+        // This callback will only be called when MyFragment is at least Started.
+
+        db = FirebaseFirestore.getInstance();
+
         setContentView(R.layout.activity_due_today);
         tabLayout = findViewById(R.id.tabs);
         list = findViewById(R.id.due_today_custom_list);
@@ -55,19 +72,29 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         date = date + " " + dayOfMonthstr;
         setTitle(date);
 
-        //Initialize
-        habits = new ArrayList<>();
+        habits = new ArrayList<Habit>();
         dueTodayAdapter = new CustomListDue(DueTodayActivity.this, habits);
         list.setAdapter(dueTodayAdapter);
 
-        //For prototype display only
-        //TODO implement actual due today list
-        ArrayList<Integer> dates1 = new ArrayList<>();
-        dates1.add(0);
-        Habit habit1 = new Habit("Go to the Gym","",dates1);
-        dueTodayAdapter.add(habit1);
+        // Load habits
+        currentUser = new ActiveUser();
+        db.collection("Habit")
+                .whereEqualTo("uid", currentUser.getUID())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        habits.clear();
+                        for (QueryDocumentSnapshot document: value) {
+                            String title = (String) document.getData().get("title");
+                            String reason = (String) document.getData().get("reason");
+                            ArrayList<Integer> days = (ArrayList<Integer>) document.getData().get("days_of_week");
+                            Habit habit = new Habit(title, reason, days);
+                            habits.add(habit);
+                        }
+                        dueTodayAdapter.notifyDataSetChanged();
+                    }
+                });
 
-        //Enable tab switching
         currentTab(tabLayout, DUE_TODAY_TAB);
         switchTabs(this, tabLayout, DUE_TODAY_TAB);
     }
