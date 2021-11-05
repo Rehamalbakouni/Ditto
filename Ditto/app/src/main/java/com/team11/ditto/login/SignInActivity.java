@@ -95,7 +95,7 @@ public class SignInActivity extends AppCompatActivity {
 
     /**
      * Define what to do if back pressed;
-     * -goes back to ActiveUser profile
+     * -goes back to Welcome screen
      */
     public void onBackPressed() {
         Intent intent = new Intent(this, WelcomeActivity.class);
