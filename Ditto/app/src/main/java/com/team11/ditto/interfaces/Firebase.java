@@ -222,8 +222,6 @@ public interface Firebase {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     });
         }
-
-
     }
 
 

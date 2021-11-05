@@ -12,21 +12,30 @@ import android.widget.Button;
 import com.team11.ditto.login.SignUpActivity;
 import com.team11.ditto.login.SignInActivity;
 
-
+/**
+ * Role: Class for Welcome Activity, onboard a user
+ * @author: Matthew Asgari
+ */
 public class WelcomeActivity extends Activity {
 
     private Button getStartedButton;
     private Button loginButton;
     private Activity activity = this;
 
+    /**
+     * Create the Activity instance for the "Welcome" screen, control flow of actions
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        // Load buttons
         getStartedButton = findViewById(R.id.sign_up_button);
         loginButton = findViewById(R.id.sign_in_button);
 
+        // Set on click listener for "Get Started!" button
         getStartedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,6 +45,7 @@ public class WelcomeActivity extends Activity {
             }
         });
 
+        // Set on click listener for "Sign In" button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
