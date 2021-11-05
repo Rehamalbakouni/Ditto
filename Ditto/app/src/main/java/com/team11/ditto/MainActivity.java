@@ -23,13 +23,20 @@ Goals:
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit_event.AddHabitEventFragment;
 import com.team11.ditto.habit_event.HabitEvent;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
@@ -46,7 +53,7 @@ import java.util.HashMap;
  * TODO:
  *     there is repetition between MyHabitActivity and the Homepage when creating fragments and listviews
  *     solve by making a more object oriented design
- * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra
+ * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra, Matthew Asgari
  */
 
 public class MainActivity extends AppCompatActivity implements SwitchTabs,
@@ -86,9 +93,30 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
         setTitle("My Feed");
 
         habitEventList = findViewById(R.id.list_habit_event);
-        habitEventsData = hEventsFirebase;
+        habitEventsData = new ArrayList<>();
 
         habitEventRecyclerAdapter = new HabitEventRecyclerAdapter(this, habitEventsData, this);
+
+        // Load the Habit Event data (This will be converted to use the Firebase interface in the future)
+        db = FirebaseFirestore.getInstance();
+        db.collection(HABIT_EVENT_KEY)
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getUid())  // Query only current user events for now
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        habitEventsData.clear();
+                        for (QueryDocumentSnapshot doc: value) {
+                            // Parse the event data for each document
+                            String eHabitId = (String) doc.getData().get("habitID");
+                            String eHabitTitle = (String) doc.getData().get("habitTitle");
+                            String eComment = (String) doc.getData().get("comment");
+                            String ePhoto = (String) doc.getData().get("photo");
+                            String eLocation = (String) doc.getData().get("location");
+                            habitEventsData.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));  // Add the event to the event list
+                        }
+                        habitEventRecyclerAdapter.notifyDataSetChanged();  // Refresh the recycler
+                    }
+                });
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         habitEventList.setLayoutManager(manager);
@@ -119,18 +147,6 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
         pushHabitEventData(db, newHabitEvent);
-    }
-
-    // Check if device has stored userID
-    private Boolean hasUserID() {
-
-        LocalStorage ls = new LocalStorage(this);
-        String uid = ls.getUserID();
-
-        if (uid.equals(this.getString(R.string.null_user_id))) {
-            return false;
-        }
-        return true;
     }
 
     /**

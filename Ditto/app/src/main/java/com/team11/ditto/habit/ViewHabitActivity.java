@@ -71,7 +71,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
             if(dates.size() > 0){
                 listDays = "";
                 for(int i = 0; i < dates.size(); i++){
-                    listDays +=  intToDate(dates.get(i)) + " ";
+                    listDays +=  intToDate(Integer.parseInt(String.valueOf(dates.get(i)))) + " ";
                 }
             }
         }
@@ -141,11 +141,10 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
             if(dates.size() > 0){
                 listDays = "";
                 for(int i = 0; i < dates.size(); i++){
-                    listDays +=  intToDate(dates.get(i)) + " ";
+                    listDays += intToDate(Integer.parseInt(String.valueOf(dates.get(i)))) + " ";
                 }
             }
         }
-
         habitDays.setText(listDays);
     }
 

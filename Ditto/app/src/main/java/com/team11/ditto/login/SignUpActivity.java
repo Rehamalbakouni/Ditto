@@ -41,6 +41,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.MainActivity;
 import com.team11.ditto.R;
+import com.team11.ditto.WelcomeActivity;
 import com.team11.ditto.profile_details.User;
 
 import java.util.HashMap;
@@ -171,5 +172,15 @@ public class SignUpActivity extends AppCompatActivity {
                         Log.w(TAG, "Data could not be added!" + e.toString());
                     }
                 });
+    }
+
+    /**
+     * Define what to do if back pressed;
+     * -goes back to Welcome screen
+     */
+    public void onBackPressed() {
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

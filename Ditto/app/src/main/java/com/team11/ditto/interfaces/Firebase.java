@@ -18,8 +18,11 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -236,8 +239,6 @@ public interface Firebase {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     });
         }
-
-
     }
 
 
@@ -383,10 +384,24 @@ public interface Firebase {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    ArrayList<String> habitEventIds = (ArrayList<String>) document.get("habitEvents");
-                    if (habitEventIds != null) {
-                        deleteHabitEvents(db, habitEventIds);
-                    }
+
+                    // Query all associated habit events
+                    db.collection(HABIT_EVENT_KEY)
+                            .whereEqualTo("habitID", oldEntry.getHabitID())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        // Add each habit event to a list
+                                        ArrayList<String> habitEventIds = new ArrayList<>();
+                                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                            habitEventIds.add(snapshot.getId());
+                                        }
+                                        deleteHabitEvents(db, habitEventIds);  // Delete the habit events
+                                    }
+                                }
+                            });
 
                     deleteHabit(db, oldEntry);
                 }

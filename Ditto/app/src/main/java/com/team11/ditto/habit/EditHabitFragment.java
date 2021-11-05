@@ -124,7 +124,6 @@ public class EditHabitFragment extends DialogFragment {
                         selectedHabit.setDate(dates);
 
                         listener.onOkPressed(selectedHabit);
-
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -140,7 +139,7 @@ public class EditHabitFragment extends DialogFragment {
      */
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         switch(compoundButton.getId()){
-            case R.id.monday_select:
+            case 1:
                 if(checked){
                     if (!dates.contains(1))
                         dates.add(1);}
@@ -148,7 +147,7 @@ public class EditHabitFragment extends DialogFragment {
                     dates.remove(Integer.valueOf(1));
                 break;
 
-            case R.id.tuesday_select:
+            case 2:
                 if(checked) {
                     if (!dates.contains(2))
                         dates.add(2);}
@@ -156,7 +155,7 @@ public class EditHabitFragment extends DialogFragment {
                     dates.remove(Integer.valueOf(2));
                 break;
 
-            case R.id.wednesday_select:
+            case 3:
                 if(checked) {
                     if (!dates.contains(3))
                         dates.add(3);}
@@ -164,7 +163,7 @@ public class EditHabitFragment extends DialogFragment {
                     dates.remove(Integer.valueOf(3));
                 break;
 
-            case R.id.thursday_select:
+            case 4:
                 if(checked) {
                     if (!dates.contains(4))
                         dates.add(4); }
@@ -172,7 +171,7 @@ public class EditHabitFragment extends DialogFragment {
                     dates.remove(Integer.valueOf(4));
                 break;
 
-            case R.id.friday_select:
+            case 5:
                 if(checked) {
                     if (!dates.contains(5))
                         dates.add(5); }
@@ -180,7 +179,7 @@ public class EditHabitFragment extends DialogFragment {
                     dates.remove(Integer.valueOf(5));
                 break;
 
-            case R.id.saturday_select:
+            case 6:
                 if(checked) {
                     if (!dates.contains(6))
                         dates.add(6);}
@@ -188,7 +187,7 @@ public class EditHabitFragment extends DialogFragment {
                     dates.remove(Integer.valueOf(6));
                 break;
 
-            case R.id.sunday_select:
+            case 7:
                 if(checked) {
                     if (!dates.contains(7))
                         dates.add(7);}

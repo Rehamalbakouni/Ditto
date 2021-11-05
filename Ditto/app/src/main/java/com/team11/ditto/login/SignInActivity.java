@@ -38,6 +38,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.MainActivity;
 import com.team11.ditto.R;
+import com.team11.ditto.UserProfileActivity;
+import com.team11.ditto.WelcomeActivity;
+import com.team11.ditto.follow.FollowRequestActivity;
 
 /**
  * Activity to login a User so they can access the application
@@ -102,5 +105,15 @@ public class SignInActivity extends AppCompatActivity {
                     });
             }
         });
+    }
+
+    /**
+     * Define what to do if back pressed;
+     * -goes back to Welcome screen
+     */
+    public void onBackPressed() {
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
