@@ -83,22 +83,24 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
 
         habitEventRecyclerAdapter = new HabitEventRecyclerAdapter(this, habitEventsData, this);
 
+        // Load the Habit Event data (This will be converted to use the Firebase interface in the future)
         db = FirebaseFirestore.getInstance();
         db.collection(HABIT_EVENT_KEY)
-                .whereEqualTo("uid", FirebaseAuth.getInstance().getUid())
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getUid())  // Query only current user events for now
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         habitEventsData.clear();
                         for (QueryDocumentSnapshot doc: value) {
+                            // Parse the event data for each document
                             String eHabitId = (String) doc.getData().get("habitID");
                             String eHabitTitle = (String) doc.getData().get("habitTitle");
                             String eComment = (String) doc.getData().get("comment");
                             String ePhoto = (String) doc.getData().get("photo");
                             String eLocation = (String) doc.getData().get("location");
-                            habitEventsData.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));
+                            habitEventsData.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));  // Add the event to the event list
                         }
-                        habitEventRecyclerAdapter.notifyDataSetChanged();
+                        habitEventRecyclerAdapter.notifyDataSetChanged();  // Refresh the recycler
                     }
                 });
 
