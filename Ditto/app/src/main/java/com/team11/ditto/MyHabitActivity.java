@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -23,17 +22,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.habit.AddHabitFragment;
 import com.team11.ditto.habit.Habit;
-import com.team11.ditto.habit.RecyclerViewAdapter;
+import com.team11.ditto.habit.HabitRecyclerAdapter;
 import com.team11.ditto.habit.ViewHabitActivity;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
@@ -50,12 +44,11 @@ import java.util.ArrayList;
  *     -Get the happy faces for the level of completion for each habit
  *     -WHEN YOU DELETE A HABIT, ALSO DELETE THE HABIT EVENT ITS ASSOCIATED WITH
  * @author Kelly Shih, Aidan Horemans
-
  */
 
 public class MyHabitActivity extends AppCompatActivity implements
         AddHabitFragment.OnFragmentInteractionListener, SwitchTabs,
-        RecyclerViewAdapter.HabitClickListener, Firebase {
+        HabitRecyclerAdapter.HabitClickListener, Firebase {
 
     public static String EXTRA_HABIT = "EXTRA_HABIT";
     private TabLayout tabLayout;
@@ -63,7 +56,7 @@ public class MyHabitActivity extends AppCompatActivity implements
     //Declare variables for the list of habits
     private RecyclerView habitListView;
 
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private HabitRecyclerAdapter habitRecyclerAdapter;
     private ArrayList<Habit> habitDataList;
 
     private FirebaseFirestore db;
@@ -86,11 +79,11 @@ public class MyHabitActivity extends AppCompatActivity implements
         habitListView = findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(habitDataList, this, this);
+        habitRecyclerAdapter = new HabitRecyclerAdapter(habitDataList, this, this);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         habitListView.setLayoutManager(manager);
-        habitListView.setAdapter(recyclerViewAdapter);
+        habitListView.setAdapter(habitRecyclerAdapter);
 
         currentTab(tabLayout, MY_HABITS_TAB);
         switchTabs(this, tabLayout, MY_HABITS_TAB);
@@ -109,7 +102,7 @@ public class MyHabitActivity extends AppCompatActivity implements
         });
 
         //Notifies if cloud data changes (from Firebase Interface)
-        autoSnapshotListener(db, recyclerViewAdapter, HABIT_KEY);
+        autoSnapshotListener(db, habitRecyclerAdapter, HABIT_KEY);
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(habitListView);
@@ -159,7 +152,7 @@ public class MyHabitActivity extends AppCompatActivity implements
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             Habit oldEntry = (Habit) habitDataList.get(viewHolder.getAbsoluteAdapterPosition());
             habitDataList.remove(viewHolder.getAbsoluteAdapterPosition());
-            recyclerViewAdapter.notifyDataSetChanged();
+            habitRecyclerAdapter.notifyDataSetChanged();
 
             //ALSO REMOVE THE ASSOCIATED HABIT EVENTS
             deleteDataMyHabit(db, oldEntry);

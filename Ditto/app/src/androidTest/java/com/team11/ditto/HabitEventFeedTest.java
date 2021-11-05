@@ -6,6 +6,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -14,7 +16,11 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.not;
 
+import android.os.SystemClock;
+
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -45,6 +51,8 @@ public class HabitEventFeedTest {
      * test the add habit event fragment for choosing habit and commenting
      * TODO: create tests for adding photos and location
      */
+
+    //Assumes that a Habit named Running exists
     @Test
     public void testAddHabitEventAll() {
         String habit = "Running";
@@ -56,18 +64,62 @@ public class HabitEventFeedTest {
         //click choose a habit, create comment, add
         onView(withId(R.id.event_spinner)).perform(click());
 
+        SystemClock.sleep(3000);
+
         onView(withText(habit)).inRoot(isPlatformPopup()).perform(click());
+
+        SystemClock.sleep(3000);
 
         //check if what you chose is correct
         onView(withId(R.id.event_spinner))
                 .check(matches(withSpinnerText(containsString("Running"))));
-
 
         onView(withId(R.id.comment_editText)).perform(typeText(comment));
 
         //click the add button
         onView(withText("ADD")).perform(click());
 
+        onView(withId(R.id.list_habit_event)).check(matches(hasDescendant(withText(habit))));
     }
+
+
+    //Assumes that a Habit named Running exists
+    @Test
+    public void testViewEvent() {
+        String habit = "Running";
+        String comment = "I am drenched in sweat";
+
+        //open the add habit fragment
+        onView(withId(R.id.add_habit_event)).perform(click());
+
+        //click choose a habit, create comment, add
+        onView(withId(R.id.event_spinner)).perform(click());
+
+        SystemClock.sleep(3000);
+
+        onView(withText(habit)).inRoot(isPlatformPopup()).perform(click());
+
+        SystemClock.sleep(3000);
+
+        //check if what you chose is correct
+        onView(withId(R.id.event_spinner))
+                .check(matches(withSpinnerText(containsString("Running"))));
+
+        onView(withId(R.id.comment_editText)).perform(typeText(comment));
+
+        //click the add button
+        onView(withText("ADD")).perform(click());
+
+        onView(withId(R.id.list_habit_event)).check(matches(hasDescendant(withText(habit))));
+
+        //Assuming no other habit events
+        onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId(R.id.tracking)).check(matches(isDisplayed()));
+
+
+
+    }
+
 
 }
