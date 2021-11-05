@@ -1,9 +1,7 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -11,6 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
+import com.team11.ditto.R;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class FriendHabitActivity extends AppCompatActivity implements SwitchTabs
     private ListView friendHabitList;
     private ArrayAdapter<User> friendHabitAdapter;
     private ArrayList<User> userData;
-    private String ParentActivity;
+    private String userID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class FriendHabitActivity extends AppCompatActivity implements SwitchTabs
         friendHabitAdapter = new FriendHabitList(FriendHabitActivity.this,userData);
         friendHabitList.setAdapter(friendHabitAdapter);
 
-        ParentActivity = getIntent().getStringExtra("parent");
+        userID = getIntent().getStringExtra("parent");
         User user   = new User("Bob the builder", "12345678", 25);
         User user1 = new User("Oggy and the Cockroaches", "123456",36);
         User user2 = new User("Dragon Ball z", "123456",100);
@@ -61,28 +62,15 @@ public class FriendHabitActivity extends AppCompatActivity implements SwitchTabs
     }
 
     public void onBackPressed() {
-        if(ParentActivity.equals("Following")){
-            Intent intent = new Intent(FriendHabitActivity.this,FollowingActivity.class);
-            // important - do not clear activity stack for this case
+
+            Intent intent = new Intent(FriendHabitActivity.this, FollowingActivity.class);
+
             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 
-        else{
-            Intent intent = new Intent(FriendHabitActivity.this,FollowerActivity.class);
-            // important - do not clear activity stack for this case
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home){
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
+
 }

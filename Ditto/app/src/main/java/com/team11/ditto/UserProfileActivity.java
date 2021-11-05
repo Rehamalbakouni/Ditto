@@ -11,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.follow.FollowRequestActivity;
+import com.team11.ditto.follow.FollowerActivity;
+import com.team11.ditto.follow.FollowingActivity;
+import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.profile_details.SearchUserActivity;
 
 public class UserProfileActivity extends AppCompatActivity implements SwitchTabs {
 
@@ -65,7 +70,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
@@ -74,7 +79,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         following.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfileActivity.this,FollowingActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, FollowingActivity.class);
                 startActivity(intent);
             }
         });
@@ -95,7 +100,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserProfileActivity.this,SearchUserActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, SearchUserActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.profile_details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
+import com.team11.ditto.R;
+import com.team11.ditto.UserProfileActivity;
+import com.team11.ditto.interfaces.SwitchTabs;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class SearchUserActivity extends AppCompatActivity implements SwitchTabs{
+public class SearchUserActivity extends AppCompatActivity implements SwitchTabs {
 
     private TabLayout tabLayout;
     private ListView user_listView;
@@ -84,7 +87,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs{
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

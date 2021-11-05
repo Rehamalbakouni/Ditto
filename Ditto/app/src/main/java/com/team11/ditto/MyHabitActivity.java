@@ -31,6 +31,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.habit.AddHabitFragment;
+import com.team11.ditto.habit.Habit;
+import com.team11.ditto.habit.RecyclerViewAdapter;
+import com.team11.ditto.habit.ViewHabitActivity;
+import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.SwitchTabs;
 
 import java.util.ArrayList;
 
@@ -73,6 +79,8 @@ public class MyHabitActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_my_habit);
         tabLayout = findViewById(R.id.tabs);
         db = FirebaseFirestore.getInstance();
+
+        setTitle("My Habits");
 
         habitDataList = habitsFirebase;
         habitListView = findViewById(R.id.list);

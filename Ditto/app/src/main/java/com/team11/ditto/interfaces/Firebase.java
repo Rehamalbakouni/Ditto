@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.interfaces;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -20,6 +20,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
+import com.team11.ditto.habit.RecyclerViewAdapter;
+import com.team11.ditto.profile_details.User;
+import com.team11.ditto.habit.Habit;
+import com.team11.ditto.habit_event.HabitEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -109,50 +114,52 @@ public interface Firebase {
      * @param key
      */
     default void logData(@Nullable QuerySnapshot queryDocumentSnapshots, String key){
-        for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+        if (queryDocumentSnapshots != null) {
+            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
 
-            switch (key) {
-                case HABIT_KEY:
-                    Log.d(TAG, String.valueOf(doc.getData().get("title")));
-                    String hTitle = (String) doc.getData().get("title");
-                    String hReason = (String) doc.getData().get("reason");
-                    ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
-                    ArrayList<Integer> hDate = new ArrayList<>();
+                switch (key) {
+                    case HABIT_KEY:
+                        Log.d(TAG, String.valueOf(doc.getData().get("title")));
+                        String hTitle = (String) doc.getData().get("title");
+                        String hReason = (String) doc.getData().get("reason");
+                        ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
+                        ArrayList<Integer> hDate = new ArrayList<>();
 
-                    Habit newHabit = new Habit(hTitle, hReason, hDate);
-                    newHabit.setHabitID(doc.getId());
+                        Habit newHabit = new Habit(hTitle, hReason, hDate);
+                        newHabit.setHabitID(doc.getId());
 
-                    habitsFirebase.add(newHabit);
+                        habitsFirebase.add(newHabit);
 
-                    //TEMP FIX DO NOT LEAVE IN FINAL BUILD
-                    //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
-                    if (temp.size() > 0) {
-                        for (int i = 0; i < temp.size(); i++) {
-                            hDate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
+                        //TEMP FIX DO NOT LEAVE IN FINAL BUILD
+                        //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
+                        if (temp != null && temp.size() > 0) {
+                            for (int i = 0; i < temp.size(); i++) {
+                                hDate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case USER_KEY:
-                    Log.d(TAG, String.valueOf(doc.getData().get("username")));
-                    String uUsername = (String) doc.getData().get("username");
-                    String uPassword = (String) doc.getData().get("password");
-                    int uAge = Integer.parseInt( (String) doc.getData().get("age"));
-                    usersFirebase.add(new User(uUsername, uPassword, uAge));
-                    break;
+                    case USER_KEY:
+                        Log.d(TAG, String.valueOf(doc.getData().get("username")));
+                        String uUsername = (String) doc.getData().get("username");
+                        String uPassword = (String) doc.getData().get("password");
+                        int uAge = Integer.parseInt((String) doc.getData().get("age"));
+                        usersFirebase.add(new User(uUsername, uPassword, uAge));
+                        break;
 
-                case HABIT_EVENT_KEY:
-                    Log.d(TAG, String.valueOf(doc.getData().get("habitID")));
-                    String eHabitId = (String) doc.getData().get("habitID");
-                    String eHabitTitle = (String) doc.getData().get("habitTitle");
-                    String eComment = (String) doc.getData().get("comment");
-                    String ePhoto = (String) doc.getData().get("photo");
-                    String eLocation = (String) doc.getData().get("location");
-                    hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));
-                    break;
+                    case HABIT_EVENT_KEY:
+                        Log.d(TAG, String.valueOf(doc.getData().get("habitID")));
+                        String eHabitId = (String) doc.getData().get("habitID");
+                        String eHabitTitle = (String) doc.getData().get("habitTitle");
+                        String eComment = (String) doc.getData().get("comment");
+                        String ePhoto = (String) doc.getData().get("photo");
+                        String eLocation = (String) doc.getData().get("location");
+                        hEventsFirebase.add(new HabitEvent(eHabitId, eComment, ePhoto, eLocation, eHabitTitle));
+                        break;
 
-                default:
-                    throw new RuntimeException("logData: Improper key used");
+                    default:
+                        throw new RuntimeException("logData: Improper key used");
+                }
             }
         }
     }
@@ -307,18 +314,15 @@ public interface Firebase {
     default void getDocumentsHabit(FirebaseFirestore database, List<String> habits, List<String> habitsIDs, Spinner spinner, FragmentActivity fragmentActivity) {
         database.collection(HABIT_KEY)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                addHabitData(snapshot, habits, habitsIDs);
-                            }
-                            spinnerData(spinner, habits, fragmentActivity);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                            addHabitData(snapshot, habits, habitsIDs);
                         }
-                        else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
+                        spinnerData(spinner, habits, fragmentActivity);
+                    }
+                    else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
 
@@ -333,7 +337,7 @@ public interface Firebase {
     default void addHabitData(QueryDocumentSnapshot snapshot, List<String> habits, List<String> habitIDs) {
         Log.d(TAG, snapshot.getId() + "=>" + snapshot.getData());
         String habitTitle = snapshot.get("title").toString();
-        String habitID = snapshot.getId().toString();
+        String habitID = snapshot.getId();
         habits.add(habitTitle);
         habitIDs.add(habitID);
     }
@@ -346,7 +350,7 @@ public interface Firebase {
      */
     default void spinnerData(Spinner spinner, List<String> habits, FragmentActivity fragmentActivity) {
         //initialize the spinner with the options from the database
-        ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(fragmentActivity, android.R.layout.simple_spinner_item, habits);
+        ArrayAdapter<String> habitAdapter = new ArrayAdapter<>(fragmentActivity, android.R.layout.simple_spinner_item, habits);
         habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(habitAdapter);
     }

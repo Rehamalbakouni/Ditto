@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.habit;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.team11.ditto.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

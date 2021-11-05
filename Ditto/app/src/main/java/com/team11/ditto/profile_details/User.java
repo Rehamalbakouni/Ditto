@@ -1,6 +1,8 @@
-package com.team11.ditto;
+package com.team11.ditto.profile_details;
 
 import android.graphics.drawable.Drawable;
+
+import com.team11.ditto.habit.Habit;
 
 import java.util.ArrayList;
 

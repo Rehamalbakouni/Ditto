@@ -4,7 +4,6 @@
     package="com.team11.ditto">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera2" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -15,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ditto">
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -25,54 +23,54 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MyHabitActivity"
-            android:exported="true" />
+        <activity android:name="MyHabitActivity"
+            android:exported="true"/>
         <activity
             android:name=".UserProfileActivity"
             android:exported="true"
-            android:label="Profile" />
+            android:label="Profile"
+            />
         <activity
-            android:name=".FollowingActivity"
+            android:name=".follow.FollowingActivity"
             android:exported="true"
             android:label="Following"
-            android:parentActivityName=".UserProfileActivity" />
+            android:parentActivityName=".UserProfileActivity"
+            />
         <activity
             android:name=".DueTodayActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SearchUserActivity"
             android:exported="true"
-            android:label="Search Users"
+
+            />
+        <activity
+            android:name=".profile_details.SearchUserActivity"
+            android:exported="true"
             android:parentActivityName=".UserProfileActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:label="Search Users"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
-            android:name=".FollowRequestActivity"
+            android:name=".follow.FollowRequestActivity"
             android:exported="true"
-            android:label="Follow Requests"
-            android:parentActivityName=".UserProfileActivity" />
-        <activity
-            android:name=".ViewHabitActivity"
-            android:exported="false"
-            android:parentActivityName=".MyHabitActivity" />
-            android:parentActivityName="UserProfileActivity"
+            android:parentActivityName=".UserProfileActivity"
             android:label="Follow Requests"/>
 
         <activity
-            android:name="FollowerActivity"
+            android:name=".follow.FollowerActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"
+            android:parentActivityName=".UserProfileActivity"
             android:label = "Followers"/>
 
         <activity
-            android:name="FriendHabitActivity"
+            android:name=".follow.FriendHabitActivity"
             android:exported="true"
-            android:parentActivityName="UserProfileActivity"/>
+            android:parentActivityName=".follow.FollowingActivity"/>
 
+        <activity
+            android:name=".ViewHabitActivity"
+            android:parentActivityName=".MyHabitActivity"/>
 
         <activity
             android:name=".ViewEventActivity"
-            android:exported="false"
             android:parentActivityName=".MainActivity"/>
 
         <meta-data

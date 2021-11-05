@@ -1,27 +1,21 @@
-package com.team11.ditto;
+package com.team11.ditto.habit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Document;
+import com.team11.ditto.R;
+import com.team11.ditto.habit.EditHabitFragment;
+import com.team11.ditto.habit.Habit;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,17 +48,30 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit);
         habitReason = findViewById(R.id.habit_reason);
+        habitDays = findViewById(R.id.habit_days);
 
         //Getting passed habit
         selectedHabit = (Habit) getIntent().getSerializableExtra("EXTRA_HABIT");
 
         //Setting title as habit title
-        title = selectedHabit.getTitle();
-        setTitle(title);
+        setTitle(selectedHabit.getTitle());
 
         //Setting habit_reason textview as habit reason
-        reason = selectedHabit.getReason();
-        habitReason.setText(reason);
+        habitReason.setText(selectedHabit.getReason());
+
+        dates = selectedHabit.getDate();
+
+        //Displaying dates in TextView
+        if(dates != null){
+            if(dates.size() > 0){
+                listDays = "";
+                for(int i = 0; i < dates.size(); i++){
+                    listDays +=  intToDate(dates.get(i)) + " ";
+                }
+            }
+        }
+
+        habitDays.setText(listDays);
 
         habitTitle = findViewById(R.id.habit_tracking);
     }
@@ -112,11 +119,51 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
     public void onOkPressed(Habit habit) {
 
         //UPDATE THE OLD HABIT WITH THE NEW DATA
+
         //when the user clicks the add button, we want to add to the db and display the new entry
+        final String title = habit.getTitle();
+        final String reason = habit.getReason();
+        final ArrayList<Integer> dates = habit.getDate();
+        final String habitID = habit.getHabitID();
+        Log.d(TAG, "dates -> "+ dates);
 
         database = FirebaseFirestore.getInstance();
         pushEditData(database, habit);
 
+        //Updating old text with new habit stuff
+        habitReason.setText(habit.getReason());
 
+        if(dates != null){
+            if(dates.size() > 0){
+                listDays = "";
+                for(int i = 0; i < dates.size(); i++){
+                    listDays +=  intToDate(dates.get(i)) + " ";
+                }
+            }
+        }
+
+        habitDays.setText(listDays);
+    }
+
+
+    //Takes an integer and returns the respective day of the week,
+    //returns null when given incorrect int
+    private String intToDate(int date){
+        if(date == 1){
+            return "Monday";
+        } else if (date == 2){
+            return "Tuesday";
+        } else if (date == 3){
+            return "Wednesday";
+        } else if (date == 4){
+            return "Thursday";
+        } else if (date == 5){
+            return "Friday";
+        } else if (date == 6){
+            return "Saturday";
+        } else if (date == 7){
+            return "Sunday";
+        }
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.login;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,8 +12,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team11.ditto.R;
+import com.team11.ditto.profile_details.User;
+import com.team11.ditto.interfaces.Firebase;
 
-public class SignUpActivity extends AppCompatActivity implements Firebase{
+public class SignUpActivity extends AppCompatActivity implements Firebase {
     private EditText user_name;
     private EditText age;
     private EditText password;
