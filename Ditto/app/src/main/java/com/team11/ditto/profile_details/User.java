@@ -115,10 +115,10 @@ public class User {
 
     /**
      * Setter for photo
-     * @param profilePhoto new photo
+     * @param profilePhotoPath string; path to new photo
      */
-    public void setProfilePhoto(Drawable profilePhoto) {
-        this.profilePhoto = profilePhoto;
+    public void setProfilePhoto(String profilePhotoPath) {
+        this.profilePhoto = Drawable.createFromPath(profilePhotoPath);
     }
 
     /**
@@ -133,7 +133,7 @@ public class User {
      * Getter for id
      * @return id existing id
      */
-    public String getID(String id){
+    public String getID(){
         return this.id;
     }
 }
