@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Custom ArrayAdapter for User Class
- * @author Courtenay Laing-Kobe
+ * @author Vivek Malhotra, Courtenay Laing-Kobe
  */
 public class CustomListFollowerFollowing extends ArrayAdapter<User> {
 
