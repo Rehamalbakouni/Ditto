@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="background" type="id">background</item>
-    <item name="signup_password_confirm_field" type="id">signup_password_confirm_field</item>
-    <item name="signup_password_field" type="id">signup_password_field</item>
-    <item name="signup_email_field" type="id">signup_email_field</item>
-    <item name="register_button" type="id">register_button</item>
-</resources>
