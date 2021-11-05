@@ -12,10 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
-
-
-
-    FirebaseFirestore db; //when they addcity button we need to dump into db
+    FirebaseFirestore db;
     private TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

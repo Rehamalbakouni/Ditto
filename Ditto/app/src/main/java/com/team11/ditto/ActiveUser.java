@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 /**
  * Represents the User who is currently logged in
+ * @author Courtenay Laing-Kobe
  */
 public class ActiveUser extends User{
 

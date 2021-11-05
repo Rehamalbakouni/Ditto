@@ -10,20 +10,19 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * This is a class that initializes a Dialog for the user to input a title, reason, dates for a new Habit.
@@ -32,28 +31,32 @@ import java.util.List;
  * @author Kelly Shih, Aidan Horemans
  */
 public class AddHabitFragment extends DialogFragment{
+    //Declare views & interaction listener
     private EditText hTitle;
     private EditText hReason;
     private ArrayList<Integer> dates;
     private OnFragmentInteractionListener listener;
-    private CheckBox chk1, chk2, chk3, chk4, chk5, chk6, chk7;
 
+
+    //Declare interface
     public interface OnFragmentInteractionListener {
         void onOkPressed(Habit newHabit);
     }
 
+    /**
+     * Tells Android what to do when the Fragment is attached to the Activity
+     * @param context the Activity context
+     */
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         listener = (OnFragmentInteractionListener) context;
     }
 
-
-
     /**
      * Create the dialog with the fields for title, reason, dates, and go to OnOkPressed method when user clicks "Add"
-     * @param savedInstanceState
-     * @return
+     * @param savedInstanceState current App state
+     * @return Dialog for user creation of a new habit
      */
     @NonNull
     @Override
@@ -64,6 +67,7 @@ public class AddHabitFragment extends DialogFragment{
         hReason = view.findViewById(R.id.reason_editText);
         dates = new ArrayList<>();
 
+        CheckBox chk1, chk2, chk3, chk4, chk5, chk6, chk7;
         //initializing checkboxes... i think this is the best way to do it... dear god
         chk1 = view.findViewById(R.id.monday_select); chk2 = view.findViewById(R.id.tuesday_select);
         chk3 = view.findViewById(R.id.wednesday_select); chk4 = view.findViewById(R.id.thursday_select);
@@ -79,6 +83,7 @@ public class AddHabitFragment extends DialogFragment{
 
         //hDate = view.findViewById(R.id.date_editText);
 
+        //Builds the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -86,8 +91,8 @@ public class AddHabitFragment extends DialogFragment{
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     /**
                      * On clicking the "add" button, create a new Habit object with the new data inputted by the user
-                     * @param dialogInterface
-                     * @param i
+                     * @param dialogInterface Android default
+                     * @param i Android default
                      */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -96,7 +101,6 @@ public class AddHabitFragment extends DialogFragment{
                         Collections.sort(dates);
 
                         listener.onOkPressed(new Habit(title, reason, dates));
-
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -106,8 +110,9 @@ public class AddHabitFragment extends DialogFragment{
 
     /**
      * A method to add the weekday (1,2,3,4,5,6,7) to the dates list for the dates the user wants to do the activity
-     * @param compoundButton
-     * @param checked
+     * @param compoundButton checkbox
+     * @param checked whether the box is checked
+     *  TODO Android Studio suggests not using resource Ids in switch statements
      */
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         switch(compoundButton.getId()){

@@ -14,22 +14,37 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class CustomListUser extends ArrayAdapter<User> {
+/**
+ * Custom ArrayAdapter for User Class
+ * @author Courtenay Laing-Kobe
+ */
+public class CustomFollowList extends ArrayAdapter<User> {
 
+    //Declare values
     private ArrayList<User> users;
     private Context context;
 
-    public CustomListUser(Context context, ArrayList<User> users) {
+    /**
+     * Constructor for CustomUserList
+     * @param context application context
+     * @param users ArrayList of User objects to display
+     */
+    public CustomFollowList(Context context, ArrayList<User> users) {
         super(context,0,users);
         this.users = users;
         this.context = context;
     }
 
+    /**
+     * Creates a view for an item in the list
+     * @param position Android default
+     * @param convertView Android default
+     * @param parent Android default
+     * @return Follower/Following style view
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
-
         View view = convertView;
 
         if(view == null){
@@ -39,10 +54,10 @@ public class CustomListUser extends ArrayAdapter<User> {
         User user = users.get(position);
 
         TextView username = view.findViewById(R.id.follower_name);
-        ImageView userphoto = view.findViewById(R.id.follower_photo);
+        ImageView userPhoto = view.findViewById(R.id.follower_photo);
 
         username.setText(user.getUsername());
-        userphoto.setImageResource(R.drawable.background);
+        userPhoto.setImageResource(R.drawable.background);
 
         return view;
     }
