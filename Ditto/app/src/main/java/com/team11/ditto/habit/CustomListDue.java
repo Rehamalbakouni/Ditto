@@ -16,35 +16,39 @@ import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
-public class CustomListDue extends ArrayAdapter<User> {
+/**
+ * Custom list to show Habits that are due on the current day of the week
+ * @author Vivek Malhotra
+ */
+public class CustomListDue extends ArrayAdapter<Habit> {
 
-    private ArrayList<User> users;
+    private ArrayList<Habit> habits;
     private Context context;
 
-    public CustomListDue(Context context, ArrayList<User> users) {
-        super(context,0,users);
-        this.users = users;
+    public CustomListDue(Context context, ArrayList<Habit> habits) {
+        super(context,0,habits);
+        this.habits = habits;
         this.context = context;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
-
         View view = convertView;
 
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.duetoday_content, parent,false);
         }
 
-        User user = users.get(position);
+        Habit habit = habits.get(position);
 
         TextView habitName = view.findViewById(R.id.due_habit_name);
         TextView habitDescription = view.findViewById(R.id.due_habit_description);
         ImageView progress = view.findViewById(R.id.my_progress);
 
-        habitName.setText(user.getUsername());
+        //For prototype display only
+        //TODO implement actual Habits due
+        habitName.setText(habit.getTitle());
         habitDescription.setText("Been missing gym for 2 years now");
 
         return view;
