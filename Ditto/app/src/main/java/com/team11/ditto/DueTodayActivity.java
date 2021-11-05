@@ -32,7 +32,7 @@ import java.util.Calendar;
 
 /**
  * Activity to display a list of the ActiveUser's Habits that are scheduled to be done today
- * @author Aidan Horemans, Kelly Shih, Vivek Malhotra
+ * @author Aidan Horemans, Kelly Shih, Vivek Malhotra, Matthew Asgari
  */
 public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     FirebaseFirestore db;
@@ -85,13 +85,14 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         habits.clear();
                         for (QueryDocumentSnapshot document: value) {
+                            // For each document parse the data and create a habit object
                             String title = (String) document.getData().get("title");
                             String reason = (String) document.getData().get("reason");
                             ArrayList<Integer> days = (ArrayList<Integer>) document.getData().get("days_of_week");
                             Habit habit = new Habit(title, reason, days);
-                            habits.add(habit);
+                            habits.add(habit);  // Add to the habit list
                         }
-                        dueTodayAdapter.notifyDataSetChanged();
+                        dueTodayAdapter.notifyDataSetChanged();  // Refresh the adapter
                     }
                 });
 
