@@ -79,7 +79,47 @@ public class UserProfileActivityTest {
      */
     @Test
     public void checkFollowers() {
+        String user = "Ezio Auditore da Firenze";
+        // click on followers
+        onView(withId(R.id.followers)).perform(click());
+        SystemClock.sleep(3000);
+        // check if Ezio Auditore da Firenze appears on screen
+        onView(withId(R.id.follower_list_custom)).check(matches(hasDescendant(withText(user))));
+        SystemClock.sleep(3000);
+    }
+
+    /**
+     *  Check if following functionality works
+     */
+    @Test
+    public void checkFollowing() {
+        String user = "Aryan";
+
+        // click on following
+        onView(withId(R.id.following)).perform(click());
+        SystemClock.sleep(3000);
+        // check if Aryan appears on screen
+        onView(withId(R.id.following_list_custom)).check(matches(hasDescendant(withText(user))));
+        SystemClock.sleep(3000);
+    }
+
+
+    /**
+     *  Check if we can see the public habit and indicator of those who we are following
+     */
+    @Test
+    public void checkFollowingHabits(){
+        String user = "Aryan";
+
+        // click on following
+        onView(withId(R.id.following)).perform(click());
+        SystemClock.sleep(3000);
+        // check if Aryan appears on screen
+        onView(withId(R.id.following_list_custom)).check(matches(hasDescendant(withText(user))));
+        SystemClock.sleep(3000);
+
+        // click on Aryan
+        onView(withText(user)).perform(click());
 
     }
-    
 }
