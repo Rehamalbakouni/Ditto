@@ -40,7 +40,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         usernameLogin = findViewById(R.id.userName2);
-        passwordLogin = findViewById(R.id.Password2);
+        passwordLogin = findViewById(R.id.password2);
         signinBtn = findViewById(R.id.signIn);
         db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("User");
