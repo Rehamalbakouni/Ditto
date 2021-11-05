@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
     // Attempt to register a user on Firebase
     private void registerUser(String email, String password, HashMap<String, String> userData) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
