@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 
 public interface Firebase {
 
-    String HABIT_KEY = "Habit";
+    String HABIT_KEY = "Habits";
     String USER_KEY = "User";
     String HABIT_EVENT_KEY = "HabitEvent";
     String TAG = "add";
@@ -205,7 +205,7 @@ public interface Firebase {
     }
 
     default void getDocumentsHabit(FirebaseFirestore database, List<String> habits, List<String> habitsIDs, Spinner spinner, FragmentActivity fragmentActivity) {
-        database.collection("Habit")
+        database.collection(HABIT_KEY)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
