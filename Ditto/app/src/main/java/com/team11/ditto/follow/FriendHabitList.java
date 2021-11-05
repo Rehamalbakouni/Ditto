@@ -13,26 +13,40 @@ import androidx.annotation.Nullable;
 
 import com.team11.ditto.R;
 import com.team11.ditto.habit.Habit;
-import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
+/**
+ * Custom list adapter to display the habits of a User that is followed by the ActiveUser
+ * @author Vivek Malhotra, Courtenay Laing-Kobe
+ */
 public class FriendHabitList extends ArrayAdapter<Habit> {
 
+    //Declarations
     private ArrayList<Habit> habits;
-    private Context context;
+    private final Context context;
 
+    /**
+     * Constructor for the list
+     * @param context activity context
+     * @param habits habits to display
+     */
     public FriendHabitList(Context context, ArrayList<Habit> habits) {
         super(context,0,habits);
         this.habits = habits;
         this.context = context;
     }
 
+    /**
+     * Create the views for each list item
+     * @param position Android Default
+     * @param convertView Android Default
+     * @param parent Android Default
+     * @return View for a list item
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
-
         View view = convertView;
 
         if(view == null){
