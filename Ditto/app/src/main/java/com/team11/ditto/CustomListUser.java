@@ -14,12 +14,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class FollowingList extends ArrayAdapter<User> {
+public class CustomListUser extends ArrayAdapter<User> {
 
     private ArrayList<User> users;
     private Context context;
 
-    public FollowingList(Context context, ArrayList<User> users) {
+    public CustomListUser(Context context, ArrayList<User> users) {
         super(context,0,users);
         this.users = users;
         this.context = context;
@@ -33,13 +33,13 @@ public class FollowingList extends ArrayAdapter<User> {
         View view = convertView;
 
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.follow_content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.follower_content, parent,false);
         }
 
         User user = users.get(position);
 
-        TextView username = view.findViewById(R.id.user_name);
-        ImageView userphoto = view.findViewById(R.id.user_photo);
+        TextView username = view.findViewById(R.id.follower_name);
+        ImageView userphoto = view.findViewById(R.id.follower_photo);
 
         username.setText(user.getUsername());
         userphoto.setImageResource(R.drawable.background);

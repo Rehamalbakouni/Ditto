@@ -29,27 +29,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
 
 /**To display the listview of Habits for a user in the "My Habits" tab
  *Allow a user to add a habit, swipe left to delete a habit
@@ -63,7 +46,10 @@ import javax.annotation.Nullable;
  * @author Kelly Shih, Aidan Horemans
 
  */
-public class MyHabitActivity extends AppCompatActivity implements AddHabitFragment.OnFragmentInteractionListener, SwitchTabs, RecyclerViewAdapter.HabitClickListener {
+
+public class MyHabitActivity extends AppCompatActivity implements
+        AddHabitFragment.OnFragmentInteractionListener, SwitchTabs,
+        RecyclerViewAdapter.HabitClickListener, Firebase {
 
     public static String EXTRA_HABIT = "EXTRA_HABIT";
     private TabLayout tabLayout;
@@ -75,8 +61,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     private ArrayList<Habit> habitDataList;
 
     private FirebaseFirestore db;
-    final String TAG = "add";
-    HashMap<String, Object> data = new HashMap<>();
 
     /**
      * Create the Activity instance for the "My Habits" screen, control flow of actions
@@ -88,9 +72,11 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_habit);
         tabLayout = findViewById(R.id.tabs);
+        db = FirebaseFirestore.getInstance();
 
-        habitDataList = new ArrayList<>();
-        habitListView = (RecyclerView) findViewById(R.id.list);
+        habitDataList = habitsFirebase;
+        habitListView = findViewById(R.id.list);
+        tabLayout = findViewById(R.id.tabs);
 
         recyclerViewAdapter = new RecyclerViewAdapter(habitDataList, this, this);
 
@@ -100,13 +86,6 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
 
         currentTab(tabLayout, MY_HABITS_TAB);
         switchTabs(this, tabLayout, MY_HABITS_TAB);
-
-
-        db = FirebaseFirestore.getInstance();
-        //Get a top level reference to the collection
-        final Query collectionReference = db.collection("Habit")
-                .orderBy("order");
-
 
         //add habit button action
         final FloatingActionButton addHabitButton = findViewById(R.id.add_habit);
@@ -121,42 +100,8 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
             }
         });
 
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            /**Maintain listview after each activity switch, login, logout
-             *
-             * @param queryDocumentSnapshots
-             * @param error
-             */
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-                    FirebaseFirestoreException error) {
-
-                // Clear the old list
-                habitDataList.clear();
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    Log.d(TAG, String.valueOf(doc.getData().get("title")));
-                    String htitle = (String) doc.getData().get("title");
-                    String hreason = (String) doc.getData().get("reason");
-                    ArrayList<Long> temp = (ArrayList<Long>) doc.getData().get("days_of_week");
-                    ArrayList<Integer> hdate = new ArrayList<>();
-
-                    //TEMP FIX DO NOT LEAVE IN FINAL BUILD
-                    //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
-                    if (temp.size() > 0) {
-                        for (int i = 0; i < temp.size(); i++) {
-                            hdate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
-                        }
-                    }
-
-                    Habit newHabit = new Habit(htitle, hreason, hdate);
-                    newHabit.setHabitID(doc.getId());
-                    habitDataList.add(newHabit); // Adding the Habits from FireStore
-
-                }
-                recyclerViewAdapter.notifyDataSetChanged();
-                // Notifying the adapter to render any new data fetched from the cloud
-            }
-        });
+        //Notifies if cloud data changes (from Firebase Interface)
+        autoSnapshotListener(db, recyclerViewAdapter, HABIT_KEY);
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(habitListView);
@@ -170,55 +115,9 @@ public class MyHabitActivity extends AppCompatActivity implements AddHabitFragme
     @Override
     public void onOkPressed(Habit newHabit) {
         //when the user clicks the add button, we want to add to the db and display the new entry
-
-        final String title = newHabit.getTitle();
-        final String reason = newHabit.getReason();
-        final ArrayList<Integer> dates = newHabit.getDate();
-        //final ArrayList<String> habitEventslist = new ArrayList<String>();
-
-        //generate an auto-generated ID for firebase
-        final DocumentReference documentReference = db.collection("Habit").document();
-
-        //get unique timestamp for ordering our list
-        Date currentTime = Calendar.getInstance().getTime();
-
-        if (title.length() > 0) {
-            //if there is some data in edittext field, then create new key-value pair
-            data.put("title", title);
-            data.put("reason", reason);
-            data.put("days_of_week", dates);
-            //data.put("habitEvents", habitEventslist);
-            //this field is used to add the current timestamp of the item, to be used to order the items
-            data.put("order", currentTime);
-
-            documentReference
-                    .set(data)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            //method which gets executed when the task is successful
-                            Log.d(TAG, "Data has been added successfully!");
-                            newHabit.setHabitID(documentReference.getId());
-
-                            for (int i = 0; i < dates.size(); i++) {
-                                DocumentReference arrayID = db.collection("Habit").document(documentReference.getId());
-                                Log.d(TAG, "DOC REFERENCE " + documentReference.getId());
-                                //set the "days_of_week"
-                                arrayID.update("days_of_week", FieldValue.arrayUnion(dates.get(i)));
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //method that gets executed if there's a problem
-                            Log.d(TAG, "Data could not be added!" + e.toString());
-
-                        }
-                    });
+        if (newHabit.getTitle().length() > 0) {
+            pushHabitData(db, newHabit);
         }
-
-
     }
 
     /**

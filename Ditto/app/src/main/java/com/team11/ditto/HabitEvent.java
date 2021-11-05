@@ -16,6 +16,7 @@ import java.io.Serializable;
  * photograph
  * location
  */
+
 public class HabitEvent implements Serializable {
     private String habitId;
     private String habitTitle;

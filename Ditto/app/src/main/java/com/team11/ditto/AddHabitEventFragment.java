@@ -54,7 +54,7 @@ import java.util.List;
  * TODO: allow user to add photo and location
  * @author Kelly Shih, Aidan Horemans
  */
-public class AddHabitEventFragment extends DialogFragment {
+public class AddHabitEventFragment extends DialogFragment implements Firebase{
     private EditText hComment;
     private Button acc_photo;
     private OnFragmentInteractionListener listener;
@@ -94,35 +94,10 @@ public class AddHabitEventFragment extends DialogFragment {
 
 
         //get the documents from Habit
-        db.collection("Habit")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                Log.d(TAG, snapshot.getId() + "=>" + snapshot.getData());
-                                String habitTitle = snapshot.get("title").toString();
-                                String habitID = snapshot.getId().toString();
-                                habits.add(habitTitle);
-                                habitIDs.add(habitID);
-                            }
-                            //initialize the spinner with the options from the database
-                            ArrayAdapter<String> habitAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, habits);
-                            habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinner.setAdapter(habitAdapter);
-                        }
-                        else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        getDocumentsHabit(db, habits, habitIDs, spinner, getActivity());
 
         final String[] hHabit = new String[1];
         final String[] IDhabit = new String[1];
-
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             /**
              * to retrieve the habit and habit ID from the selected spinner choice

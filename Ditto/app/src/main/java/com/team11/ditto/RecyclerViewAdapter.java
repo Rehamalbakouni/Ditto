@@ -66,8 +66,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         return courseDataArrayList.size();
     }
-
-
         /**
          * Viewholder class to handle RecyclerView
          */

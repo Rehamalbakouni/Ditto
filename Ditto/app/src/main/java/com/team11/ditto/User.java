@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 
-public class User {
+public class User extends Object{
 
     //User attributes
     private String id;
