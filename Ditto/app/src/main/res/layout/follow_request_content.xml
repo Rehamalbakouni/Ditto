@@ -4,7 +4,6 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -35,7 +34,7 @@
             android:paddingLeft="20dp"
             android:paddingTop="25dp"
             android:paddingRight="20dp"
-            android:text="Alejandra"
+            android:text="@string/sample_user"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +59,9 @@
             app:layout_constraintEnd_toStartOf="@+id/deny_request"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:tint="#5FA11A">
+            app:tint="#5FA11A"
+            android:contentDescription="@string/accept"
+            android:focusable="true">
 
         </ImageView>
 
@@ -78,7 +79,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:tint="#CF0A0A">
+            app:tint="#CF0A0A"
+            android:contentDescription="@string/deny"
+            android:focusable="true">
 
         </ImageView>
 

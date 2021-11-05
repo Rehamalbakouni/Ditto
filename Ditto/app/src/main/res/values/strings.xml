@@ -23,4 +23,17 @@
     <string name="reason">Reason</string>
     <string name="add_photo">ADD PHOTO</string>
     <string name="add_location">ADD LOCATION</string>
+    <string name="reason">Reason</string>
+    <string name="m">M</string>
+    <string name="t">T</string>
+    <string name="w">W</string>
+    <string name="f">F</string>
+    <string name="s">S</string>
+    <string name="title">Title</string>
+    <string name="sample_user">Alejandra</string>
+    <string name="sample_habit_description">This is a sample description of a habit</string>
+    <string name="indicator">Indicator</string>
+    <string name="remove_user">Remove this user</string>
+    <string name="accept">Accept Request</string>
+    <string name="deny">Deny Request</string>
 </resources>

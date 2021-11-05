@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="69dp"
         android:layout_weight="66.6"
-        android:text="Title" />
+        android:text="@string/title" />
 
     <TextView
         android:id="@+id/content_habit_reason"
@@ -21,6 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="69dp"
         android:layout_weight="66.6"
-        android:text="Reason" />
+        android:text="@string/reason" />
 
 </LinearLayout>
