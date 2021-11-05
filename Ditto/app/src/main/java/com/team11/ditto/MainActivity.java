@@ -39,7 +39,7 @@ import java.util.HashMap;
  * TODO:
  *     there is repetition between MyHabitActivity and the Homepage when creating fragments and listviews
  *     solve by making a more object oriented design
- * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra
+ * @author: Kelly Shih, Aidan Horemans, Vivek Malhotra, Matthew Asgari
  */
 
 public class MainActivity extends AppCompatActivity implements SwitchTabs,
@@ -131,18 +131,6 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
         pushHabitEventData(db, newHabitEvent);
-    }
-
-    // Check if device has stored userID
-    private Boolean hasUserID() {
-
-        LocalStorage ls = new LocalStorage(this);
-        String uid = ls.getUserID();
-
-        if (uid.equals(this.getString(R.string.null_user_id))) {
-            return false;
-        }
-        return true;
     }
 
     /**
