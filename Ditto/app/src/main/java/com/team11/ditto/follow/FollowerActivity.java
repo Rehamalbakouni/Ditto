@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.follow;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,39 +17,52 @@ import com.team11.ditto.UserProfileActivity;
 
 import java.util.ArrayList;
 
+/**
+ * Activity to display a list of Users who follow the ActiveUser
+ * @author Vivek Malhotra
+ */
 public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
 
+    //Declarations
     private TabLayout tabLayout;
-    //Declare variables for the list of habits
     private ListView followingListView;
     private ArrayAdapter<User> userAdapter;
     private ArrayList<User> userDataList;
-    private int UserPosition;
 
+    /**
+     * Instructions for creating activity
+     * Simple listview with bottom tabs
+     * @param savedInstanceState current app state
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set layouts
         setContentView(R.layout.follower_list);
         followingListView = findViewById(R.id.follower_list_custom);
         tabLayout = findViewById(R.id.tabs);
 
+        //Initialize values
         userDataList = new ArrayList<>();
         userAdapter = new CustomListFollowerFollowing(FollowerActivity.this,userDataList);
         followingListView.setAdapter(userAdapter);
         User user   = new User("Ezio Auditore da Firenze", "12345678");
         userAdapter.add(user);
 
+        //Enable tab switching
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
 
     }
 
+    /**
+     * Define behaviour when back pressed;
+     * Goes back to UserProfileActivity
+     */
     public void onBackPressed() {
-
         Intent intent = new Intent(FollowerActivity.this, UserProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
 
 }

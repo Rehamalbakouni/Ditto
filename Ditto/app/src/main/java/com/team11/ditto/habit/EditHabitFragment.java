@@ -29,6 +29,7 @@ import java.util.Collections;
  *  @author Kelly Shih, Aidan Horemans
  */
 public class EditHabitFragment extends DialogFragment {
+    //Declarations
     private TextView hTitle;
     private EditText hReason;
     private ArrayList<Integer> dates;
@@ -41,16 +42,21 @@ public class EditHabitFragment extends DialogFragment {
         void onOkPressed(Habit habit);
     }
 
+    /**
+     * Instructions for what to do when Fragment attaches
+     * -set listener for interaction
+     * @param context activity context
+     */
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         listener = (EditHabitFragment.OnFragmentInteractionListener) context;
     }
 
     /**
      * Create the dialog with the edit fields for reason, dates, and go to OnOkPressed method when user clicks "Add"
-     * @param savedInstanceState
-     * @return
+     * @param savedInstanceState app state
+     * @return Dialog
      */
     @NonNull
     @Override
@@ -60,15 +66,15 @@ public class EditHabitFragment extends DialogFragment {
         hTitle = view.findViewById(R.id.title_textView);
         hReason = view.findViewById(R.id.reason_editText);
 
+        //Get and handle Habit from bundle if there is one
         bundle = getArguments();
+        if (bundle != null) {
+            selectedHabit = (Habit) bundle.getSerializable("HABIT");
+            hTitle.setText(selectedHabit.getTitle());
+            hReason.setText(selectedHabit.getReason());
+            dates = selectedHabit.getDate();
+        }
 
-        selectedHabit = (Habit) bundle.getSerializable("HABIT");
-
-        hTitle.setText(selectedHabit.getTitle());
-
-        hReason.setText(selectedHabit.getReason());
-
-        dates = selectedHabit.getDate();
 
         //initializing checkboxes... i think this is the best way to do it... dear god
         chk1 = view.findViewById(R.id.monday_select); chk2 = view.findViewById(R.id.tuesday_select);
@@ -92,8 +98,8 @@ public class EditHabitFragment extends DialogFragment {
                 .setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
                     /**
                      * On clicking the "add" button, edit the pre-existing Habit object with the new data inputted by the user
-                     * @param dialogInterface
-                     * @param i
+                     * @param dialogInterface Android default
+                     * @param i Android default
                      */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -115,14 +121,14 @@ public class EditHabitFragment extends DialogFragment {
      * On checked listener for each checkbox.
      * We ensure that if the box isn't already checked, then check
      * if the box is checked and the user unchecks, remove it from the dates list
-     * @param compoundButton
-     * @param checked
+     * @param compoundButton checkable box
+     * @param checked if box is checked or not
      */
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         switch(compoundButton.getId()){
             case R.id.monday_select:
                 if(checked){
-                    if (dates.indexOf(1) <= -1)
+                    if (!dates.contains(1))
                         dates.add(1);}
                 else
                     dates.remove(Integer.valueOf(1));
@@ -130,7 +136,7 @@ public class EditHabitFragment extends DialogFragment {
 
             case R.id.tuesday_select:
                 if(checked) {
-                    if (dates.indexOf(2) <= -1)
+                    if (!dates.contains(2))
                         dates.add(2);}
                 else
                     dates.remove(Integer.valueOf(2));
@@ -138,7 +144,7 @@ public class EditHabitFragment extends DialogFragment {
 
             case R.id.wednesday_select:
                 if(checked) {
-                    if (dates.indexOf(3) <= -1)
+                    if (!dates.contains(3))
                         dates.add(3);}
                 else
                     dates.remove(Integer.valueOf(3));
@@ -146,7 +152,7 @@ public class EditHabitFragment extends DialogFragment {
 
             case R.id.thursday_select:
                 if(checked) {
-                    if (dates.indexOf(4) <= -1)
+                    if (!dates.contains(4))
                         dates.add(4); }
                 else
                     dates.remove(Integer.valueOf(4));
@@ -154,7 +160,7 @@ public class EditHabitFragment extends DialogFragment {
 
             case R.id.friday_select:
                 if(checked) {
-                    if (dates.indexOf(5) <= -1)
+                    if (!dates.contains(5))
                         dates.add(5); }
                 else
                     dates.remove(Integer.valueOf(5));
@@ -162,7 +168,7 @@ public class EditHabitFragment extends DialogFragment {
 
             case R.id.saturday_select:
                 if(checked) {
-                    if (dates.indexOf(6) <= -1)
+                    if (!dates.contains(6))
                         dates.add(6);}
                 else
                     dates.remove(Integer.valueOf(6));
@@ -170,7 +176,7 @@ public class EditHabitFragment extends DialogFragment {
 
             case R.id.sunday_select:
                 if(checked) {
-                    if (dates.indexOf(7) <= -1)
+                    if (!dates.contains(7))
                         dates.add(7);}
                 else
                     dates.remove(Integer.valueOf(7));

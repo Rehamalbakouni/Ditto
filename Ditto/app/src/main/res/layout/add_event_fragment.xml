@@ -19,20 +19,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Comment"
-        android:inputType="textPersonName"/>
+        android:hint="@string/comment"
+        android:inputType="textPersonName"
+        android:autofillHints="Comment" />
 
     <Button
         android:id="@+id/add_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADD PHOTO" />
+        android:text="@string/add_photo" />
 
     <Button
         android:id="@+id/add_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADD LOCATION" />
+        android:text="@string/add_location" />
 
 
 </LinearLayout>

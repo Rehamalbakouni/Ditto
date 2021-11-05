@@ -12,9 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.team11.ditto.R;
+import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
+/**
+ * Custom list to show Habits that are due on the current day of the week
+ * @author Vivek Malhotra
+ */
 public class CustomListDue extends ArrayAdapter<Habit> {
 
     private ArrayList<Habit> habits;
@@ -29,8 +34,6 @@ public class CustomListDue extends ArrayAdapter<Habit> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
-        //return super.getView(position, convertView, parent);
-
         View view = convertView;
 
         if(view == null){

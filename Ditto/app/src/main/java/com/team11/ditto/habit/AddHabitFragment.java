@@ -39,7 +39,6 @@ public class AddHabitFragment extends DialogFragment{
     private ArrayList<Integer> dates;
     private OnFragmentInteractionListener listener;
 
-
     //Declare interface
     public interface OnFragmentInteractionListener {
         void onOkPressed(Habit newHabit);

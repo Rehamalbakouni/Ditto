@@ -7,6 +7,7 @@ package com.team11.ditto;
  * public void testViewPersists() //tests that the view updates the updated data
  * check for repeated Habit titles!!!
  * public void habitEventDeleted() //when you delete a habit activity, it should also delete the associated habit events
+ * @author Kelly Shih, Aidan Horemans
  */
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -176,6 +177,7 @@ public class HabitsTest {
 
         //Checking that the activity switched
         onView(withId(R.id.tracking)).check(matches(isDisplayed()));
+        onView(withId(R.id.habit_reason)).check(matches(withText("Stress relief")));
     }
 
     /**
@@ -230,8 +232,10 @@ public class HabitsTest {
 
     /*
     Future tests:
-    public void testEditHabitTitle() //tests the edit function which will be implemented
-    public void testViewPersists() //tests that the view updates the updated data
+     * public void testEditHabitTitle() //tests the edit function which will be implemented
+    * public void testViewPersists() //tests that the view updates the updated data
+    * check for repeated Habit titles!!!
+    * public void habitEventDeleted() //when you delete a habit activity, it should also delete the associated habit events
      */
 
 

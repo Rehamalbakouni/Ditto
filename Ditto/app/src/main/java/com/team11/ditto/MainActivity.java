@@ -105,12 +105,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
     @Override
     public void onOkPressed(HabitEvent newHabitEvent) {
         pushHabitEventData(db, newHabitEvent);
-        //Do we need this?
-/*                        DocumentReference arrayID = db.collection("Habit").document(habitID);
-                        //set the "habitEvents" field of the Habit
-                        arrayID
-                                .update("habitEvents", FieldValue.arrayUnion(documentReference.getId().toString()));
-*/
+
     }
 
     // Check if device has stored userID
@@ -125,6 +120,11 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
         return true;
     }
 
+    /**
+     * Handles the view Habit event activity
+     * starts a new activity to view the clicked habit event
+     * @param position of the clicked habit event
+     */
     @Override
     public void onEventClick(int position) {
         habitEventsData.get(position);

@@ -15,12 +15,13 @@
 
         <SearchView
             android:id="@+id/search_user"
-            android:layout_width="429dp"
-            android:layout_height="57dp"
-            app:iconifiedByDefault="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="10dp"
+            app:iconifiedByDefault="false"
             app:layout_constraintBottom_toTopOf="@+id/search_list_custom"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_home"
-            android:text="Home"
+            android:text="@string/home"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/MyCustomTabText"
             app:tabTextColor="#314CDF" />
@@ -64,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_myhabits"
-            android:text="Habits"
+            android:text="@string/habits"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/MyCustomTabText"
             app:tabTextColor="#314CDF"
@@ -74,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_duetoday"
-            android:text="DUE"
+            android:text="@string/due"
             app:tabSelectedTextColor="@color/black"
             app:tabTextColor="#314CDF"
             tools:ignore="ImageContrastCheck" />
@@ -83,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_profile"
-            android:text="Profile"
+            android:text="@string/profile"
             app:tabSelectedTextColor="@color/black"
             app:tabTextColor="#314CDF"
             tools:ignore="ImageContrastCheck" />

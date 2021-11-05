@@ -24,6 +24,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.R;
 
+/**
+ * Activity to login a User so they can access the application
+ * @author Reham Albakouni
+ */
 public class SignInActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText passwordField;
@@ -35,6 +39,15 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    /**
+     * Instructions for creating Activity
+     * -Image background
+     * -input fields to sign in the user
+     * -button to transfer to sign up Activity
+     * -button to submit login details
+     *
+     * @param savedInstanceState current app state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

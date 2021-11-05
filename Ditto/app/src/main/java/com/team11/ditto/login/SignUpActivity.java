@@ -1,4 +1,4 @@
-package com.team11.ditto;
+package com.team11.ditto.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -42,8 +42,17 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    /**
+     * Instructions for creating the Activity
+     * -Image background
+     * -fields for new User input data
+     * -button to return to login screen
+     * -button to submit User data
+     * @param savedInstanceState current state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Set layouts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -111,6 +120,11 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Push new User data to database
+     * @param uid uid of user
+     * @param userData the data to store under the uid
+     */
     // Store user data on Firestore
     private void storeUserData(String uid, HashMap<String, String> userData) {
         CollectionReference collectionReference = db.collection("User");

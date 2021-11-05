@@ -9,13 +9,24 @@ import com.team11.ditto.MainActivity;
 import com.team11.ditto.MyHabitActivity;
 import com.team11.ditto.UserProfileActivity;
 
+/**
+ * Interface to allow swapping between activities through bottom tabs
+ * @author Courtenay Laing-Kobe, Vivek Malhotra
+ */
 public interface SwitchTabs {
 
+    //Macros
     int HOME_TAB = 0;
     int MY_HABITS_TAB = 1;
     int DUE_TODAY_TAB = 2;
     int PROFILE_TAB = 3;
 
+    /**
+     *Change activities based on tab selected
+     * @param context activity context
+     * @param tabLayout tabs
+     * @param currentTabPos current tab position
+     */
     default void switchTabs(Context context, TabLayout tabLayout, int currentTabPos){
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -51,19 +62,30 @@ public interface SwitchTabs {
 
             }
 
+            /**
+             * Do nothing if tab unselected
+             * @param tab tab unselected
+             */
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
+            public void onTabUnselected(TabLayout.Tab tab){
             }
 
+            /**
+             * Do nothing is tab reselected
+             * @param tab tab reselected
+             */
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
     }
 
+    /**
+     * Selects the current tab
+     * @param tabLayout tabs
+     * @param currentTabPos position of current tab
+     */
     default void currentTab(TabLayout tabLayout, int currentTabPos){
         TabLayout.Tab tab = tabLayout.getTabAt(currentTabPos);
         if (tab != null) {

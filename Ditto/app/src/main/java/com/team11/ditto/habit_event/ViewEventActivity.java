@@ -8,14 +8,24 @@ import android.widget.TextView;
 import com.team11.ditto.R;
 import com.team11.ditto.habit_event.HabitEvent;
 
+/**
+ * Activity to view a Habit Event
+ * @author Kelly Shih, Aidan Horemans
+ */
 public class ViewEventActivity extends AppCompatActivity {
 
+    //Declarations
     HabitEvent habitEvent;
     TextView habitTitle;
     TextView habitComment;
     String title;
     String comment;
 
+    /**
+     * Instructions for creating the Activity
+     * -display title & comment
+     * @param savedInstanceState current app state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +43,6 @@ public class ViewEventActivity extends AppCompatActivity {
         //set comment
         comment = habitEvent.getComment();
         habitComment.setText(comment);
-
-
-
 
     }
 }

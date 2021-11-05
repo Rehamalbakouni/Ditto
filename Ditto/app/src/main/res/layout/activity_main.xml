@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- listitem should change later... -->
+    <!-- list item should change later... -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_habit_event"
         android:layout_width="0dp"
@@ -27,7 +27,8 @@
         android:layout_marginBottom="8dp"
         android:src="@drawable/ic_round_add_24"
         app:layout_constraintBottom_toTopOf="@id/tabs"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/add_habit_event">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
@@ -53,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_home"
-            android:text="Home"
+            android:text="@string/home"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/MyCustomTabText"
             app:tabTextColor="#314CDF" />
@@ -62,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_myhabits"
-            android:text="Habits"
+            android:text="@string/habits"
             app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/MyCustomTabText"
             app:tabTextColor="#314CDF" />
@@ -71,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_duetoday"
-            android:text="DUE"
+            android:text="@string/due"
             app:tabSelectedTextColor="@color/black"
             app:tabTextColor="#314CDF" />
 
@@ -79,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_action_profile"
-            android:text="Profile"
+            android:text="@string/habits"
             app:tabSelectedTextColor="@color/black"
             app:tabTextColor="#314CDF" />
     </com.google.android.material.tabs.TabLayout>

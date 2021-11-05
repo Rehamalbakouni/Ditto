@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:text="How well am I tracking?"/>
+        android:text="@string/tracking"/>
 
     <TextView
         android:id="@+id/habit_tracking"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@id/habit_tracking"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:text="Days"/>
+        android:text="@string/days"/>
 
     <TextView
         android:id="@+id/habit_days"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/habit_days"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:text="Reason"/>
+        android:text="@string/reason"/>
 
     <TextView
         android:id="@+id/habit_reason"

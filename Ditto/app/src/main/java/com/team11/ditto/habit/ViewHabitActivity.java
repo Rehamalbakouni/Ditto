@@ -1,48 +1,38 @@
 package com.team11.ditto.habit;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.R;
-import com.team11.ditto.habit.EditHabitFragment;
-import com.team11.ditto.habit.Habit;
+import com.team11.ditto.interfaces.Firebase;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 
 /**
  * Role: An Activity to view the contents of a chosen Habit.
  * Allow user to edit Habit and return updated data back to this activity
  * TODO: Get updated photos and locations updating in the database
+ * @author Kelly Shih, Aidan Horemans
  */
-public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener{
+public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase {
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
-    ArrayList<Integer> dates;
-    String listDays;
+    ArrayList<Integer> dates; String listDays;
     Habit selectedHabit;
     Bundle habitBundle;
     final String TAG = "view";
     private FirebaseFirestore database;
-    HashMap<String, Object> data = new HashMap<>();
-
 
     /**
      * Create the dialog with the fields for reason, dates and go to OnOkPressed method when user clicks "Add"
      * TODO: get fields for photos and location
-     * @param savedInstanceState
+     * @param savedInstanceState current app state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +63,13 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         }
 
         habitDays.setText(listDays);
-
         habitTitle = findViewById(R.id.habit_tracking);
     }
 
     /**
      * Inflate the menu for the options menu
-     * @param menu
-     * @return
+     * @param menu options menu
+     * @return true when menu displayed, false otherwise
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -90,8 +79,8 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
 
     /**
      * Listener for the edit button
-     * @param item
-     * @return
+     * @param item selected item
+     * @return true if displayed, false otherwise
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -114,7 +103,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
 
     /**
      * Updating a habit to the database and listview as the response to the user clicking the "Add" button from the fragment
-     * @param habit
+     * @param habit habit to be updated
      */
     @Override
     public void onOkPressed(Habit habit) {
@@ -129,37 +118,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
         Log.d(TAG, "dates -> "+ dates);
 
         database = FirebaseFirestore.getInstance();
-        final DocumentReference documentReference = database.collection("Habits").document(habitID);
-
-        //get unique timestamp for ordering our list
-        Date currentTime = Calendar.getInstance().getTime();
-        data.put("title", title);
-        data.put("reason", reason);
-        data.put("days_of_week", dates);
-        //this field is used to add the current timestamp of the item, to be used to order the items
-        data.put("order", currentTime);
-
-
-        documentReference
-                .update(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //method which gets executed when the task is successful
-                        Log.d(TAG, "Data has been added successfully!");
-                        //we want to add the habit event id to the associate Habit field of HabitEventIds
-
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //method that gets executed if there's a problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-
-                    }
-                });
+        pushEditData(database, habit);
 
         //Updating old text with new habit stuff
         habitReason.setText(habit.getReason());
@@ -179,6 +138,7 @@ public class ViewHabitActivity extends AppCompatActivity implements EditHabitFra
 
     //Takes an integer and returns the respective day of the week,
     //returns null when given incorrect int
+    //TODO enumerate dates to make this simpler
     private String intToDate(int date){
         if(date == 1){
             return "Monday";

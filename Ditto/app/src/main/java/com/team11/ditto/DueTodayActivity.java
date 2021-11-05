@@ -29,10 +29,10 @@ import com.team11.ditto.profile_details.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
- *
+ * Activity to display a list of the ActiveUser's Habits that are scheduled to be done today
+ * @author Aidan Horemans, Kelly Shih, Vivek Malhotra
  */
 public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     FirebaseFirestore db;
@@ -43,18 +43,26 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
     private ActiveUser currentUser;
     private String TAG = "DueTodayActivity";
 
+    /**
+     *Directions for creating this Activity
+     * Simple listview, bottom tabs
+     * @param savedInstanceState current app state
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Set layouts
         super.onCreate(savedInstanceState);
         // This callback will only be called when MyFragment is at least Started.
 
         db = FirebaseFirestore.getInstance();
 
         setContentView(R.layout.activity_due_today);
-        // Go back to main activity ob back button press
+        tabLayout = findViewById(R.id.tabs);
+        list = findViewById(R.id.due_today_custom_list);
+
+        //Set title
         Calendar cal = Calendar.getInstance();
-        Date today = Calendar.getInstance().getTime();
         String date = LocalDate.now().getDayOfWeek().toString();
         date = date + ", ";
         String month = LocalDate.now().getMonth().toString();
@@ -64,9 +72,6 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         date = date + " " + dayOfMonthstr;
         setTitle(date);
 
-        tabLayout = (TabLayout)findViewById(R.id.tabs);
-
-        list = findViewById(R.id.due_today_custom_list);
         habits = new ArrayList<Habit>();
         dueTodayAdapter = new CustomListDue(DueTodayActivity.this, habits);
         list.setAdapter(dueTodayAdapter);
@@ -94,6 +99,10 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         switchTabs(this, tabLayout, DUE_TODAY_TAB);
     }
 
+    /**
+     * Define behaviour when back button pressed:
+     * -go back to home page
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);

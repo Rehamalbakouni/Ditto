@@ -53,6 +53,7 @@ public class AddHabitEventFragment extends DialogFragment implements Firebase {
     //Declare interface
     public interface OnFragmentInteractionListener {
         void onOkPressed(HabitEvent newHabitEvent);
+
     }
 
     /**

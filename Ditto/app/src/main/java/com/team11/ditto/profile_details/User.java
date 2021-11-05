@@ -19,12 +19,19 @@ public class User extends Object{
     private int age;
 
 
-    //Constructor
+    /**
+     * Constructor for a User object
+     * @param username user chosen self-identifying string
+     * @param password user chosen authentication string
+     * @param age user's age
+     *
+     * Other attributes initialized to defaults can be added to or changed later
+     */
     public User(String username, String password, int age){
         this.username = username;
-        this.habits = new ArrayList<Habit>();
-        this.iFollow = new ArrayList<User>();
-        this.followMe = new ArrayList<User>();
+        this.habits = new ArrayList<>();
+        this.iFollow = new ArrayList<>();
+        this.followMe = new ArrayList<>();
         this.profilePhoto = Drawable.createFromPath("ic_action_profile.png");
         this.password = password;
         this.age = age;
@@ -39,64 +46,97 @@ public class User extends Object{
         this.password = password;
     }
 
-    public User(){
-
+    /**
+     * Empty constructor to allow for ActiveUser flexibility
+     */
+    protected User(){
     }
 
-
-
-    //Username getter
+    /**
+     * Getter for username
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
 
-    //Username setter
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    /**
+     * Getter for password
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    /**
+     * Getter for age
+     * @return age
+     */
     public Integer getAge() {
         return age;
     }
 
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
+    /**
+     * Getter for habit list
+     * @return habit list
+     */
     public ArrayList<Habit> getHabits() {
         return habits;
     }
 
+    /**
+     * Getter for followed list
+     * @return followed list
+     */
     public ArrayList<User> getIFollow() {
         return iFollow;
     }
 
+    /**
+     * Getter for following list
+     * @return following list
+     */
     public ArrayList<User> getFollowMe() {
         return followMe;
     }
 
+    /**
+     * Add a User object to this User's list of Users they follow
+     * @param toFollow User to follow
+     */
     public void addFollowing(User toFollow){
         this.iFollow.add(toFollow);
     }
 
+    /**
+     * Getter for photo
+     * @return photo
+     */
     public Drawable getProfilePhoto() {
         return profilePhoto;
     }
 
+    /**
+     * Setter for photo
+     * @param profilePhoto new photo
+     */
     public void setProfilePhoto(Drawable profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
 
+    /**
+     * Setter for id
+     * @param id new id
+     */
     public void setID(String id){
         this.id = id;
+    }
+
+    /**
+     * Getter for id
+     * @return id existing id
+     */
+    public String getID(String id){
+        return this.id;
     }
 }
