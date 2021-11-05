@@ -57,7 +57,7 @@ public interface Firebase {
      * @param key
      */
     default void autoSnapshotListener(FirebaseFirestore database, RecyclerViewAdapter adapter, String key){
-        Query query = database.collection(key).orderBy("order");
+        Query query = database.collection(key).orderBy("order", Query.Direction.DESCENDING);
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
              *
@@ -86,7 +86,7 @@ public interface Firebase {
      * @param key
      */
     default void autoSnapshotListener(FirebaseFirestore database, HabitEventRecyclerAdapter adapter, String key){
-        Query query = database.collection(key).orderBy("order");
+        Query query = database.collection(key).orderBy("order", Query.Direction.DESCENDING);
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             /**Maintain listview after each activity switch, login, logout
              *
