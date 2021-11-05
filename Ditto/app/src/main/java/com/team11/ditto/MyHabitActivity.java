@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -30,13 +31,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.habit.AddHabitFragment;
 import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit.RecyclerViewAdapter;
 import com.team11.ditto.habit.ViewHabitActivity;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.login.ActiveUser;
 
 import java.util.ArrayList;
 
@@ -68,6 +74,8 @@ public class MyHabitActivity extends AppCompatActivity implements
 
     private FirebaseFirestore db;
 
+    private ActiveUser currentUser;
+
     /**
      * Create the Activity instance for the "My Habits" screen, control flow of actions
      *
@@ -82,7 +90,7 @@ public class MyHabitActivity extends AppCompatActivity implements
 
         setTitle("My Habits");
 
-        habitDataList = habitsFirebase;
+        habitDataList = new ArrayList<Habit>();
         habitListView = findViewById(R.id.list);
         tabLayout = findViewById(R.id.tabs);
 
@@ -91,6 +99,25 @@ public class MyHabitActivity extends AppCompatActivity implements
         LinearLayoutManager manager = new LinearLayoutManager(this);
         habitListView.setLayoutManager(manager);
         habitListView.setAdapter(recyclerViewAdapter);
+
+        // Load habits
+        currentUser = new ActiveUser();
+        db.collection("Habit")
+            .whereEqualTo("uid", currentUser.getUID())
+            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    habitDataList.clear();
+                    for (QueryDocumentSnapshot document: value) {
+                        String title = (String) document.getData().get("title");
+                        String reason = (String) document.getData().get("reason");
+                        ArrayList<Integer> days = (ArrayList<Integer>) document.getData().get("days_of_week");
+                        Habit habit = new Habit(title, reason, days);
+                        habitDataList.add(habit);
+                    }
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+            });
 
         currentTab(tabLayout, MY_HABITS_TAB);
         switchTabs(this, tabLayout, MY_HABITS_TAB);

@@ -12,18 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.team11.ditto.R;
-import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
 
-public class CustomListDue extends ArrayAdapter<User> {
+public class CustomListDue extends ArrayAdapter<Habit> {
 
-    private ArrayList<User> users;
+    private ArrayList<Habit> habits;
     private Context context;
 
-    public CustomListDue(Context context, ArrayList<User> users) {
-        super(context,0,users);
-        this.users = users;
+    public CustomListDue(Context context, ArrayList<Habit> habits) {
+        super(context,0, habits);
+        this.habits = habits;
         this.context = context;
     }
 
@@ -38,14 +37,14 @@ public class CustomListDue extends ArrayAdapter<User> {
             view = LayoutInflater.from(context).inflate(R.layout.duetoday_content, parent,false);
         }
 
-        User user = users.get(position);
+        Habit habit = habits.get(position);
 
         TextView habitName = view.findViewById(R.id.due_habit_name);
         TextView habitDescription = view.findViewById(R.id.due_habit_description);
         ImageView progress = view.findViewById(R.id.my_progress);
 
-        habitName.setText(user.getUsername());
-        habitDescription.setText("Been missing gym for 2 years now");
+        habitName.setText(habit.getTitle());
+        habitDescription.setText(habit.getReason());
 
         return view;
     }

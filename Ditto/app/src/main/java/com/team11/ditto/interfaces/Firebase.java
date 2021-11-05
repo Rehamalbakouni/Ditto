@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
 import com.team11.ditto.habit.RecyclerViewAdapter;
+import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
 import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit_event.HabitEvent;
@@ -30,7 +31,7 @@ import javax.annotation.Nullable;
 
 public interface Firebase {
 
-    String HABIT_KEY = "Habits";
+    String HABIT_KEY = "Habit";
     String USER_KEY = "User";
     String HABIT_EVENT_KEY = "HabitEvent";
     String TAG = "add";
@@ -144,6 +145,8 @@ public interface Firebase {
         final ArrayList<Integer> dates = newHabit.getDate();
         Date currentTime = Calendar.getInstance().getTime();
 
+        data.clear();
+        data.put("uid", new ActiveUser().getUID());
         data.put("title", title);
         data.put("reason", reason);
         data.put("days_of_week", dates);
