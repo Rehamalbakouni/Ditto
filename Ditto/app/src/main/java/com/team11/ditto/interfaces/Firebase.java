@@ -39,14 +39,15 @@ import com.team11.ditto.profile_details.User;
 import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit.HabitRecyclerAdapter;
 import com.team11.ditto.habit_event.HabitEvent;
-import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
-import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
 
@@ -65,6 +66,7 @@ public interface Firebase {
     ArrayList<Habit> habitsFirebase = new ArrayList<>();
     ArrayList<User> usersFirebase = new ArrayList<>();
     ArrayList<HabitEvent> hEventsFirebase = new ArrayList<>();
+
 
 
     /**
@@ -437,4 +439,107 @@ public interface Firebase {
                 .addOnSuccessListener(unused -> Log.d(TAG, "DocumentSnapshot successfully deleted!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error deleting document", e));
     }
+
+    /**
+     * Send follow requests from active user to the desired user
+     * @param db firebase cloud
+     * @param desiredUserEmail email Id of user Active user want to follow
+     * @param activeUserEmail email id of active user
+     */
+    default void send_follow_request(FirebaseFirestore db, String desiredUserEmail, String activeUserEmail ){
+        db.collection("User")
+                .whereEqualTo("email",desiredUserEmail)
+                .get().addOnCompleteListener( Task -> {
+            if (Task.isSuccessful()){
+                for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(Task.getResult())){
+
+                    String id = snapshot.getId();
+                    db.collection(("User"))
+                            .document(id)
+                            .update("follow_requests", FieldValue.arrayUnion(activeUserEmail));
+                }
+
+
+
+            }
+        } );
+    }
+
+    /**
+     * Cancel follow request from active user to undesired user
+     * @param db firebase cloud
+     * @param undesiredUserEmail email id of undesired user
+     * @param activeUserEmail email id of active user
+     *
+     */
+    default void cancel_follow_request(FirebaseFirestore db, String undesiredUserEmail, String activeUserEmail ){
+        db.collection("User")
+                .whereEqualTo("email",undesiredUserEmail)
+                .get().addOnCompleteListener( Task -> {
+            if (Task.isSuccessful()){
+                for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(Task.getResult())){
+
+                    String id = snapshot.getId();
+                    db.collection(("User"))
+                            .document(id)
+                            .update("follow_requests", FieldValue.arrayRemove(activeUserEmail));
+                }
+
+
+
+            }
+        } );
+    }
+
+    /**
+     *
+     * @param db Firebase cloud
+     * @param desiredUserEmail email id of desired user
+     * @param activeUserEmail email id of active user
+     */
+    default void addToSentRequest(FirebaseFirestore db, String desiredUserEmail, String activeUserEmail){
+        db.collection("User")
+                .whereEqualTo("email",activeUserEmail)
+                .get().addOnCompleteListener( Task -> {
+            if (Task.isSuccessful()){
+                for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(Task.getResult())){
+
+                    String id = snapshot.getId();
+                    db.collection(("User"))
+                            .document(id)
+                            .update("sent_requests", FieldValue.arrayUnion(desiredUserEmail));
+                }
+
+
+
+            }
+        } );
+    }
+
+    /**
+     *
+     * @param db Firebase cloud
+     * @param undesiredUserEmail email id of user Active user doesn't want to follow
+     * @param activeUserEmail email id of active user
+     */
+    default void removeFromSentRequest(FirebaseFirestore db, String undesiredUserEmail, String activeUserEmail){
+        db.collection("User")
+                .whereEqualTo("email",activeUserEmail)
+                .get().addOnCompleteListener( Task -> {
+            if (Task.isSuccessful()){
+                for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(Task.getResult())){
+
+                    String id = snapshot.getId();
+                    db.collection(("User"))
+                            .document(id)
+                            .update("follow_requests", FieldValue.arrayRemove(undesiredUserEmail));
+                }
+
+
+
+            }
+        } );
+    }
+
+
 }
