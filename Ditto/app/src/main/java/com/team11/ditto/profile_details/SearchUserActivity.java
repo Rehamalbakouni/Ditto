@@ -221,6 +221,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
         else{
             sr.setImageResource(R.drawable.ic_round_send_24);
             sr.setTag("send");
+
             cancel_follow_request(db,wantToFollowEmail,cUserEmail);
             removeFromSentRequest(db,wantToFollowEmail,cUserEmail);
             sentRequest.remove(wantToFollowEmail);

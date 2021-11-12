@@ -532,7 +532,7 @@ public interface Firebase {
                     String id = snapshot.getId();
                     db.collection(("User"))
                             .document(id)
-                            .update("follow_requests", FieldValue.arrayRemove(undesiredUserEmail));
+                            .update("sent_requests", FieldValue.arrayRemove(undesiredUserEmail));
                 }
 
 
