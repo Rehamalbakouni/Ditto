@@ -240,7 +240,9 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
             if(task.isSuccessful()){
                 DocumentSnapshot documentSnapshot = task.getResult();
                 List<String> listSent = (List<String>) documentSnapshot.get("sent_requests");
-                sentRequest.addAll(listSent);
+                if(listSent.size()>0){
+                    sentRequest.addAll(listSent);
+                }
 
                 Log.d("THIS IS THE DATA ",sentRequest.toString() );
                 }
