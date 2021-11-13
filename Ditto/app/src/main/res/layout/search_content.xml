@@ -44,15 +44,13 @@
             android:id="@+id/search_user_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
             android:paddingLeft="20dp"
             android:paddingTop="25dp"
             android:paddingRight="20dp"
             android:text="@string/sample_user"
             android:textColor="@color/black"
-            android:textSize="22sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-
             app:layout_constraintHorizontal_bias="0.015"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,19 +62,18 @@
 
     <ImageView
         android:id="@+id/send_request"
-        android:layout_width="wrap_content"
+        android:layout_width="66dp"
         android:layout_height="match_parent"
-
         android:layout_marginEnd="4dp"
-        android:clickable="true"
-
+        android:contentDescription="@string/send_request"
+        android:focusable="false"
+        android:onClick="sendFollowRequest"
         android:padding="20dp"
         android:src="@drawable/ic_round_send_24"
+        android:tag="send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#686060"
-        android:focusable="true"
-        android:contentDescription="@string/send_request">
+        app:tint="#686060">
 
     </ImageView>
 

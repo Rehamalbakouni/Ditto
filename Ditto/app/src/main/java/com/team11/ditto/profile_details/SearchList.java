@@ -70,13 +70,18 @@ public class SearchList extends ArrayAdapter<User> {
 
         TextView username = view.findViewById(R.id.search_user_name);
         ImageView userphoto = view.findViewById(R.id.search_user_photo);
+        ImageView sendRequest = view.findViewById(R.id.send_request);
 
         username.setText(user.getUsername());
         //TODO implement actual profile photos
         userphoto.setImageResource(R.drawable.background);
 
+
         return view;
     }
+
+
+
 
 
 }

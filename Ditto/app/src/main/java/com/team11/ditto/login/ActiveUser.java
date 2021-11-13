@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.team11.ditto.WelcomeActivity;
+import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.profile_details.User;
 
 /**
@@ -92,5 +93,18 @@ public class ActiveUser extends User {
     public void logout(){
         FirebaseAuth.getInstance().signOut();
         activeUser = null;
+    }
+
+    /**
+     * Get the email  of active user
+     * @return String : String form of current user email
+     */
+    public String getEmail(){
+        if(fbUser != null){
+            return fbUser.getEmail();
+        }
+        else{
+            return "";
+        }
     }
 }
