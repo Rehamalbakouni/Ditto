@@ -51,10 +51,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Activity where the ActiveUser can search for other Users in the db to request to follow
@@ -66,12 +68,14 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
     private TabLayout tabLayout;
     private ListView user_listView;
     private static ArrayAdapter<User> searchAdapter;
+
     private ArrayList<User> userDataList;
     private SearchView searchView;
     private ArrayList<String> usernames;
     private ActiveUser currentUser;
     FirebaseFirestore db;
-    ArrayList<String> sentRequest = new ArrayList<>();
+
+    private Set<String> sentRequest = new HashSet<>();
 
     /**
      * Instructions on creating the Activity
@@ -103,7 +107,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
         switchTabs(this, tabLayout, PROFILE_TAB);
 
         user_listView.setAdapter(searchAdapter);
-        retreiveSentRequest(currentUser);
+        retreiveSentRequest(db,currentUser,sentRequest);
         //sendFollowRequest();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -129,7 +133,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
                                 if(task.isSuccessful()){
 
                                     for (int i = 0; i < Objects.requireNonNull(task.getResult()).size(); i++){
-                                        if(task.getResult().getDocuments().get(i).getString("name").toLowerCase().startsWith(s_lower)){
+                                        if(Objects.requireNonNull(task.getResult().getDocuments().get(i).getString("name")).toLowerCase().startsWith(s_lower)){
                                             String username = task.getResult().getDocuments().get(i).getString("name");
                                             String email = task.getResult().getDocuments().get(i).getString("email");
 
@@ -139,7 +143,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
                                             // Only add if there is something in search view
                                             // do not add the active user to search list
                                             // do not show if follow request already sent
-                                            if( (! s.equals("")) &(! email.equals(cUserEmail) ) &(!sentRequest.contains(email))){
+                                            if( (! s.equals("")) &(! Objects.requireNonNull(email).equals(cUserEmail) ) &(!sentRequest.contains(email))){
                                                 userDataList.add(new User(username, email));
                                                 searchAdapter.notifyDataSetChanged();
                                             }
@@ -187,7 +191,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
 
     /**
      * This method assists in sending and cancelling follow request
-     * @param view
+     * @param view view of the current search content
      */
     public void sendFollowRequest(View view) {
 
@@ -229,29 +233,6 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
         searchAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * This method retrieves all the sent requests
-     * @param currentUser
-     */
-    // do not add to firebase interface
-    public void retreiveSentRequest(ActiveUser currentUser){
-
-        DocumentReference documentReference = db.collection("User").document(currentUser.getUID());
-        documentReference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                DocumentSnapshot documentSnapshot = task.getResult();
-                List<String> listSent = (List<String>) documentSnapshot.get("sent_requests");
-                if(listSent != null){
-                    if(listSent.size()>0){
-                        sentRequest.addAll(listSent);
-                    }
-                }
-
-                Log.d("THIS IS THE DATA ",sentRequest.toString() );
-                }
-
-        });
-    }
 
 
 

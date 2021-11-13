@@ -29,19 +29,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.follow.FollowRequestActivity;
 import com.team11.ditto.follow.FollowerActivity;
 import com.team11.ditto.follow.FollowingActivity;
+import com.team11.ditto.follow.SentRequestActivity;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.SearchUserActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserProfileActivity extends AppCompatActivity implements SwitchTabs, Firebase {
 
@@ -56,6 +53,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
     private Button fr_pending;
     private Button logout;
     private static final String TAG = "UserProfileActivity";
+    private Button frSent;
 
     private ActiveUser currentUser;
 
@@ -81,6 +79,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         username = findViewById(R.id.username_editText);
         fr_pending = findViewById(R.id.pending_fr);
         logout = findViewById(R.id.logout_button);
+        frSent = findViewById(R.id.follow_request_sent);
 
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
@@ -123,6 +122,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         onFollowRequestTab();
         onFollowertap();
         onFollowNumberTap();
+        onSentRequestTap();
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +200,16 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserProfileActivity.this, FollowerActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onSentRequestTap(){
+        frSent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserProfileActivity.this, SentRequestActivity.class);
                 startActivity(intent);
             }
         });
