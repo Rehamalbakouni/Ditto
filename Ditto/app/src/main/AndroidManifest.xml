@@ -44,7 +44,8 @@
             android:name=".profile_details.SearchUserActivity"
             android:exported="true"
             android:parentActivityName=".UserProfileActivity"
-            android:label="Search Users (demo)"
+
+            android:label="Search Users"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
@@ -91,6 +92,11 @@
         <activity
             android:name=".habit_event.ViewEventActivity"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".follow.SentRequestActivity"
+            android:exported="true"
+            android:parentActivityName=".UserProfileActivity"
+            android:label="Follow Request Sent"/>
 
 
         <meta-data

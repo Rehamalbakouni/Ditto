@@ -19,24 +19,15 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 import android.os.SystemClock;
-import android.widget.EditText;
 
-import androidx.annotation.ContentView;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,7 +50,7 @@ public class UserProfileActivityTest {
         String user = "Vivek";
 
         // click on search for users
-        onView(withId(R.id.search_users)).perform(click());
+        onView(withId(R.id.follow_request_sent)).perform(click());
 
         // search for vivek
         onView(withId(R.id.search_user)).perform(click());

@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.team11.ditto.follow.CustomListSentRequest;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
 import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
@@ -47,6 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
@@ -541,5 +543,80 @@ public interface Firebase {
         } );
     }
 
+    /**
+     * This method retrieves all the sent requests
+     * @param currentUser ActiveUser
+     * @param db Firebase cloud
+     * @param sentRequest Set
+     */
+    default void retreiveSentRequest(FirebaseFirestore db ,ActiveUser currentUser, Set<String> sentRequest){
+
+        DocumentReference documentReference = db.collection("User").document(currentUser.getUID());
+        documentReference.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                DocumentSnapshot documentSnapshot = task.getResult();
+                List<String> listSent = (List<String>) documentSnapshot.get("sent_requests");
+                if(listSent != null){
+                    if(listSent.size()>0){
+                        sentRequest.addAll(listSent);
+                    }
+                }
+
+                Log.d("THIS IS THE DATA ",sentRequest.toString() );
+            }
+
+        });
+    }
+
+
+    /**
+     * This method retrieves all User objects to whom follow requests are sent by active user
+     * @param db Firebase cloud
+     * @param currentUser active user
+     * @param sentRequestEmails list of emails sent follow requests to
+     * @param userDataList list of User object
+     * @param userAdapter  Custom adapter to show user objects
+     */
+    default void getSentRequestUsers(FirebaseFirestore db, ActiveUser currentUser, ArrayList<String> sentRequestEmails, ArrayList<User> userDataList, CustomListSentRequest userAdapter){
+        DocumentReference documentReference = db.collection("User").document(currentUser.getUID());
+        documentReference.get().addOnCompleteListener( task -> {
+            if(task.isSuccessful()){
+                DocumentSnapshot documentSnapshot = task.getResult();
+                List<String> listSent = (List<String>) documentSnapshot.get("sent_requests");
+                if(listSent != null){
+                    for (String str : listSent){
+                        if(! sentRequestEmails.contains(str)){
+                            sentRequestEmails.add(str);
+                            Log.d("ADDED TO SENT", str);
+                        }
+                    }
+                }
+            }
+            for(int i = 0;  i< sentRequestEmails.size();i++){
+                String sentEmail = sentRequestEmails.get(i);
+                Log.d("Looping over", String.valueOf(sentRequestEmails.size()));
+                db.collection("User").whereEqualTo("email",sentRequestEmails.get(i))
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                if(task.isSuccessful()){
+                                    for (int k =0; k < 1;k++){
+                                        if((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(sentEmail)){
+                                            String name = task2.getResult().getDocuments().get(k).getString("name");
+                                            userDataList.add(new User(name, sentEmail));
+                                            Log.d("Sent request", sentEmail);
+                                            userAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            }
+                        });
+            }
+
+        });
+
+
+    }
 
 }

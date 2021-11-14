@@ -21,6 +21,22 @@
     android:layout_height="match_parent">
 
 
+    <Button
+        android:id="@+id/search_users"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/white"
+        android:text="SEARCH FOR USERS"
+        android:textColor="#314CDF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_followers"
+        app:layout_constraintVertical_bias="0.389" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView2"
         android:layout_width="96dp"
@@ -92,13 +108,13 @@
         app:layout_constraintVertical_bias="0.003" />
 
     <Button
-        android:id="@+id/search_users"
+        android:id="@+id/follow_request_sent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/white"
-        android:text="SEARCH FOR USERS"
+        android:text="FOLLOW REQUEST SENT"
         android:textColor="#314CDF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,13 +143,13 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/white"
-        android:text="PENDING FOLLOW REQUEST"
+        android:text="FOLLOW REQUEST RECEIVED"
         android:textColor="#314CDF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_users"
+        app:layout_constraintTop_toBottomOf="@+id/follow_request_sent"
         app:layout_constraintVertical_bias="0.035" />
 
     <Button
