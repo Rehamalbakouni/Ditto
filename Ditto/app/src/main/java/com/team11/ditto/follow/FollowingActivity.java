@@ -165,7 +165,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs, 
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 for(QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())){
-                    if(! followedByActiveUser.contains(snapshot.get("followedBy")) && (!snapshot.get("followedBy").toString().equals(currentUser.getEmail()))){
+                    if(! followedByActiveUser.contains(snapshot.get("followed")) && (!snapshot.get("followed").toString().equals(currentUser.getEmail()))){
                         followedByActiveUser.add(snapshot.get("followedBy").toString());
                     }
                 }
