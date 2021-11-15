@@ -71,7 +71,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
 
     private ArrayList<User> userDataList;
     private SearchView searchView;
-    private ArrayList<String> usernames;
+    private ArrayList<String> followedByActiveUser = new ArrayList<>();
     private ActiveUser currentUser;
     FirebaseFirestore db;
 
@@ -108,6 +108,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
 
         user_listView.setAdapter(searchAdapter);
         retreiveSentRequest(db,currentUser,sentRequest);
+        //getFollowedByActiveUser(db, currentUser, followedByActiveUser);
         //sendFollowRequest();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -143,7 +144,7 @@ public class SearchUserActivity extends AppCompatActivity implements SwitchTabs,
                                             // Only add if there is something in search view
                                             // do not add the active user to search list
                                             // do not show if follow request already sent
-                                            if( (! s.equals("")) &(! Objects.requireNonNull(email).equals(cUserEmail) ) &(!sentRequest.contains(email))){
+                                            if( (! s.equals("")) &(! Objects.requireNonNull(email).equals(cUserEmail) ) &(!sentRequest.contains(email)) &(! followedByActiveUser.contains(email))){
                                                 userDataList.add(new User(username, email));
                                                 searchAdapter.notifyDataSetChanged();
                                             }

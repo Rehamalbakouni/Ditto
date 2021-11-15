@@ -16,32 +16,45 @@ package com.team11.ditto.follow;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.R;
 import com.team11.ditto.follow.CustomListFollowerFollowing;
+import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
 import com.team11.ditto.UserProfileActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Activity to display a list of Users who follow the ActiveUser
  * @author Vivek Malhotra
  */
-public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
+public class FollowerActivity extends AppCompatActivity implements SwitchTabs, Firebase {
 
     //Declarations
     private TabLayout tabLayout;
     private ListView followingListView;
     private ArrayAdapter<User> userAdapter;
     private ArrayList<User> userDataList;
+    private static ArrayList<String> followers = new ArrayList<>();
+    private FirebaseFirestore db;
+    private ActiveUser currentUser;
 
     /**
      * Instructions for creating activity
@@ -55,13 +68,14 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
         setContentView(R.layout.follower_list);
         followingListView = findViewById(R.id.follower_list_custom);
         tabLayout = findViewById(R.id.tabs);
-
+        currentUser = new ActiveUser();
+        db = FirebaseFirestore.getInstance();
         //Initialize values
         userDataList = new ArrayList<>();
         userAdapter = new CustomListFollowerFollowing(FollowerActivity.this,userDataList);
         followingListView.setAdapter(userAdapter);
-        User user   = new User("Ezio Auditore da Firenze", "12345678");
-        userAdapter.add(user);
+
+        getFollowersList();
 
         //Enable tab switching
         currentTab(tabLayout, PROFILE_TAB);
@@ -77,6 +91,53 @@ public class FollowerActivity extends AppCompatActivity implements SwitchTabs {
         Intent intent = new Intent(FollowerActivity.this, UserProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+
+    /**
+     * This method shows the names of followers on Listview
+     *
+     */
+    public void showData(){
+        for (int i =0; i< followers.size(); i++){
+            int finalI = i;
+            db.collection("User")
+                    .whereEqualTo("email",followers.get(i).toString() )
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())){
+                                    userDataList.add( new User(snapshot.get("name").toString(), followers.get(finalI))  );
+                                    Log.d("Followed", followers.get(finalI));
+                                }
+                                userAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+        }
+    }
+
+    /**
+     * This method gets the list of all followers
+     */
+    // Do not add to firebase, Firebase is delaying return of data by few hundred ms
+    // This is causing data to not show onCreation of activity
+    // So just calling the showData() once the data has been returned successfully
+    public void getFollowersList(){
+        db.collection("Following")
+                .whereEqualTo("followed",currentUser.getEmail())
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())){
+                            if(! followers.contains(snapshot.get("followedBy"))){
+                                followers.add(snapshot.get("followedBy").toString());
+                            }
+                        }
+                        showData();
+                    }
+        });
     }
 
 }

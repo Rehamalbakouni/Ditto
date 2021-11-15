@@ -72,7 +72,7 @@ public class FollowRequestList extends ArrayAdapter<User> {
         ImageView userPhoto = view.findViewById(R.id.fr_user_photo);
 
         username.setText(user.getUsername());
-        userPhoto.setImageResource(R.drawable.bwayne);
+        userPhoto.setImageResource(R.drawable.background);
 
         return view;
     }

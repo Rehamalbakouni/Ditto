@@ -40,6 +40,8 @@ import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.SearchUserActivity;
 
+import java.util.ArrayList;
+
 public class UserProfileActivity extends AppCompatActivity implements SwitchTabs, Firebase {
 
     private ImageView imageView;
@@ -54,6 +56,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
     private Button logout;
     private static final String TAG = "UserProfileActivity";
     private Button frSent;
+
 
     private ActiveUser currentUser;
 
@@ -84,9 +87,10 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
 
+
         // Get the current user's followers
         db.collection("Following")
-            .whereEqualTo("following", currentUser.getUID())
+            .whereEqualTo("followed", currentUser.getEmail())
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -101,7 +105,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
 
         // Get the accounts the current user is following
         db.collection("Following")
-            .whereEqualTo("follower", currentUser.getUID())
+            .whereEqualTo("followedBy", currentUser.getEmail())
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -123,6 +127,7 @@ public class UserProfileActivity extends AppCompatActivity implements SwitchTabs
         onFollowertap();
         onFollowNumberTap();
         onSentRequestTap();
+        onFollowerNumberTap();
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
