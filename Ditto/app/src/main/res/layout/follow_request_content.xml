@@ -44,7 +44,7 @@
             android:id="@+id/fr_user_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
+            android:focusable="false"
             android:paddingLeft="20dp"
             android:paddingTop="25dp"
             android:paddingRight="20dp"
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
 
-            android:clickable="true"
+            android:onClick="onAcceptPress"
             android:padding="20dp"
             android:src="@drawable/ic_round_check_24"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:tint="#5FA11A"
             android:contentDescription="@string/accept"
-            android:focusable="true">
+            android:focusable="false">
 
         </ImageView>
 
@@ -86,7 +86,7 @@
 
             android:layout_marginEnd="10dp"
 
-            android:clickable="true"
+            android:onClick="onRejectPress"
             android:padding="20dp"
             android:src="@drawable/ic_round_close_24"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -95,7 +95,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:tint="#CF0A0A"
             android:contentDescription="@string/deny"
-            android:focusable="true">
+            android:focusable="false">
 
         </ImageView>
 

@@ -52,7 +52,7 @@
             android:name=".follow.FollowRequestActivity"
             android:exported="true"
             android:parentActivityName=".UserProfileActivity"
-            android:label="Follow Requests (demo)"/>
+            android:label="Follow Requests Received"/>
 
         <activity
             android:name=".follow.FollowerActivity"

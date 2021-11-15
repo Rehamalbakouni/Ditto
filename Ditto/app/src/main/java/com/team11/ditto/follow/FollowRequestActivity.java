@@ -16,19 +16,34 @@ package com.team11.ditto.follow;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.WriteResult;
 import com.team11.ditto.R;
 import com.team11.ditto.UserProfileActivity;
+import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
+import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Activity to display a list of Users who are requesting to follow the ActiveUser,
@@ -36,17 +51,21 @@ import java.util.ArrayList;
  * TODO make able to accept/deny requests
  * @author Vivek Malhotra
  */
-public class FollowRequestActivity extends AppCompatActivity implements SwitchTabs {
+public class FollowRequestActivity extends AppCompatActivity implements SwitchTabs, Firebase {
 
     //Declarations
     private TabLayout tabLayout;
-    ListView frlist;
+    private ListView frlist;
     private static FollowRequestList userAdapter;
     ArrayList<User> userDataList;
+    FirebaseFirestore db;
+    private ActiveUser currentUser;
+    private ArrayList<String> receivedRequestEmails = new ArrayList<>();
 
     /**
      * Instructions of what to do for Activity creation
      * Simple listview with tabs
+     *
      * @param savedInstanceState current app state
      */
     @Override
@@ -56,19 +75,17 @@ public class FollowRequestActivity extends AppCompatActivity implements SwitchTa
         setContentView(R.layout.activity_follow_request);
         frlist = findViewById(R.id.following_request_custom);
         tabLayout = findViewById(R.id.tabs);
-
+        db = FirebaseFirestore.getInstance();   // get db instance
+        currentUser = new ActiveUser();
         //Initialize values
         userDataList = new ArrayList<>();
-        userAdapter = new FollowRequestList(FollowRequestActivity.this,userDataList);
+        userAdapter = new FollowRequestList(FollowRequestActivity.this, userDataList);
         frlist.setAdapter(userAdapter);
-
-        User bruce = new User("Bruce Wayne","123456");
-
-        userAdapter.add(bruce);
 
         //Enable tab switching
         currentTab(tabLayout, PROFILE_TAB);
         switchTabs(this, tabLayout, PROFILE_TAB);
+        getReceivedRequestUsers(db,currentUser,receivedRequestEmails,userDataList,userAdapter);
     }
 
     /**
@@ -77,7 +94,49 @@ public class FollowRequestActivity extends AppCompatActivity implements SwitchTa
      */
     public void onBackPressed() {
         Intent intent = new Intent(FollowRequestActivity.this, UserProfileActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    public void onAcceptPress(View view){
+
+        String cUserEmail = currentUser.getEmail();
+        int position = frlist.getPositionForView((View) view.getParent());
+        View v = frlist.getChildAt(position);
+
+        User acceptRequest = (User) frlist.getAdapter().getItem(position);
+        String acceptRequestEmail = acceptRequest.getPassword();
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("followed",cUserEmail);
+        docData.put("followedBy", acceptRequestEmail);
+
+        db.collection("Following")
+                .add(docData);
+
+
+        userDataList.remove(position);
+        cancel_follow_request(db,cUserEmail,acceptRequestEmail);
+        removeFromSentRequest(db,cUserEmail,acceptRequestEmail);
+        userAdapter.notifyDataSetChanged();
+    }
+
+    public void onRejectPress(View view){
+        String cUserEmail = currentUser.getEmail();
+        int position = frlist.getPositionForView((View) view.getParent());
+        View v = frlist.getChildAt(position);
+
+        User acceptRequest = (User) frlist.getAdapter().getItem(position);
+        String acceptRequestEmail = acceptRequest.getPassword();
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("followed",cUserEmail);
+        docData.put("followedBy", acceptRequestEmail);
+
+
+        userDataList.remove(position);
+        cancel_follow_request(db,cUserEmail,acceptRequestEmail);
+        removeFromSentRequest(db,cUserEmail,acceptRequestEmail);
+        userAdapter.notifyDataSetChanged();
+    }
+
+
 }

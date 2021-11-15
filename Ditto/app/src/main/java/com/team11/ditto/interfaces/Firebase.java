@@ -14,6 +14,7 @@
  */
 package com.team11.ditto.interfaces;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -34,6 +35,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.follow.CustomListSentRequest;
+import com.team11.ditto.follow.FollowRequestList;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
 import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
@@ -44,6 +46,9 @@ import com.team11.ditto.habit_event.HabitEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -600,7 +605,7 @@ public interface Firebase {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                if(task.isSuccessful()){
+                                if(task2.isSuccessful()){
                                     for (int k =0; k < 1;k++){
                                         if((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(sentEmail)){
                                             String name = task2.getResult().getDocuments().get(k).getString("name");
@@ -619,4 +624,102 @@ public interface Firebase {
 
     }
 
+    /**
+     * This method retreives all User objects who sent follow request to active user in real time
+     * @param db Firebase cloud
+     * @param currentUser active user
+     * @param receivedRequestEmails list of emails received follow requests from
+     * @param userDataList list of User object
+     * @param userAdapter Custom adapter to show user object
+     */
+    default void getReceivedRequestUsers(FirebaseFirestore db, ActiveUser currentUser, ArrayList<String> receivedRequestEmails, ArrayList<User> userDataList, FollowRequestList userAdapter){
+        DocumentReference documentReference = db.collection("User").document(currentUser.getUID());
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@androidx.annotation.Nullable DocumentSnapshot value, @androidx.annotation.Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w("DB ERROR", "Listen failed", error);
+                    return;
+                }
+                List<String> re = new ArrayList<>();
+
+                if (value != null && value.exists()) {
+                    List<String> listReceived = (List<String>) value.get("follow_requests");
+                    for (int i = 0; i < listReceived.size(); i++) {
+                        if (!re.contains(listReceived.get(i).toString())) {
+                            re.add(listReceived.get(i).toString());
+                        }
+                        if(! receivedRequestEmails.contains(listReceived.get(i).toString())){
+                            receivedRequestEmails.add(receivedRequestEmails.size(),listReceived.get(i).toString());
+
+                            Log.d("Order", listReceived.get(i).toString());
+                        }
+                    }
+                }
+
+
+                for(int k =0; k< receivedRequestEmails.size(); k++){
+                    if(! re.contains(receivedRequestEmails.get(k))){
+                        receivedRequestEmails.remove(k);
+                    }
+                }
+
+                userDataList.clear();
+
+                for (int i = 0; i < receivedRequestEmails.size(); i++) {
+
+                    String receivedEmail = receivedRequestEmails.get(i);
+                    db.collection("User").whereEqualTo("email", receivedRequestEmails.get(i))
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                    if (task2.isSuccessful()) {
+                                        for (int k = 0; k < 1; k++) {
+                                            if ((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(receivedEmail)) {
+                                                String name = task2.getResult().getDocuments().get(k).getString("name");
+                                                userDataList.add(new User(name, receivedEmail));
+
+                                            }
+                                        }
+                                        userAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
+                }
+
+            }
+
+        });
+    }
+
+    /**
+     * This method gets the email ids of all users followed by active user and store them in array
+     * @param db Firebase cloud
+     * @param currentUser Active User
+     * @param followedByActiveUser Arraylist<String>
+     */
+    default void getFollowedByActiveUser(FirebaseFirestore db, ActiveUser currentUser, ArrayList<String> followedByActiveUser){
+
+        db.collection("Following")
+                .whereEqualTo("followedBy",currentUser.getEmail())
+                .get().addOnCompleteListener( task -> {
+            if(task.isSuccessful()){
+                for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())){
+
+                    if(! followedByActiveUser.contains(snapshot.get("followed").toString())){
+                        followedByActiveUser.add(snapshot.get("followed").toString());
+                    }
+
+                }
+                Log.d("followed ",followedByActiveUser.toString());
+                Log.d("Size followed ", String.valueOf(followedByActiveUser.size()));
+            }
+        });
+    return;
+    }
 }
+
+
+
+
