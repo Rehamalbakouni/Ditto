@@ -100,7 +100,7 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs, 
 
         getFollowedByActiveUser(db,currentUser,followedByActiveUser);
 
-        getFolloweringList();
+        getFollowerList();
         //View User profile if user in list is clicked
         onProfileClick();
 
@@ -159,13 +159,13 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs, 
     // Do not add to firebase, Firebase is delaying return of data by few hundred ms
     // This is causing data to not show onCreation of activity
     // So just calling the showData() once the data has been returned successfully
-    public void getFolloweringList(){
+    public void getFollowerList(){
         db.collection("Following")
-                .whereEqualTo("followed",currentUser.getEmail())
+                .whereEqualTo("followedBy",currentUser.getEmail())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 for(QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())){
-                    if(! followedByActiveUser.contains(snapshot.get("followedBy"))){
+                    if(! followedByActiveUser.contains(snapshot.get("followedBy")) && (!snapshot.get("followedBy").toString().equals(currentUser.getEmail()))){
                         followedByActiveUser.add(snapshot.get("followedBy").toString());
                     }
                 }
