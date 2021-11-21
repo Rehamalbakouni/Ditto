@@ -42,6 +42,7 @@ import com.team11.ditto.habit_event.HabitEvent;
 import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
 import com.team11.ditto.habit_event.ViewEventActivity;
 import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.HabitFirebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 
@@ -57,7 +58,7 @@ import java.util.HashMap;
  */
 
 public class MainActivity extends AppCompatActivity implements SwitchTabs,
-        AddHabitEventFragment.OnFragmentInteractionListener, Firebase,
+        AddHabitEventFragment.OnFragmentInteractionListener, HabitFirebase,
         HabitEventRecyclerAdapter.EventClickListener {
     private static final String TAG = "tab switch";
     private TabLayout tabLayout;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements SwitchTabs,
         //Get a top level reference to the collection
 
         //Notifies if cloud data changes (from Firebase Interface)
-        autoSnapshotListener(db, habitEventRecyclerAdapter, HABIT_EVENT_KEY);
+        autoHabitEventListener(db, habitEventRecyclerAdapter);
 
         final FloatingActionButton addHabitEventButton = findViewById(R.id.add_habit_event);
 

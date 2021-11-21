@@ -45,7 +45,9 @@ import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit.HabitRecyclerAdapter;
 import com.team11.ditto.habit.ViewHabitActivity;
 import com.team11.ditto.interfaces.Days;
+import com.team11.ditto.interfaces.EventFirebase;
 import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.HabitFirebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 
@@ -66,7 +68,7 @@ import java.util.Map;
 
 public class MyHabitActivity extends AppCompatActivity implements
         AddHabitFragment.OnFragmentInteractionListener, SwitchTabs,
-        HabitRecyclerAdapter.HabitClickListener, Firebase, Days {
+        HabitRecyclerAdapter.HabitClickListener, HabitFirebase, EventFirebase, Days {
 
     public static String SELECTED_HABIT = "HABIT";
     private TabLayout tabLayout;
@@ -149,7 +151,7 @@ public class MyHabitActivity extends AppCompatActivity implements
         });
 
         //Notifies if cloud data changes (from Firebase Interface)
-        autoSnapshotListener(db, habitRecyclerAdapter, HABIT_KEY);
+        autoHabitListener(db, habitRecyclerAdapter);
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(habitListView);

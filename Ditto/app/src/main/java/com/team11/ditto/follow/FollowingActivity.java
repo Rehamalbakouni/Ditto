@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.R;
 import com.team11.ditto.UserProfileActivity;
 import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.FollowFirebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
@@ -44,7 +45,7 @@ import java.util.Objects;
  * Activity to display a list of Users that follow the ActiveUser
  * @author Vivek Malhotra
  */
-public class FollowingActivity extends AppCompatActivity implements SwitchTabs, Firebase {
+public class FollowingActivity extends AppCompatActivity implements SwitchTabs, Firebase, FollowFirebase {
 
     //Declarations
     private TabLayout tabLayout;

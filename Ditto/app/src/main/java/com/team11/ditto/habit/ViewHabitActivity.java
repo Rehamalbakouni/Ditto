@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.R;
 import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.HabitFirebase;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,8 @@ import java.util.ArrayList;
  * TODO: Get updated photos and locations updating in the database
  * @author Kelly Shih, Aidan Horemans
  */
-public class ViewHabitActivity extends AppCompatActivity implements EditHabitFragment.OnFragmentInteractionListener, Firebase {
+public class ViewHabitActivity extends AppCompatActivity
+        implements EditHabitFragment.OnFragmentInteractionListener, HabitFirebase {
 
     TextView habitTitle; TextView habitReason; TextView habitDays;
     ArrayList<String> dates;

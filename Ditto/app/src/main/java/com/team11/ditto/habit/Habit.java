@@ -36,6 +36,7 @@ public class Habit implements Serializable {
     private String reason;
     private ArrayList<String> dates;
     private boolean isPublic;
+    private int streak;
 
     /**
      * Constructor for Habit object
@@ -48,6 +49,8 @@ public class Habit implements Serializable {
         this.reason = reason;
         this.setDate(dates);
         this.isPublic = isPublic;
+        this.streak = 0;
+        this.habitID = "";
     }
 
     /**
@@ -63,6 +66,7 @@ public class Habit implements Serializable {
         this.reason = reason;
         this.setDate(dates);
         this.isPublic = isPublic;
+        this.streak = 0;
     }
 
     /**
@@ -146,5 +150,17 @@ public class Habit implements Serializable {
      */
     public void changePrivacy(){
         this.isPublic = !this.isPublic;
+    }
+
+    public void completeHabit(boolean complete){
+        if (complete){
+            this.streak ++;
+        }
+        else if (this.streak <= 0){
+            this.streak--;
+        }
+        else if (this.streak > 0){
+            this.streak = 0;
+        }
     }
 }
