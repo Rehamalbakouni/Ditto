@@ -20,6 +20,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/privacySwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pub"
+        android:textOn="@string/pub"
+        android:textOff="@string/priv"/>
+
     <EditText
         android:id="@+id/title_editText"
         android:layout_width="match_parent"
@@ -27,8 +35,7 @@
         android:ems="10"
         android:hint="@string/habit_title"
         android:maxLength="40"
-        android:inputType="textPersonName"
-        android:autofillHints="" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/reason_editText"
@@ -36,8 +43,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/reason"
-        android:inputType="textPersonName"
-        android:autofillHints="" />
+        android:inputType="textPersonName" />
 
     <LinearLayout
         android:id="@+id/day_selection"
@@ -88,6 +94,7 @@
             android:text="@string/s">
         </CheckBox>
     </LinearLayout>
+
 
 
 </LinearLayout>

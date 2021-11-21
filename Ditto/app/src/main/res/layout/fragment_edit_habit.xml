@@ -27,14 +27,21 @@
         android:textSize="12pt"
         android:maxLength="40" />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/privacySwitchEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pub"
+        android:textOn="@string/pub"
+        android:textOff="@string/priv"/>
+
     <EditText
         android:id="@+id/reason_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/reason"
-        android:inputType="textPersonName"
-        android:autofillHints="" />
+        android:inputType="textPersonName" />
 
     <LinearLayout
         android:id="@+id/day_selection"

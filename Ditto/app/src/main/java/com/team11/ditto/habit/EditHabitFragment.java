@@ -1,4 +1,4 @@
-/** Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
+/* Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,10 +29,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.team11.ditto.R;
+import com.team11.ditto.interfaces.Days;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Role: Initialize a Dialog for the user to edit an EXISTING Habit Event
@@ -42,15 +42,13 @@ import java.util.Collections;
  *  TODO: get the photo and location to be editable
  *  @author Kelly Shih, Aidan Horemans
  */
-public class EditHabitFragment extends DialogFragment {
-    //Declarations
-    private TextView hTitle;
+public class EditHabitFragment extends DialogFragment implements Days {
     private EditText hReason;
-    private ArrayList<Integer> dates;
-    private Bundle bundle;
+    private ArrayList<String> dates;
     private Habit selectedHabit;
     private EditHabitFragment.OnFragmentInteractionListener listener;
-    private CheckBox chk1, chk2, chk3, chk4, chk5, chk6, chk7;
+    private SwitchMaterial privacySwitch;
+    private ArrayList<CheckBox> checkBoxes;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(Habit habit);
@@ -77,38 +75,29 @@ public class EditHabitFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_edit_habit,null);
-        hTitle = view.findViewById(R.id.title_textView);
+        //Declarations
+        TextView hTitle = view.findViewById(R.id.title_textView);
         hReason = view.findViewById(R.id.reason_editText);
+        privacySwitch = view.findViewById(R.id.privacySwitchEdit);
+        checkBoxes = setCheckBoxLayouts(view);
 
         //Get and handle Habit from bundle if there is one
-        bundle = getArguments();
+        Bundle bundle = getArguments();
         if (bundle != null) {
             selectedHabit = (Habit) bundle.getSerializable("HABIT");
             hTitle.setText(selectedHabit.getTitle());
             hReason.setText(selectedHabit.getReason());
-            dates = selectedHabit.getDate();
-        }
+            dates = selectedHabit.getDates();
+            privacySwitch.setChecked(selectedHabit.isPublic());
 
-
-        //initializing checkboxes... i think this is the best way to do it... dear god
-        chk1 = view.findViewById(R.id.monday_select); chk2 = view.findViewById(R.id.tuesday_select);
-        chk3 = view.findViewById(R.id.wednesday_select); chk4 = view.findViewById(R.id.thursday_select);
-        chk5 = view.findViewById(R.id.friday_select); chk6 = view.findViewById(R.id.saturday_select);
-        chk7 = view.findViewById(R.id.sunday_select);
-        chk1.setOnCheckedChangeListener(this::onCheckedChanged); chk2.setOnCheckedChangeListener(this::onCheckedChanged);
-        chk3.setOnCheckedChangeListener(this::onCheckedChanged); chk4.setOnCheckedChangeListener(this::onCheckedChanged);
-        chk5.setOnCheckedChangeListener(this::onCheckedChanged); chk6.setOnCheckedChangeListener(this::onCheckedChanged);
-        chk7.setOnCheckedChangeListener(this::onCheckedChanged);
-
-        //Setting the checkboxes depending on pre-selected days
-        if(dates.size() > 0){
-            updateCheckboxes();
+            //Setting the checkboxes depending on pre-selected days
+            initializeCheckBoxes(dates, checkBoxes);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Edit Habit")
+                .setTitle("Edit")
                 .setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
                     /**
                      * On clicking the "add" button, edit the pre-existing Habit object with the new data inputted by the user
@@ -117,8 +106,11 @@ public class EditHabitFragment extends DialogFragment {
                      */
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        if (privacySwitch.isChecked() != selectedHabit.isPublic()){
+                            selectedHabit.changePrivacy();
+                        }
                         String reason = hReason.getText().toString();
-                        Collections.sort(dates);
+                        updateDayList(dates, checkBoxes);
 
                         selectedHabit.setReason(reason);
                         selectedHabit.setDate(dates);
@@ -130,97 +122,4 @@ public class EditHabitFragment extends DialogFragment {
                 .create();
     }
 
-    /**
-     * On checked listener for each checkbox.
-     * We ensure that if the box isn't already checked, then check
-     * if the box is checked and the user unchecks, remove it from the dates list
-     * @param compoundButton checkable box
-     * @param checked if box is checked or not
-     */
-    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-        switch(compoundButton.getId()){
-            case 1:
-                if(checked){
-                    if (!dates.contains(1))
-                        dates.add(1);}
-                else
-                    dates.remove(Integer.valueOf(1));
-                break;
-
-            case 2:
-                if(checked) {
-                    if (!dates.contains(2))
-                        dates.add(2);}
-                else
-                    dates.remove(Integer.valueOf(2));
-                break;
-
-            case 3:
-                if(checked) {
-                    if (!dates.contains(3))
-                        dates.add(3);}
-                else
-                    dates.remove(Integer.valueOf(3));
-                break;
-
-            case 4:
-                if(checked) {
-                    if (!dates.contains(4))
-                        dates.add(4); }
-                else
-                    dates.remove(Integer.valueOf(4));
-                break;
-
-            case 5:
-                if(checked) {
-                    if (!dates.contains(5))
-                        dates.add(5); }
-                else
-                    dates.remove(Integer.valueOf(5));
-                break;
-
-            case 6:
-                if(checked) {
-                    if (!dates.contains(6))
-                        dates.add(6);}
-                else
-                    dates.remove(Integer.valueOf(6));
-                break;
-
-            case 7:
-                if(checked) {
-                    if (!dates.contains(7))
-                        dates.add(7);}
-                else
-                    dates.remove(Integer.valueOf(7));
-                break;
-        }
-    }
-
-    /**
-     * set the check boxes as soon as the fragment opens
-     */
-    private void updateCheckboxes(){
-        if(dates.contains(1)){
-            chk1.setChecked(true);
-        }
-        if(dates.contains(2)) {
-            chk2.setChecked(true);
-        }
-        if(dates.contains(3)) {
-            chk3.setChecked(true);
-        }
-        if(dates.contains(4)) {
-            chk4.setChecked(true);
-        }
-        if(dates.contains(5)) {
-            chk5.setChecked(true);
-        }
-        if(dates.contains(6)) {
-            chk6.setChecked(true);
-        }
-        if(dates.contains(7)) {
-            chk7.setChecked(true);
-        }
-    }
 }

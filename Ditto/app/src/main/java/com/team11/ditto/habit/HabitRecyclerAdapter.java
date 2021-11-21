@@ -1,4 +1,4 @@
-/** Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
+/* Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -35,17 +35,17 @@ import java.util.ArrayList;
 public class HabitRecyclerAdapter extends RecyclerView.Adapter<HabitRecyclerAdapter.RecyclerViewHolder> {
     //Declarations
     private ArrayList<Habit> courseDataArrayList;
-    private Context mcontext;
+    private final Context context;
     private HabitClickListener habitClickListener;
 
     /**
      * Constructor
      * @param recyclerDataArrayList list of Habits
-     * @param mcontext activity context
+     * @param context activity context
      */
-    public HabitRecyclerAdapter(ArrayList<Habit> recyclerDataArrayList, Context mcontext, HabitClickListener habitClickListener) {
+    public HabitRecyclerAdapter(ArrayList<Habit> recyclerDataArrayList, Context context, HabitClickListener habitClickListener) {
         this.courseDataArrayList = recyclerDataArrayList;
-        this.mcontext = mcontext;
+        this.context = context;
         this.habitClickListener = habitClickListener;
     }
 

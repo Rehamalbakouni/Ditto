@@ -31,12 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.R;
-import com.team11.ditto.follow.CustomListFollowerFollowing;
+import com.team11.ditto.UserProfileActivity;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 import com.team11.ditto.profile_details.User;
-import com.team11.ditto.UserProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;

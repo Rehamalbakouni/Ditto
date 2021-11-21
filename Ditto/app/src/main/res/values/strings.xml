@@ -44,4 +44,6 @@
     <string name="send_request">Send Follow Request</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
+    <string name="pub">Public</string>
+    <string name="priv">Private</string>
 </resources>

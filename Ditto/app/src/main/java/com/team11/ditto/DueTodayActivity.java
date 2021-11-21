@@ -1,4 +1,4 @@
-/** Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
+/* Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -17,28 +17,20 @@ package com.team11.ditto;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.habit.CustomListDue;
 import com.team11.ditto.habit.Habit;
+import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
-import com.team11.ditto.profile_details.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,14 +40,13 @@ import java.util.Calendar;
  * Activity to display a list of the ActiveUser's Habits that are scheduled to be done today
  * @author Aidan Horemans, Kelly Shih, Vivek Malhotra, Matthew Asgari
  */
-public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
+public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, Firebase {
     FirebaseFirestore db;
     private TabLayout tabLayout;
     private ListView list;
-    private ArrayAdapter<Habit> dueTodayAdapter ;  // This needs to change to adapter of habits. For now, using user to check UI
-    private ArrayList<Habit> habits;                // This also needs to change '' '' '' ' '''''''
+    private ArrayAdapter<Habit> dueTodayAdapter ;
+    private ArrayList<Habit> habits;
     private ActiveUser currentUser;
-    private String TAG = "DueTodayActivity";
 
     /**
      *Directions for creating this Activity
@@ -86,7 +77,7 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         date = date + " " + dayOfMonthstr;
         setTitle(date);
 
-        habits = new ArrayList<Habit>();
+        habits = new ArrayList<>();
         dueTodayAdapter = new CustomListDue(DueTodayActivity.this, habits);
         list.setAdapter(dueTodayAdapter);
 
@@ -94,20 +85,20 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs {
         currentUser = new ActiveUser();
         db.collection("Habit")
                 .whereEqualTo("uid", currentUser.getUID())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        habits.clear();
+                .addSnapshotListener((value, error) -> {
+                    habits.clear();
+                    if (value != null) {
                         for (QueryDocumentSnapshot document: value) {
                             // For each document parse the data and create a habit object
                             String title = (String) document.getData().get("title");
                             String reason = (String) document.getData().get("reason");
-                            ArrayList<Integer> days = (ArrayList<Integer>) document.getData().get("days_of_week");
-                            Habit habit = new Habit(title, reason, days);
+                            ArrayList<String> days = getDaysFromFirebase(document.getData());
+                            boolean isPublic = (boolean) document.getData().get("is_public");
+                            Habit habit = new Habit(title, reason, days, isPublic);
                             habits.add(habit);  // Add to the habit list
                         }
-                        dueTodayAdapter.notifyDataSetChanged();  // Refresh the adapter
                     }
+                    dueTodayAdapter.notifyDataSetChanged();  // Refresh the adapter
                 });
 
         currentTab(tabLayout, DUE_TODAY_TAB);

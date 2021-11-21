@@ -1,4 +1,4 @@
-/** Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
+/* Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  */
 package com.team11.ditto.habit;
 
+import android.widget.Toast;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -28,11 +30,12 @@ import java.util.ArrayList;
 
 public class Habit implements Serializable {
 
-    //Atrributes
+    //Attributes
     private String habitID;
     private String title;
     private String reason;
-    private ArrayList<Integer> dates;
+    private ArrayList<String> dates;
+    private boolean isPublic;
 
     /**
      * Constructor for Habit object
@@ -40,10 +43,11 @@ public class Habit implements Serializable {
      * @param reason Reason for habit
      * @param dates Days of the week for scheduling
      */
-    public Habit(String title, String reason, ArrayList<Integer> dates) {
+    public Habit(String title, String reason, ArrayList<String> dates, boolean isPublic) {
         this.title = title;
         this.reason = reason;
-        this.dates = dates;
+        this.setDate(dates);
+        this.isPublic = isPublic;
     }
 
     /**
@@ -53,11 +57,12 @@ public class Habit implements Serializable {
      * @param reason Reason for habit
      * @param dates Days of the week for scheduling
      */
-    public Habit(String id, String title, String reason, ArrayList<Integer> dates) {
+    public Habit(String id, String title, String reason, ArrayList<String> dates, boolean isPublic) {
         this.habitID = id;
         this.title = title;
         this.reason = reason;
-        this.dates = dates;
+        this.setDate(dates);
+        this.isPublic = isPublic;
     }
 
     /**
@@ -94,18 +99,23 @@ public class Habit implements Serializable {
 
     /**
      * Getter for days scheduled
-     * @return list of indices for the days of the week Habit is scheduled for (0-6)
+     * @return list of ints for the days of the week Habit is scheduled for (1-7)
      */
-    public ArrayList<Integer> getDate() {
-        return dates;
+    public ArrayList<String> getDates() {
+        if (this.dates == null){
+            throw new RuntimeException("dates empty");
+        }
+        else{
+            return dates;
+        }
     }
 
     /**
      * Setter for Habit schedule days
-     * @param dates list of indices for the days of the week for Habit's NEW schedule (0-6)
+     * @param dates list of ints for the days of the week for Habit's NEW schedule (1-7)
      */
-    public void setDate(ArrayList<Integer> dates) {
-        this.dates = dates;
+    public void setDate(ArrayList<String> dates) {
+        this.dates = new ArrayList<>(dates);
     }
 
     /**
@@ -124,4 +134,17 @@ public class Habit implements Serializable {
         this.habitID = habitID;
     }
 
+    /**
+     * Getter for whether Habit is public or not
+     * @return isPublic boolean
+     */
+    public boolean isPublic(){ return this.isPublic; }
+
+    /**
+     * Setter for whether Habit is public or not
+     * switches isPublic bool to opposite
+     */
+    public void changePrivacy(){
+        this.isPublic = !this.isPublic;
+    }
 }

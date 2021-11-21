@@ -1,4 +1,4 @@
-/** Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
+/* Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,16 +14,12 @@
  */
 package com.team11.ditto.interfaces;
 
-import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,25 +32,21 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.team11.ditto.follow.CustomListSentRequest;
 import com.team11.ditto.follow.FollowRequestList;
-import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
-import com.team11.ditto.login.ActiveUser;
-import com.team11.ditto.profile_details.User;
 import com.team11.ditto.habit.Habit;
 import com.team11.ditto.habit.HabitRecyclerAdapter;
 import com.team11.ditto.habit_event.HabitEvent;
+import com.team11.ditto.habit_event.HabitEventRecyclerAdapter;
+import com.team11.ditto.login.ActiveUser;
+import com.team11.ditto.profile_details.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
 
@@ -73,6 +65,8 @@ public interface Firebase {
     ArrayList<Habit> habitsFirebase = new ArrayList<>();
     ArrayList<User> usersFirebase = new ArrayList<>();
     ArrayList<HabitEvent> hEventsFirebase = new ArrayList<>();
+    String[] weekDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+            "Sunday"};
 
 
 
@@ -150,21 +144,22 @@ public interface Firebase {
                         Log.d(TAG, String.valueOf(doc.getData().get("title")));
                         String hTitle = (String) doc.getData().get("title");
                         String hReason = (String) doc.getData().get("reason");
-                        ArrayList<Integer> temp = (ArrayList<Integer>) doc.getData().get("days_of_week");
-                        ArrayList<Integer> hDate = new ArrayList<>();
+                        ArrayList<String> hDate = getDaysFromFirebase(doc.getData());
 
-                        Habit newHabit = new Habit(hTitle, hReason, hDate);
+                        boolean isPublic;
+                        if (doc.getData().get("is_public") != null){
+                            isPublic = (Boolean) doc.getData().get("is_public");
+                        }
+                        else{
+                            isPublic = false;
+                        }
+
+                        Habit newHabit = new Habit(hTitle, hReason, hDate, isPublic);
                         newHabit.setHabitID(doc.getId());
 
+                        newHabit.setDate(hDate);
                         habitsFirebase.add(newHabit);
 
-                        //TEMP FIX DO NOT LEAVE IN FINAL BUILD
-                        //MAKES SURE ALL VALUES ARE INTS (problem with long being added to firebase)
-                        if (temp != null && temp.size() > 0) {
-                            for (int i = 0; i < temp.size(); i++) {
-                                hDate.add(i, Integer.parseInt(String.valueOf(temp.get(i))));
-                            }
-                        }
                         break;
 
                     case USER_KEY:
@@ -192,26 +187,15 @@ public interface Firebase {
         }
     }
 
-    /**
-     * push the Habit document data to the Habit class
-     * @param database firebase cloud
-     * @param newHabit Habit to be added
-     */
-    default void pushHabitData(FirebaseFirestore database, Habit newHabit){
-        final String title = newHabit.getTitle();
-        final String reason = newHabit.getReason();
-        final ArrayList<Integer> dates = newHabit.getDate();
-        Date currentTime = Calendar.getInstance().getTime();
+    default ArrayList<String> getDaysFromFirebase(Map<String, Object> data){
 
-        data.clear();
-        data.put("uid", new ActiveUser().getUID());
-        data.put("title", title);
-        data.put("reason", reason);
-        data.put("days_of_week", dates);
-        //this field is used to add the current timestamp of the item, to be used to order the items
-        data.put("order", currentTime);
-
-        pushToDB(database, HABIT_KEY, "");
+        ArrayList<String> dates = new ArrayList<>();
+        for (int i = 0; i<7; i++){
+            if (data.get(weekDays[i]) != null && (boolean) data.get(weekDays[i])){
+                dates.add(weekDays[i]);
+            }
+        }
+        return dates;
     }
 
     /**
@@ -280,7 +264,6 @@ public interface Firebase {
         String photo = newHabitEvent.getPhoto();
         String location = newHabitEvent.getLocation();
         String habitTitle = newHabitEvent.getHabitTitle();
-        final DocumentReference documentReference = database.collection(HABIT_EVENT_KEY).document();
         //get unique timestamp for ordering our list
         Date currentTime = Calendar.getInstance().getTime();
         data.put("uid", FirebaseAuth.getInstance().getUid());
@@ -293,19 +276,6 @@ public interface Firebase {
         data.put("order", currentTime);
 
         pushToDB(database, HABIT_EVENT_KEY, "");
-    }
-
-    /**
-     * push the User document data to the User collection
-     * @param database firebase cloud
-     * @param newUser user to be added
-     */
-    default void pushUserData(FirebaseFirestore database, User newUser) {
-    //    data.put("username", newUser.getUsername());
-     //   data.put("password", newUser.getPassword());
-      //  data.put("age", newUser.getAge());
-
-      //  pushToDB(database, USER_KEY, "");
     }
 
     /**
@@ -363,6 +333,16 @@ public interface Firebase {
         spinner.setAdapter(habitAdapter);
     }
 
+    /**
+     * push the Habit document data to the Habit class
+     * @param database firebase cloud
+     * @param newHabit Habit to be added
+     */
+    default void pushHabitData(FirebaseFirestore database, Habit newHabit){
+        data.clear();
+        data.put("uid", new ActiveUser().getUID());
+        pushEditData(database, newHabit);
+    }
 
     /**
      * populate the data map with the updated Habit data
@@ -375,7 +355,10 @@ public interface Firebase {
         Date currentTime = Calendar.getInstance().getTime();
         data.put("title", habit.getTitle());
         data.put("reason", habit.getReason());
-        data.put("days_of_week", habit.getDate());
+        for (int i = 0; i<7; i++){
+            data.put(weekDays[i], habit.getDates().contains(weekDays[i]));
+        }
+        data.put("is_public", habit.isPublic());
         //this field is used to add the current timestamp of the item, to be used to order the items
         data.put("order", currentTime);
 
@@ -398,17 +381,14 @@ public interface Firebase {
                     db.collection(HABIT_EVENT_KEY)
                             .whereEqualTo("habitID", oldEntry.getHabitID())
                             .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        // Add each habit event to a list
-                                        ArrayList<String> habitEventIds = new ArrayList<>();
-                                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                            habitEventIds.add(snapshot.getId());
-                                        }
-                                        deleteHabitEvents(db, habitEventIds);  // Delete the habit events
+                            .addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    // Add each habit event to a list
+                                    ArrayList<String> habitEventIds = new ArrayList<>();
+                                    for (QueryDocumentSnapshot snapshot : task1.getResult()) {
+                                        habitEventIds.add(snapshot.getId());
                                     }
+                                    deleteHabitEvents(db, habitEventIds);  // Delete the habit events
                                 }
                             });
 
@@ -602,17 +582,14 @@ public interface Firebase {
                 Log.d("Looping over", String.valueOf(sentRequestEmails.size()));
                 db.collection("User").whereEqualTo("email",sentRequestEmails.get(i))
                         .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                if(task2.isSuccessful()){
-                                    for (int k =0; k < 1;k++){
-                                        if((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(sentEmail)){
-                                            String name = task2.getResult().getDocuments().get(k).getString("name");
-                                            userDataList.add(new User(name, sentEmail));
-                                            Log.d("Sent request", sentEmail);
-                                            userAdapter.notifyDataSetChanged();
-                                        }
+                        .addOnCompleteListener(task2 -> {
+                            if(task2.isSuccessful()){
+                                for (int k =0; k < 1;k++){
+                                    if((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(sentEmail)){
+                                        String name = task2.getResult().getDocuments().get(k).getString("name");
+                                        userDataList.add(new User(name, sentEmail));
+                                        Log.d("Sent request", sentEmail);
+                                        userAdapter.notifyDataSetChanged();
                                     }
                                 }
                             }
@@ -634,60 +611,53 @@ public interface Firebase {
      */
     default void getReceivedRequestUsers(FirebaseFirestore db, ActiveUser currentUser, ArrayList<String> receivedRequestEmails, ArrayList<User> userDataList, FollowRequestList userAdapter){
         DocumentReference documentReference = db.collection("User").document(currentUser.getUID());
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@androidx.annotation.Nullable DocumentSnapshot value, @androidx.annotation.Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w("DB ERROR", "Listen failed", error);
-                    return;
-                }
-                List<String> re = new ArrayList<>();
+        documentReference.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                Log.w("DB ERROR", "Listen failed", error);
+                return;
+            }
+            List<String> re = new ArrayList<>();
 
-                if (value != null && value.exists()) {
-                    List<String> listReceived = (List<String>) value.get("follow_requests");
-                    for (int i = 0; i < listReceived.size(); i++) {
-                        if (!re.contains(listReceived.get(i).toString())) {
-                            re.add(listReceived.get(i).toString());
-                        }
-                        if(! receivedRequestEmails.contains(listReceived.get(i).toString())){
-                            receivedRequestEmails.add(receivedRequestEmails.size(),listReceived.get(i).toString());
+            if (value != null && value.exists()) {
+                List<String> listReceived = (List<String>) value.get("follow_requests");
+                for (int i = 0; i < listReceived.size(); i++) {
+                    if (!re.contains(listReceived.get(i))) {
+                        re.add(listReceived.get(i));
+                    }
+                    if(! receivedRequestEmails.contains(listReceived.get(i))){
+                        receivedRequestEmails.add(receivedRequestEmails.size(), listReceived.get(i));
 
-                            Log.d("Order", listReceived.get(i).toString());
-                        }
+                        Log.d("Order", listReceived.get(i));
                     }
                 }
+            }
 
 
-                for(int k =0; k< receivedRequestEmails.size(); k++){
-                    if(! re.contains(receivedRequestEmails.get(k))){
-                        receivedRequestEmails.remove(k);
-                    }
+            for(int k =0; k< receivedRequestEmails.size(); k++){
+                if(! re.contains(receivedRequestEmails.get(k))){
+                    receivedRequestEmails.remove(k);
                 }
+            }
 
-                userDataList.clear();
+            userDataList.clear();
 
-                for (int i = 0; i < receivedRequestEmails.size(); i++) {
+            for (int i = 0; i < receivedRequestEmails.size(); i++) {
 
-                    String receivedEmail = receivedRequestEmails.get(i);
-                    db.collection("User").whereEqualTo("email", receivedRequestEmails.get(i))
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task2) {
-                                    if (task2.isSuccessful()) {
-                                        for (int k = 0; k < 1; k++) {
-                                            if ((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(receivedEmail)) {
-                                                String name = task2.getResult().getDocuments().get(k).getString("name");
-                                                userDataList.add(new User(name, receivedEmail));
+                String receivedEmail = receivedRequestEmails.get(i);
+                db.collection("User").whereEqualTo("email", receivedRequestEmails.get(i))
+                        .get()
+                        .addOnCompleteListener(task2 -> {
+                            if (task2.isSuccessful()) {
+                                for (int k = 0; k < 1; k++) {
+                                    if ((Objects.requireNonNull(task2.getResult()).getDocuments().get(k).getString("email")).equals(receivedEmail)) {
+                                        String name = task2.getResult().getDocuments().get(k).getString("name");
+                                        userDataList.add(new User(name, receivedEmail));
 
-                                            }
-                                        }
-                                        userAdapter.notifyDataSetChanged();
                                     }
                                 }
-                            });
-                }
-
+                                userAdapter.notifyDataSetChanged();
+                            }
+                        });
             }
 
         });
@@ -716,8 +686,8 @@ public interface Firebase {
                 Log.d("Size followed ", String.valueOf(followedByActiveUser.size()));
             }
         });
-    return;
     }
+
 }
 
 
