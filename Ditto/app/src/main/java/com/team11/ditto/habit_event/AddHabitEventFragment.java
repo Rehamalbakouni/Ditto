@@ -46,6 +46,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.R;
+import com.team11.ditto.interfaces.HabitFirebase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ import java.util.List;
  * TODO: allow user to add photo and location
  * @author Kelly Shih, Aidan Horemans
  */
-public class AddHabitEventFragment extends DialogFragment implements Firebase {
+public class AddHabitEventFragment extends DialogFragment implements HabitFirebase {
     //Declare necessary values
     private EditText hComment;
     private Button acc_photo;

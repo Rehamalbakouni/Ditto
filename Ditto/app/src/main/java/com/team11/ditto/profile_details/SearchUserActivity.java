@@ -44,6 +44,7 @@ import com.google.firestore.v1.WriteResult;
 import com.team11.ditto.R;
 import com.team11.ditto.UserProfileActivity;
 import com.team11.ditto.interfaces.Firebase;
+import com.team11.ditto.interfaces.FollowFirebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
 
@@ -62,7 +63,7 @@ import java.util.Set;
  * Activity where the ActiveUser can search for other Users in the db to request to follow
  * @author Vivek Malhotra
  */
-public class SearchUserActivity extends AppCompatActivity implements SwitchTabs, Firebase {
+public class SearchUserActivity extends AppCompatActivity implements SwitchTabs, FollowFirebase {
 
     //Declarations
     private TabLayout tabLayout;

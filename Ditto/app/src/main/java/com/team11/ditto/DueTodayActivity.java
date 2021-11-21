@@ -81,7 +81,7 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, F
                         for (QueryDocumentSnapshot document: value) {
                             // For each document parse the data and create a habit object
                             ArrayList<String> days = new ArrayList<>();
-                            updateDaysFromFirebase(days, document.getData());
+                            updateDaysFromData(days, document.getData());
                             String dayItIs = toTitleCase(LocalDate.now().getDayOfWeek().toString());
                             if (days.contains(dayItIs)) {
                                 String title = (String) document.getData().get("title");

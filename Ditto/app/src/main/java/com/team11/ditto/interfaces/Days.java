@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.team11.ditto.R;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 //Specifically for dealing with Dates
 public interface Days {
@@ -57,6 +58,17 @@ public interface Days {
         checkBoxes.add(view.findViewById(R.id.sunday_select));
 
         return checkBoxes;
+    }
+
+    default void updateDaysFromData(ArrayList<String> dates, Map<String, Object> data){
+
+        dates.clear();
+        for (int i = 0; i<7; i++){
+            Object current = data.get(WEEKDAYS[i]);
+            if ( current != null && (boolean) current){
+                dates.add(WEEKDAYS[i]);
+            }
+        }
     }
 
 }
