@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.team11.ditto.habit.CustomListDue;
 import com.team11.ditto.habit.Habit;
+import com.team11.ditto.interfaces.Days;
 import com.team11.ditto.interfaces.Firebase;
 import com.team11.ditto.interfaces.SwitchTabs;
 import com.team11.ditto.login.ActiveUser;
@@ -40,7 +41,7 @@ import java.util.Calendar;
  * Activity to display a list of the ActiveUser's Habits that are scheduled to be done today
  * @author Aidan Horemans, Kelly Shih, Vivek Malhotra, Matthew Asgari
  */
-public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, Firebase {
+public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, Firebase, Days {
     FirebaseFirestore db;
     private TabLayout tabLayout;
     private ListView list;
@@ -53,29 +54,18 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, F
      * Simple listview, bottom tabs
      * @param savedInstanceState current app state
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void onCreate(Bundle savedInstanceState) {
         //Set layouts
         super.onCreate(savedInstanceState);
-        // This callback will only be called when MyFragment is at least Started.
-
         db = FirebaseFirestore.getInstance();
-
         setContentView(R.layout.activity_due_today);
         tabLayout = findViewById(R.id.tabs);
         list = findViewById(R.id.due_today_custom_list);
 
-        //Set title
-        Calendar cal = Calendar.getInstance();
-        String date = LocalDate.now().getDayOfWeek().toString();
-        date = date + ", ";
-        String month = LocalDate.now().getMonth().toString();
-        date = date + month;
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        String dayOfMonthstr = String.valueOf(dayOfMonth);
-        date = date + " " + dayOfMonthstr;
-        setTitle(date);
+        setTitle(buildDateString());
 
         habits = new ArrayList<>();
         dueTodayAdapter = new CustomListDue(DueTodayActivity.this, habits);
@@ -90,12 +80,16 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, F
                     if (value != null) {
                         for (QueryDocumentSnapshot document: value) {
                             // For each document parse the data and create a habit object
-                            String title = (String) document.getData().get("title");
-                            String reason = (String) document.getData().get("reason");
-                            ArrayList<String> days = getDaysFromFirebase(document.getData());
-                            boolean isPublic = (boolean) document.getData().get("is_public");
-                            Habit habit = new Habit(title, reason, days, isPublic);
-                            habits.add(habit);  // Add to the habit list
+                            ArrayList<String> days = new ArrayList<>();
+                            updateDaysFromFirebase(days, document.getData());
+                            String dayItIs = toTitleCase(LocalDate.now().getDayOfWeek().toString());
+                            if (days.contains(dayItIs)) {
+                                String title = (String) document.getData().get("title");
+                                String reason = (String) document.getData().get("reason");
+                                boolean isPublic = (boolean) document.getData().get("is_public");
+                                Habit habit = new Habit(title, reason, days, isPublic);
+                                habits.add(habit);
+                            }// Add to the habit list
                         }
                     }
                     dueTodayAdapter.notifyDataSetChanged();  // Refresh the adapter
@@ -114,6 +108,40 @@ public class DueTodayActivity extends AppCompatActivity implements SwitchTabs, F
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String buildDateString(){
+
+        Calendar cal = Calendar.getInstance();
+        String date = LocalDate.now().getDayOfWeek().toString();
+        date = date + ", ";
+        String month = LocalDate.now().getMonth().toString();
+        date = date + month;
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        String dayOfMonthstr = String.valueOf(dayOfMonth);
+        date = date + " " + dayOfMonthstr;
+        return date;
+    }
+
+    /**
+     * From:
+     * https://stackoverflow.com/questions/2375649/converting-to-upper-and-lower-case-in-java
+     * Converts the given string to title case, where the first
+     * letter is capitalized and the rest of the string is in
+     * lower case.
+     *
+     * @param s a string with unknown capitalization
+     * @return a title-case version of the string
+     * @author: Ellen Spertus
+     */
+    public static String toTitleCase(String s)
+    {
+        if (s.isEmpty())
+        {
+            return s;
+        }
+        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
 }

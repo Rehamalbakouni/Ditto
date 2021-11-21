@@ -144,7 +144,8 @@ public interface Firebase {
                         Log.d(TAG, String.valueOf(doc.getData().get("title")));
                         String hTitle = (String) doc.getData().get("title");
                         String hReason = (String) doc.getData().get("reason");
-                        ArrayList<String> hDate = getDaysFromFirebase(doc.getData());
+                        ArrayList<String> hDate = new ArrayList<>();
+                        updateDaysFromFirebase(hDate, doc.getData());
 
                         boolean isPublic;
                         if (doc.getData().get("is_public") != null){
@@ -187,15 +188,14 @@ public interface Firebase {
         }
     }
 
-    default ArrayList<String> getDaysFromFirebase(Map<String, Object> data){
+    default void updateDaysFromFirebase(ArrayList<String> dates, Map<String, Object> data){
 
-        ArrayList<String> dates = new ArrayList<>();
+        dates.clear();
         for (int i = 0; i<7; i++){
             if (data.get(weekDays[i]) != null && (boolean) data.get(weekDays[i])){
                 dates.add(weekDays[i]);
             }
         }
-        return dates;
     }
 
     /**
