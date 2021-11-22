@@ -17,6 +17,8 @@ package com.team11.ditto.follow;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -54,7 +56,6 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs, 
     private ArrayList<User> userDataList;
     private static ArrayList<String> followedByActiveUser = new ArrayList<>();
     private ActiveUser currentUser;
-    int x = 0;
     private FirebaseFirestore db;
 
     /**
@@ -115,13 +116,26 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs, 
      * View a User in the list's profile if they are clicked
      */
     public void onProfileClick() {
-        followingListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(FollowingActivity.this, FriendHabitActivity.class);
-            startActivity(intent);
+        followingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                User followedByMe = (User) followingListView.getAdapter().getItem(i);
+                String followedByMeEmail = followedByMe.getPassword();
+                String followedByMeName = followedByMe.getUsername();
+                Intent intent = new Intent(FollowingActivity.this, FriendHabitActivity.class);
+                Bundle b = new Bundle();
+                b.putStringArray("following", new String[]{followedByMeName, followedByMeEmail});
+                intent.putExtras(b);
+                Log.d("Opening profile of : ",followedByMeEmail);
+                startActivity(intent);
+            }
         });
 
     }
 
+    /**
+     * This method shows all users followed by active user on screen
+     */
     public void showData(){
 
         for (int i =0; i< followedByActiveUser.size(); i++){
@@ -165,6 +179,24 @@ public class FollowingActivity extends AppCompatActivity implements SwitchTabs, 
         });
     }
 
+
+    /**
+     * This method will remove a user active user follows from following list
+     * @param view
+     */
+    public void onRemovePress(View view){
+        String cUserEmail = currentUser.getEmail();
+        int position = followingListView.getPositionForView((View) view.getParent());
+        View v = followingListView.getChildAt(position);
+
+        User removeFollower = (User) followingListView.getAdapter().getItem(position);
+        String removeFollowerEmail = removeFollower.getPassword();
+        removeFollowingFromList(db,removeFollowerEmail,cUserEmail);
+        followedByActiveUser.clear();
+
+        userDataList.remove(position);
+        userAdapter.notifyDataSetChanged();
+    }
 
 
 }
