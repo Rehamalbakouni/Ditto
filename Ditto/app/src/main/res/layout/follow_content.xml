@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright [2021] [Reham Albakouni, Matt Asgari Motlagh, Aidan Horemans, Courtenay Laing-Kobe, Vivek Malhotra, Kelly Shih]
+
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+-->
 
 <LinearLayout
 
@@ -22,33 +37,49 @@
 
     />
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="243dp"
+        android:layout_height="match_parent">
 
-        android:paddingTop="25dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="Alejandra"
-        android:textColor="@color/black"
-        android:textSize="22sp">
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
 
-    </TextView>
+            android:paddingLeft="20dp"
+            android:paddingTop="25dp"
+            android:paddingRight="20dp"
+            android:text="@string/sample_user"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintHorizontal_bias="0.015"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/remove_circle"
-        android:layout_width="65dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="110dp"
-        android:clickable="true"
-        android:contentDescription="Remove this user"
 
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        android:contentDescription="@string/remove_user"
         android:padding="20dp"
         android:src="@drawable/ic_round_remove_circle_24"
-        app:tint="#B30000">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#B30000"
+        >
 
     </ImageView>
 
 </LinearLayout>
+
+

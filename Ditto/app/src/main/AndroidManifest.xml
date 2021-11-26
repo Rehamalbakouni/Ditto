@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.team11.ditto">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera2" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,29 +26,78 @@
         <activity android:name="MyHabitActivity"
             android:exported="true"/>
         <activity
-            android:name="UserProfileActivity"
+            android:name=".UserProfileActivity"
             android:exported="true"
             android:label="Profile"
             />
         <activity
-            android:name="FollowingActivity"
+            android:name=".follow.FollowingActivity"
             android:exported="true"
-            android:label="Following"
-            android:parentActivityName="UserProfileActivity"
+            android:label="Following "
+            android:parentActivityName=".UserProfileActivity"
             />
         <activity
             android:name=".DueTodayActivity"
             android:exported="true"
+            />
+        <activity
+            android:name=".profile_details.SearchUserActivity"
+            android:exported="true"
+            android:parentActivityName=".UserProfileActivity"
 
+            android:label="Search Users"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".follow.FollowRequestActivity"
+            android:exported="true"
+            android:parentActivityName=".UserProfileActivity"
+            android:label="Follow Requests Received"/>
 
+        <activity
+            android:name=".follow.FollowerActivity"
+            android:exported="true"
+            android:parentActivityName=".UserProfileActivity"
+            android:label = "Followers"/>
+
+        <activity
+            android:name=".login.SignUpActivity"
+            android:exported="true"
+            android:label="Sign Up"
+            />
+
+        <activity
+            android:name=".login.SignInActivity"
+            android:exported="true"
+            android:label="Sign In"
+            />
+
+        <activity
+            android:name="WelcomeActivity"
+            android:exported="true"
+            android:label="@string/app_name"
             />
 
 
 
         <activity
-            android:name=".MyHabitsActivity"
+            android:name=".follow.FriendHabitActivity"
             android:exported="true"
-            />
+            android:parentActivityName=".follow.FollowingActivity"/>
+
+        <activity
+            android:name=".habit.ViewHabitActivity"
+            android:parentActivityName=".MyHabitActivity"/>
+
+        <activity
+            android:name=".habit_event.ViewEventActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".follow.SentRequestActivity"
+            android:exported="true"
+            android:parentActivityName=".UserProfileActivity"
+            android:label="Follow Request Sent"/>
+
 
         <meta-data
             android:name="preloaded_fonts"
