@@ -17,6 +17,7 @@ package com.team11.ditto.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -86,6 +87,14 @@ public class SignInActivity extends AppCompatActivity {
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
+                // Make sure there is no empty fields
+                if (TextUtils.isEmpty(email)) {
+                    emailField.setError("Email is required.");
+                } else if (TextUtils.isEmpty(password)) {
+                    emailField.setError("password is required.");
+                }
+
+
                 Log.d(TAG, "SIGNING IN");
 
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -100,6 +109,7 @@ public class SignInActivity extends AppCompatActivity {
                                 startActivity(intent);
                             } else {
                                 Log.d(TAG, "loginUserWithEmail:failure");
+                                Toast.makeText(getApplicationContext(),"Wrong username/password.",Toast.LENGTH_LONG).show();
                             }
                         }
                     });
